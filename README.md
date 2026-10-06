@@ -2,7 +2,7 @@
 
 **Your bank said "zero fee". Your family got less. Remit X-ray shows how much — from the receipt you already have.**
 
-Why that number is missing: in the EU, Regulation (EC) No 924/2009 (Art. 3a–3b, added by Regulation (EU) 2019/518) makes payment providers show currency-conversion charges as a % mark-up over the ECB reference rate — for card payments and credit transfers with a currency conversion in the Union. A worker sending money from Korea to Nepal, from Australia to Vietnam or from the US to Mexico is not covered and never sees that number. In the US, Regulation E (12 CFR 1005.31) makes most remittance providers print the fee, the exchange rate and the amount received on the receipt — exactly the inputs Remit X-ray needs.
+Why that number is missing: in the EU, Regulation (EC) No 924/2009 as amended by Regulation (EU) 2019/518 makes card payments show currency-conversion charges as a % mark-up over the ECB reference rate (Art. 3a) and online credit transfers show the estimated conversion charge before you pay (Art. 3b). A worker sending money from Korea to Nepal, from Australia to Vietnam or from the US to Mexico is not covered and never sees that number. In the US, Regulation E (12 CFR 1005.31) makes most remittance providers print the fee, the exchange rate and the amount received on the receipt — exactly the inputs Remit X-ray needs.
 
 **Remit X-ray turns the receipt you already have into that missing disclosure**: the mark-up over published mid-market rates, in percent and in money, what the cheapest listed option would have cost for the same transfer, and a factual question you can send the company. It works **after** you send (audit a receipt) and **before** (check a quote).
 
@@ -23,7 +23,7 @@ Quote-comparison sites (Wise's comparison, Monito) help *before* you send and ar
 ## What we found in real prices
 From the 61 real quotes in [`vectors/`](vectors/) (`python3 scripts/findings.py` prints all of these):
 - 61 quotes · 25 provider names · 9 corridors · priced on 2026-10-02 (8) and 2026-10-06 (53). 52 were collected through Wise's public comparison API (Wise is itself a provider); 9 were read by hand from the Hanpass, GME Remit and E9pay public calculators. NatWest and RBS are one banking group and quote the same price.
-- **14 of 19 "zero-fee" quotes still cost money through the rate: median 1.63 %, up to 6.08 %.** The most expensive were big banks: Commonwealth Bank of Australia → Vietnam 5.73–6.08 %, Wells Fargo → Mexico 3.38–4.71 %.
+- **14 of 19 "zero-fee" quotes (13 of 18 distinct prices) still cost money through the rate: median 1.63 %, up to 6.08 %.** The most expensive were big banks: Commonwealth Bank of Australia → Vietnam 5.73–6.08 %, Wells Fargo → Mexico 3.38–4.71 %.
 - Among quotes that *do* show a fee and also take a margin, the margin was the bigger part of the cost in 29 of 31 (median 76 % of the total).
 - Korean apps (mid-points 0.55–2.68 %) sit mostly at or below the dataset median (1.95 %); Hanpass was the cheapest of the three on all three Korean routes. Sending ₩1,000,000 (+ ₩5,000 fee) to Vietnam with E9pay instead of Hanpass cost ≈ ₩9,950 more per transfer. The point is not "app X is bad": **the fee line alone can't tell you which case you are in.**
 

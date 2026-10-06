@@ -68,7 +68,8 @@
     "fee": 0.99,
     "received": 17861018.0
    }
-  ]
+  ],
+  "published_markup_pct": 6.16664181
  },
  {
   "id": "USD-MXN-Wells Fargo",
@@ -121,7 +122,8 @@
     "fee": 5.0,
     "received": 8649.69
    }
-  ]
+  ],
+  "published_markup_pct": 3.0877058
  },
  {
   "id": "KRW-NPR-GME Remit",
@@ -167,7 +169,8 @@
     "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
    }
   ],
-  "quotes": []
+  "quotes": [],
+  "published_markup_pct": null
  },
  {
   "id": "KRW-VND-E9pay",
@@ -201,13 +204,7 @@
     "url": "https://open.er-api.com/v6/latest/KRW"
    }
   ],
-  "quotes": [
-   {
-    "provider": "Hanpass",
-    "sent": 1005000,
-    "fee": 5000,
-    "received": 19294193
-   }
-  ]
+  "quotes": [],
+  "published_markup_pct": null
  }
 ]

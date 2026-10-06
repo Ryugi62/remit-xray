@@ -62,12 +62,14 @@ def main():
     samples = []
     for vid in pick:
         v = by_id[vid]
-        # the other quotes collected for the same route, amount and day: scored against this sample's frozen band
-        peers = [{"provider": w["input"]["provider"], "sent": w["input"]["sentAmount"], "fee": w["input"]["fee"], "received": w["input"]["receivedAmount"]}
-                 for w in receipts if w["id"] != vid and w["input"]["sentCurrency"] == v["input"]["sentCurrency"]
-                 and w["input"]["receivedCurrency"] == v["input"]["receivedCurrency"] and w["input"]["date"] == v["input"]["date"]
-                 and w["input"]["sentAmount"] == v["input"]["sentAmount"]]
-        samples.append({"id": vid, "input": v["input"], "origin": v["origin"], "observations": v["band"]["observations"], "quotes": peers})
+        # the other quotes collected for the same route and day, scored against this sample's frozen band
+        # (Korean routes use data/quotes-kr.json instead: all three apps, rescaled to the amount)
+        peers = [] if v["input"]["sentCurrency"] == "KRW" else [
+            {"provider": w["input"]["provider"], "sent": w["input"]["sentAmount"], "fee": w["input"]["fee"], "received": w["input"]["receivedAmount"]}
+            for w in receipts if w["id"] != vid and w["input"]["sentCurrency"] == v["input"]["sentCurrency"]
+            and w["input"]["receivedCurrency"] == v["input"]["receivedCurrency"] and w["input"]["date"] == v["input"]["date"]]
+        samples.append({"id": vid, "input": v["input"], "origin": v["origin"], "observations": v["band"]["observations"], "quotes": peers,
+                        "published_markup_pct": v.get("published_markup_pct")})
     (ROOT / "data/samples.json").write_text(json.dumps(samples, indent=1, ensure_ascii=False))
     kr = [{"from": v["input"]["sentCurrency"], "to": v["input"]["receivedCurrency"], "provider": v["input"]["provider"],
            "sent": v["input"]["sentAmount"], "fee": v["input"]["fee"], "received": v["input"]["receivedAmount"],

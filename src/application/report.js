@@ -7,10 +7,26 @@ const n = (x, digits = 0) => Number(x).toLocaleString('en-US', { minimumFraction
 const p = (x) => `${(x * 100).toFixed(2)}%`;
 const sig = (x) => Number(x.toPrecision(6)).toString();
 
-/** A factual question to the provider about the exchange-rate margin of one transfer. */
-export function providerMessage(result) {
+/** A factual question to the provider about the exchange-rate margin of one transfer ('en', or 'ko' for Korean apps' support desks). */
+export function providerMessage(result, lang = 'en') {
   const { receipt: r, band, audit: a } = result;
   const c = a.cost;
+  const amt = (x) => n(x, x % 1 ? 2 : 0);
+  if (lang === 'ko') {
+    return [
+      `안녕하세요${r.provider ? ` ${r.provider}` : ''} 고객센터님,`,
+      '',
+      `${r.date}에 ${amt(r.sent.amount)} ${r.sent.currency}를 보냈고 ${amt(r.received.amount)} ${r.received.currency}가 도착했습니다.`,
+      `안내된 수수료는 ${amt(c.fee)} ${c.currency}였고, 실제 적용 환율은 1 ${r.sent.currency} = ${sig(a.effectiveRate)} ${r.received.currency}로 계산됩니다.`,
+      `그날과 전날 공개된 중간 환율은 ${sig(band.min)}–${sig(band.max)}입니다(${band.sources.join(', ')}).`,
+      `환율 마진을 포함한 실제 비용은 약 ${n(c.total.low)}–${n(c.total.high)} ${c.currency}(송금액의 ${p(c.totalPct.low)}–${p(c.totalPct.high)})입니다.`,
+      '',
+      '이 송금에 적용된 환율 마진이 얼마였는지, 그리고 결제 전에 어디에서 확인할 수 있는지 알려 주실 수 있을까요?',
+      '',
+      '감사합니다.',
+      '(Remit X-ray로 계산 — https://ryugi62.github.io/remit-xray/)',
+    ].join('\n');
+  }
   return [
     `Hello${r.provider ? ` ${r.provider}` : ''},`,
     '',

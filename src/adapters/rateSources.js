@@ -3,8 +3,11 @@
 
 const ECB_CURRENCIES = new Set('AUD BGN BRL CAD CHF CNY CZK DKK EUR GBP HKD HUF IDR ILS INR ISK JPY KRW MXN MYR NOK NZD PHP PLN RON SEK SGD THB TRY USD ZAR'.split(' '));
 
-async function getJson(fetchFn, url) {
-  const res = await fetchFn(url);
+async function getJson(fetchFn, url, tries = 1) {
+  let res;
+  for (let i = 0; i < tries; i += 1) {
+    try { res = await fetchFn(url); break; } catch (e) { if (i === tries - 1) throw e; } // official feeds drop connections now and then
+  }
   if (res.status === 404) return null;
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
   return res.json();
@@ -96,7 +99,7 @@ export function nrbSource(fetchFn = globalThis.fetch.bind(globalThis)) {
     supports: (from, to) => (to === 'NPR' && NRB_CURRENCIES.has(from)) || (from === 'NPR' && NRB_CURRENCIES.has(to)),
     async getRate(from, to, date) {
       const url = `https://www.nrb.org.np/api/forex/v1/rates?from=${date}&to=${date}&per_page=10&page=1`;
-      const j = await getJson(fetchFn, url);
+      const j = await getJson(fetchFn, url, 3);
       const day = j && j.data && j.data.payload && j.data.payload[0];
       if (!day) return null;
       const other = from === 'NPR' ? to : from;
@@ -124,7 +127,7 @@ export function cbuSource(fetchFn = globalThis.fetch.bind(globalThis)) {
     async getRate(from, to, date) {
       const other = from === 'UZS' ? to : from;
       const url = `https://cbu.uz/en/arkhiv-kursov-valyut/json/${other}/${date}/`;
-      const j = await getJson(fetchFn, url);
+      const j = await getJson(fetchFn, url, 3);
       const row = Array.isArray(j) && j.find((r) => r.Ccy === other);
       if (!row) return null;
       const uzsPerUnit = Number(row.Rate) / Number(row.Nominal || 1);

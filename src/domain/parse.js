@@ -13,10 +13,10 @@ const SYMBOLS = [
   ['€', 'EUR'], ['£', 'GBP'], ['¥', 'JPY'], ['₹', 'INR'], ["so'm", 'UZS'], ['сўм', 'UZS'], ['сум', 'UZS'],
   ['US$', 'USD'], ['MX$', 'MXN'], ['A$', 'AUD'], ['C$', 'CAD'], ['S$', 'SGD'], ['HK$', 'HKD'], ['NT$', 'TWD'],
   ['Rp', 'IDR'], ['৳', 'BDT'], ['円', 'JPY'], ['VNĐ', 'VND'], ['VNđ', 'VND'], ['vnđ', 'VND'], ['동', 'VND'],
-  ['NRs', 'NPR'], ['रु', 'NPR'], ['Rs.', 'RS?'], ['Rs', 'RS?'], ['$', 'USD'],
+  ['NRs.', 'NPR'], ['NRs', 'NPR'], ['रु', 'NPR'], ['Rs.', 'RS?'], ['Rs', 'RS?'], ['$', 'USD'],
 ];
 // "Rs" is a rupee: Nepal's or India's, decided by the rest of the text.
-const NEPAL_HINT = /nepal|\bNPR\b|नेपाल|रु|kathmandu/i;
+const NEPAL_HINT = /nepal|\bNPR\b|नेपाल|रु|kathmandu|\bKRW\b|₩|원|ime ?pay/i; // most rupee transfers from Korea go to Nepal
 // A bare "$": the dollar of the provider's country when we know it, else US — always flagged for the user to check.
 const DOLLAR_COUNTRY = [
   [/commonwealth bank|commbank|westpac|\banz\b|\bnab\b|australia/i, 'AUD'],
@@ -26,7 +26,7 @@ const DOLLAR_COUNTRY = [
 ];
 
 const LABELS = {
-  total: /(\btotal\b(?!\s*(?:to\s+)?(?:fee|charge|receiv|recipient|beneficiary|payout))|amount paid|you paid|you pay\b|debited|withdrawn|총 ?(결제|출금|송금)?금액|결제 ?금액|출금 ?금액|출금액|출금|합계|tổng)/gi,
+  total: /(\btotal\b(?!\s*(?:to\s+)?(?:fee|charge|receiv|recipient|beneficiary|payout))|amount paid|you paid|you pay\b|debited|withdrawn|collected amount|amount collected|입금하실 ?금액|총 ?(결제|출금|송금)?금액|결제 ?금액|출금 ?금액|출금액|출금|합계|tổng)/gi,
   fee: /(fee|charge|commission|수수료|phí)/gi,
   rate: /(exchange rate|\brate\b|환율|tỷ giá|kurs)/gi,
   received: /(receiv|\brecipient\b|beneficiary|they get|payout|deliver|받는 ?(분|금액)|수취 ?금액|입금 ?금액|받을 ?금액|nhận|qabul)/gi,
@@ -129,31 +129,63 @@ function iso(y, m, d) {
   return `${y}-${pad(m)}-${pad(d)}`;
 }
 
-/** First date in the text, as {value:'YYYY-MM-DD', confidence}. */
-export function findDate(text) {
-  let m = text.match(/(\d{4})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일/);
-  if (m) return { value: iso(+m[1], +m[2], +m[3]), confidence: 'high' };
-  m = text.match(/(\d{4})[-./](\d{1,2})[-./](\d{1,2})/);
-  if (m) return { value: iso(+m[1], +m[2], +m[3]), confidence: 'high' };
-  m = text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/);
-  if (m) return { value: iso(+m[3], +m[2], +m[1]), confidence: 'high' };
-  m = text.match(/\b([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/);
-  if (m && MONTHS[m[1].toLowerCase()]) return { value: iso(+m[3], MONTHS[m[1].toLowerCase()], +m[2]), confidence: 'high' };
-  m = text.match(/\b(\d{1,2})\s+([A-Za-z]{3})[a-z]*\.?,?\s+(\d{4})/);
-  if (m && MONTHS[m[2].toLowerCase()]) return { value: iso(+m[3], MONTHS[m[2].toLowerCase()], +m[1]), confidence: 'high' };
-  m = text.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m) {
-    const a = +m[1]; const b = +m[2]; const y = +m[3];
-    const dayFirst = /ngày/i.test(text) || a > 12;
-    const ambiguous = a <= 12 && b <= 12 && a !== b;
-    const options = ambiguous ? [iso(y, b, a), iso(y, a, b)] : undefined;
-    if (dayFirst) return { value: iso(y, b, a), confidence: a > 12 ? 'high' : 'low', options };
-    return { value: iso(y, a, b), confidence: b > 12 ? 'high' : 'low', options };
-  }
-  return null;
+// Digits glued to other digits (account numbers "123456-01-123456") are never a date.
+const D = (re) => new RegExp(`(?<![0-9])${re}(?![0-9])`, 'gi');
+const DATE_PATTERNS = [
+  [D('(\\d{4})\\s*년\\s*(\\d{1,2})\\s*월\\s*(\\d{1,2})\\s*일'), (m) => [+m[1], +m[2], +m[3]], 'high'],
+  [/ngày\s*(\d{1,2})\s*tháng\s*(\d{1,2})\s*năm\s*(\d{4})/gi, (m) => [+m[3], +m[2], +m[1]], 'high'],
+  [D('(\\d{4})[-./](\\d{1,2})[-./](\\d{1,2})'), (m) => [+m[1], +m[2], +m[3]], 'high'],
+  [D('(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})'), (m) => [+m[3], +m[2], +m[1]], 'high'],
+  [/\b([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/g, (m) => (MONTHS[m[1].toLowerCase()] ? [+m[3], MONTHS[m[1].toLowerCase()], +m[2]] : null), 'high'],
+  [/\b(\d{1,2})\s+([A-Za-z]{3})[a-z]*\.?,?\s+(\d{4})/g, (m) => (MONTHS[m[2].toLowerCase()] ? [+m[3], MONTHS[m[2].toLowerCase()], +m[1]] : null), 'high'],
+  [D('(\\d{2})\\.(\\d{1,2})\\.(\\d{1,2})(?![.])'), (m) => [2000 + +m[1], +m[2], +m[3]], 'low'], // Korean apps: 26.10.05
+];
+const SLASH = D('(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4}|\\d{2})');
+
+function validIso(y, mo, d) {
+  if (y < 2000 || y > 2099) return null;
+  const v = iso(y, mo, d);
+  if (!v) return null;
+  const t = new Date(`${v}T00:00:00Z`);
+  return !Number.isNaN(t.getTime()) && t.toISOString().slice(0, 10) === v ? v : null;
 }
 
+/** Earliest real date in the text, as {value:'YYYY-MM-DD', confidence, options?}. */
+export function findDate(text) {
+  const found = [];
+  for (const [re, pick, confidence] of DATE_PATTERNS) {
+    re.lastIndex = 0;
+    let m;
+    while ((m = re.exec(text))) {
+      const ymd = pick(m);
+      const v = ymd && validIso(...ymd);
+      if (v) found.push({ index: m.index, value: v, confidence });
+    }
+  }
+  SLASH.lastIndex = 0;
+  let m;
+  while ((m = SLASH.exec(text))) {
+    const a = +m[1]; const b = +m[2]; const y = m[3].length === 2 ? 2000 + +m[3] : +m[3];
+    const dayFirst = /ngày/i.test(text) || a > 12;
+    const first = dayFirst ? validIso(y, b, a) : validIso(y, a, b);
+    if (!first) continue;
+    const ambiguous = a <= 12 && b <= 12 && a !== b;
+    const options = ambiguous ? [validIso(y, b, a), validIso(y, a, b)].filter(Boolean) : undefined;
+    found.push({ index: m.index, value: first, confidence: (dayFirst ? a > 12 : b > 12) ? 'high' : 'low', options });
+  }
+  if (!found.length) return null;
+  found.sort((x, z) => x.index - z.index);
+  const { index, ...best } = found[0];
+  if (!best.options) delete best.options;
+  return best;
+}
+
+const ALIASES = [[/한패스/, 'Hanpass'], [/지엠이|gme ?remit/i, 'GME Remit'], [/이나인페이|e-?9 ?pay/i, 'E9pay'], [/센트비/, 'Sentbe'],
+  [/와이어바알리/, 'WireBarley'], [/하나은행/, 'Hana'], [/국민은행|kb국민/i, 'KB'], [/신한/, 'Shinhan'], [/우리은행/, 'Woori'], [/농협/, 'NongHyup']];
+
 function findProvider(text) {
+  const alias = ALIASES.find(([re]) => re.test(text));
+  if (alias) return alias[1];
   const lower = text.toLowerCase();
   const hit = PROVIDERS.find((p) => new RegExp(`\\b${p.toLowerCase()}\\b`).test(lower));
   return hit || null;
@@ -197,7 +229,7 @@ export function parseReceiptText(text) {
       for (const l of labels) if (l.index < a.index) label = l.key;
       if (!label && labels.length === 1 && amounts.length === 1) label = labels[0].key;
       if (label === 'rate') continue;
-      const amt = { amount: a.amount, currency: a.currency === 'RS?' ? rupee : a.currency, dollar: a.dollar };
+      const amt = { amount: a.amount, currency: a.currency === 'RS?' ? rupee : a.currency, dollar: a.dollar, rupee: a.currency === 'RS?' };
       if (label && !labelled[label]) labelled[label] = amt;
       else unlabelled.push(amt);
     }
@@ -211,6 +243,7 @@ export function parseReceiptText(text) {
   const conf = (x, isLabelled) => (isLabelled ? 'high' : 'low');
   const dollarOf = () => (DOLLAR_COUNTRY.find(([re]) => re.test(text)) || [null, null])[1];
   const currencyField = (x) => {
+    if (x.rupee) return { value: x.currency, confidence: 'low' }; // "Rs" could be Nepali or Indian: the user checks
     if (!x.dollar) return { value: x.currency, confidence: 'high' };
     const known = dollarOf();
     if (!known) hints.push('DOLLAR_AMBIGUOUS');

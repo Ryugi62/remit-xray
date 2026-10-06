@@ -28,6 +28,9 @@ def main():
           "NatWest and RBS belong to one banking group and quote the same price.)")
     zero = [x for x in v if x["input"]["fee"] == 0]
     zero_markup = [x for x in zero if x["expected"]["classification"] == "markup"]
+    key = lambda x: (x["input"]["sentCurrency"], x["input"]["receivedCurrency"], x["input"]["date"], x["input"]["sentAmount"], x["input"]["fee"], x["input"]["receivedAmount"])
+    dz, dzm = {key(x) for x in zero}, {key(x) for x in zero_markup}
+    print(f"- distinct prices only (banks of one group quoting the identical price counted once): {len(dzm)} of {len(dz)} zero-fee prices cost money")
     print(f"- {len(zero_markup)} of {len(zero)} \"zero-fee\" quotes still cost money through the rate: "
           f"median {st.median(mid(x['expected']) for x in zero_markup):.2f}%, "
           f"up to {max(x['expected']['total_pct_high'] for x in zero_markup):.2f}%")
