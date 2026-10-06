@@ -87,3 +87,8 @@ test('review3: share links strip bidirectional control characters from the provi
   const code = encodeReceipt({ provider: 'Bank‮evil', sentAmount: 1, sentCurrency: 'USD', fee: 0, receivedAmount: 2, receivedCurrency: 'PHP', date: '2026-10-06' });
   assert.equal(decodeReceipt(code).provider, 'Bankevil');
 });
+
+test('UI: banner buttons wrap on a phone instead of being cut off', () => {
+  const css = readFileSync(new URL('../src/ui/style.css', import.meta.url), 'utf8');
+  assert.match(css, /\.banner-btns\s*\{[^}]*flex-wrap:\s*wrap/);
+});

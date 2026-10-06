@@ -44,7 +44,8 @@ p { margin: 0 0 8px; }
 .banner { flex-wrap: wrap; background: var(--warn-soft); color: var(--text); border-radius: 12px; padding: 12px 14px; margin-top: 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; font-size: 14px; }
 .banner p { margin: 0; }
 .banner .btn { flex-shrink: 0; }
-.banner-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.banner-btns { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 auto; }
+.banner-btns .btn { flex: 1 1 auto; white-space: normal; text-align: center; }
 .warn-ink { color: var(--no); }
 .good-ink { color: var(--ok); }
 .good-ink:empty { display: none; }
