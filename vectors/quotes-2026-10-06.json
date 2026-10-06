@@ -1,0 +1,568 @@
+{
+ "source": "Wise comparison API (public)",
+ "collected_utc": "2026-10-06T08:22:17+00:00",
+ "corridors": [
+  {
+   "from": "USD",
+   "to": "PHP",
+   "url": "https://api.wise.com/v4/comparisons/?sourceCurrency=USD&targetCurrency=PHP&sendAmount=500",
+   "quotes": [
+    {
+     "provider": "Wise",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 9.43,
+     "rate": 62.7901,
+     "received": 30802.94,
+     "published_markup_pct": 0.0,
+     "date_collected": "2026-10-06T08:21:24Z"
+    },
+    {
+     "provider": "Wells Fargo",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 60.8178641163,
+     "received": 30408.93,
+     "published_markup_pct": 3.12958169,
+     "date_collected": "2026-10-02T16:35:25Z"
+    },
+    {
+     "provider": "Xoom",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 63.4549369895,
+     "received": 31727.47,
+     "published_markup_pct": -1.07073603,
+     "date_collected": "2026-10-06T05:27:24.528825Z"
+    },
+    {
+     "provider": "PayPal",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 4.99,
+     "rate": 59.9222331963,
+     "received": 29662.1,
+     "published_markup_pct": 4.55613856,
+     "date_collected": "2026-10-06T07:43:56.177776Z"
+    },
+    {
+     "provider": "Instarem",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 62.1397410258,
+     "received": 31069.87,
+     "published_markup_pct": 1.02410214,
+     "date_collected": "2026-10-06T07:26:44.539689Z"
+    },
+    {
+     "provider": "Remitly",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 62.6567667938,
+     "received": 31328.38,
+     "published_markup_pct": 0.20058584,
+     "date_collected": "2026-10-06T07:44:33.572591Z"
+    },
+    {
+     "provider": "Western Union",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 60.9144908981,
+     "received": 30336.03,
+     "published_markup_pct": 2.97567499,
+     "date_collected": "2026-10-06T07:09:27.086067Z"
+    },
+    {
+     "provider": "OFX",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 5.0,
+     "rate": 60.3591854316,
+     "received": 29877.8,
+     "published_markup_pct": 3.86016302,
+     "date_collected": "2026-10-06T07:41:27.509052Z"
+    }
+   ]
+  },
+  {
+   "from": "USD",
+   "to": "MXN",
+   "url": "https://api.wise.com/v4/comparisons/?sourceCurrency=USD&targetCurrency=MXN&sendAmount=500",
+   "quotes": [
+    {
+     "provider": "OFX",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 5.0,
+     "rate": 17.5822097735,
+     "received": 8703.19,
+     "published_markup_pct": 2.47763439,
+     "date_collected": "2026-10-06T07:40:45.647477Z"
+    },
+    {
+     "provider": "PayPal",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 4.99,
+     "rate": 17.2761736383,
+     "received": 8551.88,
+     "published_markup_pct": 4.17510975,
+     "date_collected": "2026-10-06T07:38:51.372245Z"
+    },
+    {
+     "provider": "WorldRemit",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 17.6040308993,
+     "received": 8766.98,
+     "published_markup_pct": 2.35660024,
+     "date_collected": "2026-10-02T21:27:02Z"
+    },
+    {
+     "provider": "Remitly",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 17.3851317606,
+     "received": 8657.97,
+     "published_markup_pct": 3.57075717,
+     "date_collected": "2026-10-06T07:44:31.412659Z"
+    },
+    {
+     "provider": "Chase (US)",
+     "type": "bank",
+     "sent": 500,
+     "fee": 5.0,
+     "rate": 17.4741188106,
+     "received": 8649.69,
+     "published_markup_pct": 3.07717714,
+     "date_collected": "2026-10-02T22:36:48Z"
+    },
+    {
+     "provider": "Wise",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 9.59,
+     "rate": 18.0397,
+     "received": 8846.85,
+     "published_markup_pct": 0.0,
+     "date_collected": "2026-10-06T08:22:17Z"
+    },
+    {
+     "provider": "Western Union",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 17.7985270674,
+     "received": 8863.84,
+     "published_markup_pct": 1.27779805,
+     "date_collected": "2026-10-06T07:09:18.762187Z"
+    },
+    {
+     "provider": "Wells Fargo",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 17.472220609,
+     "received": 8736.11,
+     "published_markup_pct": 3.0877058,
+     "date_collected": "2026-10-02T16:34:30Z"
+    },
+    {
+     "provider": "Instarem",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 17.8645187945,
+     "received": 8932.26,
+     "published_markup_pct": 0.91176503,
+     "date_collected": "2026-10-06T07:25:32.159457Z"
+    }
+   ]
+  },
+  {
+   "from": "GBP",
+   "to": "INR",
+   "url": "https://api.wise.com/v4/comparisons/?sourceCurrency=GBP&targetCurrency=INR&sendAmount=500",
+   "quotes": [
+    {
+     "provider": "NatWest",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 124.6209507383,
+     "received": 62310.48,
+     "published_markup_pct": 2.3316164,
+     "date_collected": "2026-10-06T06:30:04.603751Z"
+    },
+    {
+     "provider": "Halifax",
+     "type": "bank",
+     "sent": 500,
+     "fee": 9.5,
+     "rate": 122.7932247142,
+     "received": 60230.08,
+     "published_markup_pct": 3.76404847,
+     "date_collected": "2026-10-06T02:21:23Z"
+    },
+    {
+     "provider": "PayPal",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 2.99,
+     "rate": 121.9146757517,
+     "received": 60592.81,
+     "published_markup_pct": 4.45258805,
+     "date_collected": "2026-10-06T07:34:01.213987Z"
+    },
+    {
+     "provider": "State Bank of India",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 126.8630579402,
+     "received": 63431.53,
+     "published_markup_pct": 0.57442401,
+     "date_collected": "2026-10-06T07:50:08.237006Z"
+    },
+    {
+     "provider": "RBS",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 124.6209507383,
+     "received": 62310.48,
+     "published_markup_pct": 2.3316164,
+     "date_collected": "2026-10-06T04:30:05.590758Z"
+    },
+    {
+     "provider": "Barclays",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 124.0735557704,
+     "received": 62036.78,
+     "published_markup_pct": 2.76062277,
+     "date_collected": "2026-10-02T13:19:25Z"
+    },
+    {
+     "provider": "Nationwide",
+     "type": "bank",
+     "sent": 500,
+     "fee": 15.0,
+     "rate": 124.9504130013,
+     "received": 60600.95,
+     "published_markup_pct": 2.07340904,
+     "date_collected": "2026-10-06T08:20:02.661245Z"
+    },
+    {
+     "provider": "Remitly",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 127.3637014274,
+     "received": 63681.85,
+     "published_markup_pct": 0.18205788,
+     "date_collected": "2026-10-06T07:40:15.172385Z"
+    },
+    {
+     "provider": "Lloyds",
+     "type": "bank",
+     "sent": 500,
+     "fee": 9.5,
+     "rate": 122.7228026317,
+     "received": 60195.53,
+     "published_markup_pct": 3.81923992,
+     "date_collected": "2026-10-02T15:21:20Z"
+    },
+    {
+     "provider": "Xoom",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 125.8708964785,
+     "received": 62684.97,
+     "published_markup_pct": 1.35200439,
+     "date_collected": "2026-10-06T04:33:29.528908Z"
+    },
+    {
+     "provider": "OFX",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 7.0,
+     "rate": 123.5499781271,
+     "received": 60910.14,
+     "published_markup_pct": 3.17096294,
+     "date_collected": "2026-10-06T08:19:47.855368Z"
+    },
+    {
+     "provider": "Monese",
+     "type": "bank",
+     "sent": 500,
+     "fee": 10.0,
+     "rate": 127.2734859388,
+     "received": 62364.01,
+     "published_markup_pct": 0.25276189,
+     "date_collected": "2026-10-06T08:20:26.533107Z"
+    },
+    {
+     "provider": "Wise",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 2.86,
+     "rate": 127.571,
+     "received": 63420.65,
+     "published_markup_pct": 0.0,
+     "date_collected": "2026-10-06T08:21:56Z"
+    },
+    {
+     "provider": "Skrill",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 127.1453207331,
+     "received": 63572.66,
+     "published_markup_pct": 0.35320799,
+     "date_collected": "2026-10-06T07:30:54.524060Z"
+    },
+    {
+     "provider": "Western Union",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 125.9470668885,
+     "received": 62722.9,
+     "published_markup_pct": 1.29230784,
+     "date_collected": "2026-10-06T08:20:40.650276Z"
+    },
+    {
+     "provider": "HSBC",
+     "type": "bank",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 126.4615371759,
+     "received": 63230.77,
+     "published_markup_pct": 0.88910532,
+     "date_collected": "2026-10-02T18:09:51Z"
+    },
+    {
+     "provider": "Santander UK",
+     "type": "bank",
+     "sent": 500,
+     "fee": 25.0,
+     "rate": 123.6701080003,
+     "received": 58743.3,
+     "published_markup_pct": 3.07681432,
+     "date_collected": "2026-10-02T14:00:41Z"
+    }
+   ]
+  },
+  {
+   "from": "USD",
+   "to": "VND",
+   "url": "https://api.wise.com/v4/comparisons/?sourceCurrency=USD&targetCurrency=VND&sendAmount=500",
+   "quotes": [
+    {
+     "provider": "Wise",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 10.56,
+     "rate": 25993.5,
+     "received": 12722259.0,
+     "published_markup_pct": 0.0,
+     "date_collected": "2026-10-06T08:22:25Z"
+    },
+    {
+     "provider": "Xoom",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 2.99,
+     "rate": 25239.9133529599,
+     "received": 12544489.0,
+     "published_markup_pct": 2.88979511,
+     "date_collected": "2026-10-06T05:35:01.946426Z"
+    },
+    {
+     "provider": "Instarem",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 25808.5665485081,
+     "received": 12904283.0,
+     "published_markup_pct": 0.70191009,
+     "date_collected": "2026-10-06T07:29:06.476915Z"
+    },
+    {
+     "provider": "Remitly",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 25808.5675465625,
+     "received": 12852925.0,
+     "published_markup_pct": 0.70190625,
+     "date_collected": "2026-10-06T07:44:38.410906Z"
+    },
+    {
+     "provider": "Western Union",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.99,
+     "rate": 25625.6471432892,
+     "received": 12787454.0,
+     "published_markup_pct": 1.40568988,
+     "date_collected": "2026-10-06T07:09:45.250433Z"
+    },
+    {
+     "provider": "OFX",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 5.0,
+     "rate": 24749.8225865079,
+     "received": 12251162.0,
+     "published_markup_pct": 4.77541231,
+     "date_collected": "2026-10-06T07:42:22.241619Z"
+    }
+   ]
+  },
+  {
+   "from": "USD",
+   "to": "NPR",
+   "url": "https://api.wise.com/v4/comparisons/?sourceCurrency=USD&targetCurrency=NPR&sendAmount=500",
+   "quotes": [
+    {
+     "provider": "Instarem",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 152.7741464036,
+     "received": 76387.07,
+     "published_markup_pct": 0.97605237,
+     "date_collected": "2026-10-06T07:26:06.890665Z"
+    },
+    {
+     "provider": "Remitly",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 0.0,
+     "rate": 153.5850675706,
+     "received": 76792.53,
+     "published_markup_pct": 0.45043585,
+     "date_collected": "2026-10-06T07:44:32.681094Z"
+    },
+    {
+     "provider": "Xoom",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 4.99,
+     "rate": 149.7422176231,
+     "received": 74123.9,
+     "published_markup_pct": 2.94126418,
+     "date_collected": "2026-10-06T05:23:16.421598Z"
+    },
+    {
+     "provider": "Wise",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 13.02,
+     "rate": 154.295,
+     "received": 75139.0,
+     "published_markup_pct": 0.0,
+     "date_collected": "2026-10-06T08:22:25Z"
+    },
+    {
+     "provider": "Western Union",
+     "type": "moneyTransferProvider",
+     "sent": 500,
+     "fee": 1.99,
+     "rate": 153.0064238301,
+     "received": 76198.73,
+     "published_markup_pct": 0.82549661,
+     "date_collected": "2026-10-06T07:09:21.497308Z"
+    }
+   ]
+  },
+  {
+   "from": "AUD",
+   "to": "VND",
+   "url": "https://api.wise.com/v4/comparisons/?sourceCurrency=AUD&targetCurrency=VND&sendAmount=1000",
+   "quotes": [
+    {
+     "provider": "Remitly",
+     "type": "moneyTransferProvider",
+     "sent": 1000,
+     "fee": 1.99,
+     "rate": 18040.566993183,
+     "received": 18004666.0,
+     "published_markup_pct": 0.50206825,
+     "date_collected": "2026-10-06T07:40:36.371252Z"
+    },
+    {
+     "provider": "Instarem",
+     "type": "moneyTransferProvider",
+     "sent": 1000,
+     "fee": 5.0,
+     "rate": 18123.33,
+     "received": 18032713.0,
+     "published_markup_pct": 0.04561098,
+     "date_collected": "2026-10-06T08:14:37.885822Z"
+    },
+    {
+     "provider": "Xoom",
+     "type": "moneyTransferProvider",
+     "sent": 1000,
+     "fee": 0.0,
+     "rate": 18364.5831963251,
+     "received": 18364583.0,
+     "published_markup_pct": -1.28495663,
+     "date_collected": "2026-10-06T03:36:19.385244Z"
+    },
+    {
+     "provider": "OFX",
+     "type": "moneyTransferProvider",
+     "sent": 1000,
+     "fee": 15.0,
+     "rate": 17288.1093,
+     "received": 17028788.0,
+     "published_markup_pct": 4.65204781,
+     "date_collected": "2026-10-06T08:13:50.344052Z"
+    },
+    {
+     "provider": "Wise",
+     "type": "moneyTransferProvider",
+     "sent": 1000,
+     "fee": 7.68,
+     "rate": 18127.9,
+     "received": 17988678.0,
+     "published_markup_pct": 0.0,
+     "date_collected": "2026-10-06T08:22:25Z"
+    },
+    {
+     "provider": "Western Union",
+     "type": "moneyTransferProvider",
+     "sent": 1000,
+     "fee": 0.99,
+     "rate": 17878.7174615198,
+     "received": 17861018.0,
+     "published_markup_pct": 1.39470614,
+     "date_collected": "2026-10-06T06:26:45.988905Z"
+    },
+    {
+     "provider": "Commonwealth Bank of Australia",
+     "type": "bank",
+     "sent": 1000,
+     "fee": 0.0,
+     "rate": 17013.489173578,
+     "received": 17013489.0,
+     "published_markup_pct": 6.16664181,
+     "date_collected": "2026-10-06T08:10:07.447487Z"
+    }
+   ]
+  }
+ ]
+}

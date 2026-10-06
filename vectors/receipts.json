@@ -1,0 +1,3141 @@
+{
+ "generated_by": "vectors/compute_expected.py",
+ "quotes_files": [
+  "quotes-2026-10-06.json",
+  "quotes-kr-2026-10-06.json"
+ ],
+ "vectors": [
+  {
+   "id": "USD-PHP-Wise",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:21:24Z",
+   "input": {
+    "provider": "Wise",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 9.43,
+    "receivedAmount": 30802.94,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 0.0,
+   "expected": {
+    "effective_rate": 62.79010131072018,
+    "markup_low_pct": -0.2370554016769344,
+    "markup_high_pct": 0.08946700791179168,
+    "total_cost_low": 8.267077315993463,
+    "total_cost_high": 9.868898300712877,
+    "total_pct_low": 1.6534154631986926,
+    "total_pct_high": 1.9737796601425752,
+    "classification": "within-band"
+   }
+  },
+  {
+   "id": "USD-PHP-Wells Fargo",
+   "origin": "Wise comparison API (public), collected 2026-10-02T16:35:25Z",
+   "input": {
+    "provider": "Wells Fargo",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 30408.93,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 62.597,
+    "max": 62.799,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 62.76840934,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 62.62359634,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 62.799,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=PHP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 62.597,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 3.12958169,
+   "expected": {
+    "effective_rate": 60.81786,
+    "markup_low_pct": 2.8422128856015463,
+    "markup_high_pct": 3.1547317632446377,
+    "total_cost_low": 14.211064428007733,
+    "total_cost_high": 15.773658816223188,
+    "total_pct_low": 2.8422128856015463,
+    "total_pct_high": 3.1547317632446377,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-PHP-Xoom",
+   "origin": "Wise comparison API (public), collected 2026-10-06T05:27:24.528825Z",
+   "input": {
+    "provider": "Xoom",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 31727.47,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": -1.07073603,
+   "expected": {
+    "effective_rate": 63.45494,
+    "markup_low_pct": -1.2983926369959289,
+    "markup_high_pct": -0.9684129192283674,
+    "total_cost_low": -6.491963184979644,
+    "total_cost_high": -4.842064596141837,
+    "total_pct_low": -1.2983926369959289,
+    "total_pct_high": -0.9684129192283674,
+    "classification": "better-than-mid"
+   }
+  },
+  {
+   "id": "USD-PHP-PayPal",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:43:56.177776Z",
+   "input": {
+    "provider": "PayPal",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 4.99,
+    "receivedAmount": 29662.1,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 4.55613856,
+   "expected": {
+    "effective_rate": 59.92222379345872,
+    "markup_low_pct": 4.341175745943171,
+    "markup_high_pct": 4.652784558359826,
+    "total_cost_low": 26.479254059993288,
+    "total_cost_high": 28.02174884233698,
+    "total_pct_low": 5.295850811998658,
+    "total_pct_high": 5.6043497684673955,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-PHP-Instarem",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:26:44.539689Z",
+   "input": {
+    "provider": "Instarem",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 31069.87,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 1.02410214,
+   "expected": {
+    "effective_rate": 62.13974,
+    "markup_low_pct": 0.8011703914487761,
+    "markup_high_pct": 1.124310778428098,
+    "total_cost_low": 4.00585195724388,
+    "total_cost_high": 5.62155389214049,
+    "total_pct_low": 0.8011703914487761,
+    "total_pct_high": 1.124310778428098,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-PHP-Remitly",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:44:33.572591Z",
+   "input": {
+    "provider": "Remitly",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 31328.38,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 0.20058584,
+   "expected": {
+    "effective_rate": 62.65676,
+    "markup_low_pct": -0.024191589213086267,
+    "markup_high_pct": 0.30163741607838257,
+    "total_cost_low": -0.12095794606543134,
+    "total_cost_high": 1.5081870803919128,
+    "total_pct_low": -0.024191589213086267,
+    "total_pct_high": 0.30163741607838257,
+    "classification": "within-band"
+   }
+  },
+  {
+   "id": "USD-PHP-Western Union",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:09:27.086067Z",
+   "input": {
+    "provider": "Western Union",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 1.99,
+    "receivedAmount": 30336.03,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 2.97567499,
+   "expected": {
+    "effective_rate": 60.91449970884119,
+    "markup_low_pct": 2.757123262706279,
+    "markup_high_pct": 3.0738921292732573,
+    "total_cost_low": 15.720749560603538,
+    "total_cost_high": 17.298290192993747,
+    "total_pct_low": 3.144149912120708,
+    "total_pct_high": 3.4596580385987497,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-PHP-OFX",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:41:27.509052Z",
+   "input": {
+    "provider": "OFX",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 5.0,
+    "receivedAmount": 29877.8,
+    "receivedCurrency": "PHP",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 62.641606,
+    "max": 62.84632804,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 62.7417979,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 62.84632804,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 62.641606,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 62.673,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
+     }
+    ]
+   },
+   "published_markup_pct": 3.86016302,
+   "expected": {
+    "effective_rate": 60.35919191919192,
+    "markup_low_pct": 3.643607222982247,
+    "markup_high_pct": 3.9574883662655447,
+    "total_cost_low": 23.035855753762124,
+    "total_cost_high": 24.589567413014446,
+    "total_pct_low": 4.607171150752425,
+    "total_pct_high": 4.917913482602889,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-OFX",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:40:45.647477Z",
+   "input": {
+    "provider": "OFX",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 5.0,
+    "receivedAmount": 8703.19,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18.07523839,
+    "max": 18.22836116,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18.22836116,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18.07523839,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18.106072,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 18.1498,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 2.47763439,
+   "expected": {
+    "effective_rate": 17.582202020202022,
+    "markup_low_pct": 2.7276894454169343,
+    "markup_high_pct": 3.5448010609746983,
+    "total_cost_low": 18.502062754813824,
+    "total_cost_high": 22.546765251824755,
+    "total_pct_low": 3.700412550962765,
+    "total_pct_high": 4.509353050364951,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-PayPal",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:38:51.372245Z",
+   "input": {
+    "provider": "PayPal",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 4.99,
+    "receivedAmount": 8551.88,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18.07523839,
+    "max": 18.22836116,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18.22836116,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18.07523839,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18.106072,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 18.1498,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 4.17510975,
+   "expected": {
+    "effective_rate": 17.27617623886386,
+    "markup_low_pct": 4.420755809108522,
+    "markup_high_pct": 5.223645245879793,
+    "total_cost_low": 26.873183330668095,
+    "total_cost_high": 30.84756633162956,
+    "total_pct_low": 5.374636666133619,
+    "total_pct_high": 6.169513266325913,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-WorldRemit",
+   "origin": "Wise comparison API (public), collected 2026-10-02T21:27:02Z",
+   "input": {
+    "provider": "WorldRemit",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 1.99,
+    "receivedAmount": 8766.98,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 18.08412442,
+    "max": 18.335,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 18.08412442,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 18.26774415,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 18.1669,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 18.335,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 2.35660024,
+   "expected": {
+    "effective_rate": 17.604024015582016,
+    "markup_low_pct": 2.654816972432573,
+    "markup_high_pct": 3.9867792987073005,
+    "total_cost_low": 15.211254004411456,
+    "total_cost_high": 21.844559585492227,
+    "total_pct_low": 3.0422508008822913,
+    "total_pct_high": 4.368911917098446,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-Remitly",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:44:31.412659Z",
+   "input": {
+    "provider": "Remitly",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 1.99,
+    "receivedAmount": 8657.97,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18.07523839,
+    "max": 18.22836116,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18.22836116,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18.07523839,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18.106072,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 18.1498,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 3.57075717,
+   "expected": {
+    "effective_rate": 17.385132828658058,
+    "markup_low_pct": 3.8179610495413274,
+    "markup_high_pct": 4.625914112302683,
+    "total_cost_low": 21.003827822820764,
+    "total_cost_high": 25.027514870678587,
+    "total_pct_low": 4.200765564564153,
+    "total_pct_high": 5.005502974135718,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-Chase (US)",
+   "origin": "Wise comparison API (public), collected 2026-10-02T22:36:48Z",
+   "input": {
+    "provider": "Chase (US)",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 5.0,
+    "receivedAmount": 8649.69,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 18.08412442,
+    "max": 18.335,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 18.08412442,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 18.26774415,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 18.1669,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 18.335,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 3.07717714,
+   "expected": {
+    "effective_rate": 17.47412121212121,
+    "markup_low_pct": 3.3731420648939987,
+    "markup_high_pct": 4.695275636099198,
+    "total_cost_low": 21.697053221225293,
+    "total_cost_high": 28.241614398691027,
+    "total_pct_low": 4.339410644245059,
+    "total_pct_high": 5.648322879738205,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-Wise",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:22:17Z",
+   "input": {
+    "provider": "Wise",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 9.59,
+    "receivedAmount": 8846.85,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18.07523839,
+    "max": 18.22836116,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18.22836116,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18.07523839,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18.106072,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 18.1498,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 0.0,
+   "expected": {
+    "effective_rate": 18.039701474276626,
+    "markup_low_pct": 0.19660551610226545,
+    "markup_high_pct": 1.034978866544327,
+    "total_cost_low": 10.55417311151712,
+    "total_cost_high": 14.665639859420034,
+    "total_pct_low": 2.110834622303424,
+    "total_pct_high": 2.933127971884007,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-Western Union",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:09:18.762187Z",
+   "input": {
+    "provider": "Western Union",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 1.99,
+    "receivedAmount": 8863.84,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18.07523839,
+    "max": 18.22836116,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18.22836116,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18.07523839,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18.106072,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 18.1498,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 1.27779805,
+   "expected": {
+    "effective_rate": 17.798518102046145,
+    "markup_low_pct": 1.530935758539981,
+    "markup_high_pct": 2.358100402888091,
+    "total_cost_low": 9.614213171104959,
+    "total_cost_high": 13.733575816422983,
+    "total_pct_low": 1.9228426342209919,
+    "total_pct_high": 2.7467151632845965,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-Wells Fargo",
+   "origin": "Wise comparison API (public), collected 2026-10-02T16:34:30Z",
+   "input": {
+    "provider": "Wells Fargo",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 8736.11,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 18.08412442,
+    "max": 18.335,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 18.08412442,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 18.26774415,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 18.1669,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 18.335,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 3.0877058,
+   "expected": {
+    "effective_rate": 17.47222,
+    "markup_low_pct": 3.383655220394685,
+    "markup_high_pct": 4.705644941368966,
+    "total_cost_low": 16.918276101973422,
+    "total_cost_high": 23.52822470684483,
+    "total_pct_low": 3.383655220394685,
+    "total_pct_high": 4.705644941368966,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-MXN-Instarem",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:25:32.159457Z",
+   "input": {
+    "provider": "Instarem",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 8932.26,
+    "receivedCurrency": "MXN",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18.07523839,
+    "max": 18.22836116,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18.22836116,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18.07523839,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18.106072,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 18.1498,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
+     }
+    ]
+   },
+   "published_markup_pct": 0.91176503,
+   "expected": {
+    "effective_rate": 17.86452,
+    "markup_low_pct": 1.1657848458395905,
+    "markup_high_pct": 1.9960168487247594,
+    "total_cost_low": 5.828924229197953,
+    "total_cost_high": 9.980084243623796,
+    "total_pct_low": 1.1657848458395905,
+    "total_pct_high": 1.9960168487247594,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-NatWest",
+   "origin": "Wise comparison API (public), collected 2026-10-06T06:30:04.603751Z",
+   "input": {
+    "provider": "NatWest",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 62310.48,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 2.3316164,
+   "expected": {
+    "effective_rate": 124.62096,
+    "markup_low_pct": 2.0999054990912613,
+    "markup_high_pct": 2.1862596295899563,
+    "total_cost_low": 10.499527495456306,
+    "total_cost_high": 10.93129814794978,
+    "total_pct_low": 2.0999054990912613,
+    "total_pct_high": 2.1862596295899563,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Halifax",
+   "origin": "Wise comparison API (public), collected 2026-10-06T02:21:23Z",
+   "input": {
+    "provider": "Halifax",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 9.5,
+    "receivedAmount": 60230.08,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 3.76404847,
+   "expected": {
+    "effective_rate": 122.79323139653415,
+    "markup_low_pct": 3.535737826183917,
+    "markup_high_pct": 3.6208254609475454,
+    "total_cost_low": 26.842794037432114,
+    "total_cost_high": 27.26014888594771,
+    "total_pct_low": 5.368558807486423,
+    "total_pct_high": 5.4520297771895425,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-PayPal",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:34:01.213987Z",
+   "input": {
+    "provider": "PayPal",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 2.99,
+    "receivedAmount": 60592.81,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 4.45258805,
+   "expected": {
+    "effective_rate": 121.91466972495523,
+    "markup_low_pct": 4.2259208473422545,
+    "markup_high_pct": 4.310399696639628,
+    "total_cost_low": 23.993249203375736,
+    "total_cost_high": 24.413117532268615,
+    "total_pct_low": 4.798649840675147,
+    "total_pct_high": 4.882623506453723,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-State Bank of India",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:50:08.237006Z",
+   "input": {
+    "provider": "State Bank of India",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 63431.53,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 0.57442401,
+   "expected": {
+    "effective_rate": 126.86306,
+    "markup_low_pct": 0.3385500908157394,
+    "markup_high_pct": 0.42645784917921015,
+    "total_cost_low": 1.6927504540786968,
+    "total_cost_high": 2.1322892458960507,
+    "total_pct_low": 0.3385500908157394,
+    "total_pct_high": 0.42645784917921015,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-RBS",
+   "origin": "Wise comparison API (public), collected 2026-10-06T04:30:05.590758Z",
+   "input": {
+    "provider": "RBS",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 62310.48,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 2.3316164,
+   "expected": {
+    "effective_rate": 124.62096,
+    "markup_low_pct": 2.0999054990912613,
+    "markup_high_pct": 2.1862596295899563,
+    "total_cost_low": 10.499527495456306,
+    "total_cost_high": 10.93129814794978,
+    "total_pct_low": 2.0999054990912613,
+    "total_pct_high": 2.1862596295899563,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Barclays",
+   "origin": "Wise comparison API (public), collected 2026-10-02T13:19:25Z",
+   "input": {
+    "provider": "Barclays",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 62036.78,
+    "receivedCurrency": "INR",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 127.13541451,
+    "max": 127.48,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 127.13541451,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 127.20834453,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 127.48,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 127.15,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 2.76062277,
+   "expected": {
+    "effective_rate": 124.07356,
+    "markup_low_pct": 2.408341154823675,
+    "markup_high_pct": 2.6721368057734547,
+    "total_cost_low": 12.041705774118375,
+    "total_cost_high": 13.360684028867274,
+    "total_pct_low": 2.408341154823675,
+    "total_pct_high": 2.6721368057734547,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Nationwide",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:20:02.661245Z",
+   "input": {
+    "provider": "Nationwide",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 15.0,
+    "receivedAmount": 60600.95,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 2.07340904,
+   "expected": {
+    "effective_rate": 124.95041237113402,
+    "markup_low_pct": 1.841093351699931,
+    "markup_high_pct": 1.9276757710278085,
+    "total_cost_low": 23.929302755744665,
+    "total_cost_high": 24.34922748948487,
+    "total_pct_low": 4.785860551148933,
+    "total_pct_high": 4.869845497896974,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Remitly",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:40:15.172385Z",
+   "input": {
+    "provider": "Remitly",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 63681.85,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 0.18205788,
+   "expected": {
+    "effective_rate": 127.3637,
+    "markup_low_pct": -0.05474412960219795,
+    "markup_high_pct": 0.0335105393603636,
+    "total_cost_low": -0.2737206480109897,
+    "total_cost_high": 0.167552696801818,
+    "total_pct_low": -0.05474412960219795,
+    "total_pct_high": 0.0335105393603636,
+    "classification": "within-band"
+   }
+  },
+  {
+   "id": "GBP-INR-Lloyds",
+   "origin": "Wise comparison API (public), collected 2026-10-02T15:21:20Z",
+   "input": {
+    "provider": "Lloyds",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 9.5,
+    "receivedAmount": 60195.53,
+    "receivedCurrency": "INR",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 127.13541451,
+    "max": 127.48,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 127.13541451,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 127.20834453,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 127.48,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 127.15,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 3.81923992,
+   "expected": {
+    "effective_rate": 122.72279306829766,
+    "markup_low_pct": 3.470804306344763,
+    "markup_high_pct": 3.731728060638802,
+    "total_cost_low": 26.524295122621062,
+    "total_cost_high": 27.80412613743332,
+    "total_pct_low": 5.304859024524212,
+    "total_pct_high": 5.5608252274866645,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Xoom",
+   "origin": "Wise comparison API (public), collected 2026-10-06T04:33:29.528908Z",
+   "input": {
+    "provider": "Xoom",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 1.99,
+    "receivedAmount": 62684.97,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 1.35200439,
+   "expected": {
+    "effective_rate": 125.87090620670267,
+    "markup_low_pct": 1.1179691397722153,
+    "markup_high_pct": 1.2051894007986317,
+    "total_cost_low": 7.557598112979609,
+    "total_cost_high": 7.991963734917265,
+    "total_pct_low": 1.511519622595922,
+    "total_pct_high": 1.5983927469834531,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-OFX",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:19:47.855368Z",
+   "input": {
+    "provider": "OFX",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 7.0,
+    "receivedAmount": 60910.14,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 3.17096294,
+   "expected": {
+    "effective_rate": 123.54997971602434,
+    "markup_low_pct": 2.9412492907762804,
+    "markup_high_pct": 3.0268613023633253,
+    "total_cost_low": 21.500359003527063,
+    "total_cost_high": 21.922426220651193,
+    "total_pct_low": 4.300071800705412,
+    "total_pct_high": 4.384485244130239,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Monese",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:20:26.533107Z",
+   "input": {
+    "provider": "Monese",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 10.0,
+    "receivedAmount": 62364.01,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 0.25276189,
+   "expected": {
+    "effective_rate": 127.27348979591837,
+    "markup_low_pct": 0.016123463654490976,
+    "markup_high_pct": 0.10431562287763485,
+    "total_cost_low": 10.079004971907006,
+    "total_cost_high": 10.51114655210041,
+    "total_pct_low": 2.0158009943814013,
+    "total_pct_high": 2.102229310420082,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Wise",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:21:56Z",
+   "input": {
+    "provider": "Wise",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 2.86,
+    "receivedAmount": 63420.65,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 0.0,
+   "expected": {
+    "effective_rate": 127.57100615520778,
+    "markup_low_pct": -0.21760029910580755,
+    "markup_high_pct": -0.12920198060965235,
+    "total_cost_low": 1.7782218730253883,
+    "total_cost_high": 2.217685273597174,
+    "total_pct_low": 0.35564437460507764,
+    "total_pct_high": 0.4435370547194349,
+    "classification": "better-than-mid"
+   }
+  },
+  {
+   "id": "GBP-INR-Skrill",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:30:54.524060Z",
+   "input": {
+    "provider": "Skrill",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 63572.66,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 0.35320799,
+   "expected": {
+    "effective_rate": 127.14532,
+    "markup_low_pct": 0.11681146294907473,
+    "markup_high_pct": 0.2049148089317916,
+    "total_cost_low": 0.5840573147453737,
+    "total_cost_high": 1.024574044658958,
+    "total_pct_low": 0.11681146294907473,
+    "total_pct_high": 0.2049148089317916,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Western Union",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:20:40.650276Z",
+   "input": {
+    "provider": "Western Union",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 1.99,
+    "receivedAmount": 62722.9,
+    "receivedCurrency": "INR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 127.294014,
+    "max": 127.40639457,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 127.39424642,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 127.40639457,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 127.294014,
+      "url": "https://open.er-api.com/v6/latest/GBP"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-05",
+      "rate": 127.35,
+      "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 1.29230784,
+   "expected": {
+    "effective_rate": 125.94706933595711,
+    "markup_low_pct": 1.058136688220776,
+    "markup_high_pct": 1.145409725287457,
+    "total_cost_low": 7.259626521008285,
+    "total_cost_high": 7.694254972904066,
+    "total_pct_low": 1.451925304201657,
+    "total_pct_high": 1.538850994580813,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-HSBC",
+   "origin": "Wise comparison API (public), collected 2026-10-02T18:09:51Z",
+   "input": {
+    "provider": "HSBC",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 0.0,
+    "receivedAmount": 63230.77,
+    "receivedCurrency": "INR",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 127.13541451,
+    "max": 127.48,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 127.13541451,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 127.20834453,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 127.48,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 127.15,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 0.88910532,
+   "expected": {
+    "effective_rate": 126.46154,
+    "markup_low_pct": 0.530044687074187,
+    "markup_high_pct": 0.7989174772513336,
+    "total_cost_low": 2.650223435370935,
+    "total_cost_high": 3.9945873862566676,
+    "total_pct_low": 0.530044687074187,
+    "total_pct_high": 0.7989174772513336,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "GBP-INR-Santander UK",
+   "origin": "Wise comparison API (public), collected 2026-10-02T14:00:41Z",
+   "input": {
+    "provider": "Santander UK",
+    "sentAmount": 500,
+    "sentCurrency": "GBP",
+    "fee": 25.0,
+    "receivedAmount": 58743.3,
+    "receivedCurrency": "INR",
+    "date": "2026-10-02"
+   },
+   "band": {
+    "min": 127.13541451,
+    "max": 127.48,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-01",
+      "rate": 127.13541451,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-02",
+      "rate": 127.20834453,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-01",
+      "rate": 127.48,
+      "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
+     },
+     {
+      "source": "Frankfurter (ECB)",
+      "date": "2026-10-02",
+      "rate": 127.15,
+      "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
+     }
+    ]
+   },
+   "published_markup_pct": 3.07681432,
+   "expected": {
+    "effective_rate": 123.6701052631579,
+    "markup_low_pct": 2.7256836816066987,
+    "markup_high_pct": 2.9886215381566563,
+    "total_cost_low": 37.94699748763182,
+    "total_cost_high": 39.195952306244116,
+    "total_pct_low": 7.589399497526364,
+    "total_pct_high": 7.8391904612488235,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-VND-Wise",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:22:25Z",
+   "input": {
+    "provider": "Wise",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 10.56,
+    "receivedAmount": 12722259.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 25966.232987,
+    "max": 26013.91256169,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 26013.91256169,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 25995.36823204,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 25966.232987,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.0,
+   "expected": {
+    "effective_rate": 25993.50073553449,
+    "markup_low_pct": -0.10501233870981594,
+    "markup_high_pct": 0.07846503714928127,
+    "total_cost_low": 10.046027609418678,
+    "total_cost_high": 10.944039277823443,
+    "total_pct_low": 2.0092055218837355,
+    "total_pct_high": 2.1888078555646886,
+    "classification": "within-band"
+   }
+  },
+  {
+   "id": "USD-VND-Xoom",
+   "origin": "Wise comparison API (public), collected 2026-10-06T05:35:01.946426Z",
+   "input": {
+    "provider": "Xoom",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 2.99,
+    "receivedAmount": 12544489.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 25966.232987,
+    "max": 26013.91256169,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 26013.91256169,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 25995.36823204,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 25966.232987,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 2.88979511,
+   "expected": {
+    "effective_rate": 25239.912677813325,
+    "markup_low_pct": 2.7971724260130792,
+    "markup_high_pct": 2.9753305353095,
+    "total_cost_low": 16.892226674527606,
+    "total_cost_high": 17.777690293541745,
+    "total_pct_low": 3.378445334905521,
+    "total_pct_high": 3.555538058708349,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-VND-Instarem",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:29:06.476915Z",
+   "input": {
+    "provider": "Instarem",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 12904283.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 25966.232987,
+    "max": 26013.91256169,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 26013.91256169,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 25995.36823204,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 25966.232987,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.70191009,
+   "expected": {
+    "effective_rate": 25808.566,
+    "markup_low_pct": 0.6072000781897628,
+    "markup_high_pct": 0.7893720762035944,
+    "total_cost_low": 3.0360003909488142,
+    "total_cost_high": 3.946860381017972,
+    "total_pct_low": 0.6072000781897628,
+    "total_pct_high": 0.7893720762035944,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-VND-Remitly",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:44:38.410906Z",
+   "input": {
+    "provider": "Remitly",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 1.99,
+    "receivedAmount": 12852925.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 25966.232987,
+    "max": 26013.91256169,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 26013.91256169,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 25995.36823204,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 25966.232987,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.70190625,
+   "expected": {
+    "effective_rate": 25808.568101042147,
+    "markup_low_pct": 0.6071919867498193,
+    "markup_high_pct": 0.7893639995940388,
+    "total_cost_low": 5.013876813212775,
+    "total_cost_high": 5.921111654378272,
+    "total_pct_low": 1.002775362642555,
+    "total_pct_high": 1.1842223308756545,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-VND-Western Union",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:09:45.250433Z",
+   "input": {
+    "provider": "Western Union",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.99,
+    "receivedAmount": 12787454.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 25966.232987,
+    "max": 26013.91256169,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 26013.91256169,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 25995.36823204,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 25966.232987,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 1.40568988,
+   "expected": {
+    "effective_rate": 25625.64678062564,
+    "markup_low_pct": 1.3116504290201656,
+    "markup_high_pct": 1.492531275884082,
+    "total_cost_low": 7.535266805853528,
+    "total_cost_high": 8.437880319789157,
+    "total_pct_low": 1.5070533611707055,
+    "total_pct_high": 1.6875760639578314,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-VND-OFX",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:42:22.241619Z",
+   "input": {
+    "provider": "OFX",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 5.0,
+    "receivedAmount": 12251162.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 25966.232987,
+    "max": 26013.91256169,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 26013.91256169,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 25995.36823204,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 25966.232987,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 4.77541231,
+   "expected": {
+    "effective_rate": 24749.82222222222,
+    "markup_low_pct": 4.684586961022703,
+    "markup_high_pct": 4.8592857243987595,
+    "total_cost_low": 28.188705457062376,
+    "total_cost_high": 29.05346433577386,
+    "total_pct_low": 5.637741091412475,
+    "total_pct_high": 5.8106928671547715,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-NPR-Instarem",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:26:06.890665Z",
+   "input": {
+    "provider": "Instarem",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 76387.07,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 154.19468,
+    "max": 154.38190664,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 154.38190664,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 154.34120409,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 154.19468,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.97605237,
+   "expected": {
+    "effective_rate": 152.77414,
+    "markup_low_pct": 0.9212639502218883,
+    "markup_high_pct": 1.0414216762778543,
+    "total_cost_low": 4.606319751109441,
+    "total_cost_high": 5.207108381389271,
+    "total_pct_low": 0.9212639502218883,
+    "total_pct_high": 1.0414216762778543,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-NPR-Remitly",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:44:32.681094Z",
+   "input": {
+    "provider": "Remitly",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 0.0,
+    "receivedAmount": 76792.53,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 154.19468,
+    "max": 154.38190664,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 154.38190664,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 154.34120409,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 154.19468,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.45043585,
+   "expected": {
+    "effective_rate": 153.58506,
+    "markup_low_pct": 0.39535734955317525,
+    "markup_high_pct": 0.5161528687802452,
+    "total_cost_low": 1.9767867477658763,
+    "total_cost_high": 2.5807643439012264,
+    "total_pct_low": 0.39535734955317525,
+    "total_pct_high": 0.5161528687802452,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-NPR-Xoom",
+   "origin": "Wise comparison API (public), collected 2026-10-06T05:23:16.421598Z",
+   "input": {
+    "provider": "Xoom",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 4.99,
+    "receivedAmount": 74123.9,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 154.19468,
+    "max": 154.38190664,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 154.38190664,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 154.34120409,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 154.19468,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 2.94126418,
+   "expected": {
+    "effective_rate": 149.74222742974888,
+    "markup_low_pct": 2.8875526511362817,
+    "markup_high_pct": 3.0053257607902713,
+    "total_cost_low": 19.28367437838971,
+    "total_cost_high": 19.866663048487922,
+    "total_pct_low": 3.8567348756779416,
+    "total_pct_high": 3.973332609697584,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "USD-NPR-Wise",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:22:25Z",
+   "input": {
+    "provider": "Wise",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 13.02,
+    "receivedAmount": 75139.0,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 154.19468,
+    "max": 154.38190664,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 154.38190664,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 154.34120409,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 154.19468,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.0,
+   "expected": {
+    "effective_rate": 154.29586430654237,
+    "markup_low_pct": -0.0656211398099877,
+    "markup_high_pct": 0.0557334310284671,
+    "total_cost_low": 12.700438173353321,
+    "total_cost_high": 13.291410662422429,
+    "total_pct_low": 2.5400876346706642,
+    "total_pct_high": 2.658282132484486,
+    "classification": "within-band"
+   }
+  },
+  {
+   "id": "USD-NPR-Western Union",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:09:21.497308Z",
+   "input": {
+    "provider": "Western Union",
+    "sentAmount": 500,
+    "sentCurrency": "USD",
+    "fee": 1.99,
+    "receivedAmount": 76198.73,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 154.19468,
+    "max": 154.38190664,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 154.38190664,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 154.34120409,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/usd.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 154.19468,
+      "url": "https://open.er-api.com/v6/latest/USD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.82549661,
+   "expected": {
+    "effective_rate": 153.00642557378367,
+    "markup_low_pct": 0.7706195999864205,
+    "markup_high_pct": 0.890960019961275,
+    "total_cost_low": 5.827762669892373,
+    "total_cost_high": 6.427069995409146,
+    "total_pct_low": 1.1655525339784745,
+    "total_pct_high": 1.2854139990818292,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "AUD-VND-Remitly",
+   "origin": "Wise comparison API (public), collected 2026-10-06T07:40:36.371252Z",
+   "input": {
+    "provider": "Remitly",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 1.99,
+    "receivedAmount": 18004666.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.50206825,
+   "expected": {
+    "effective_rate": 18040.5667277883,
+    "markup_low_pct": 0.03671781825008953,
+    "markup_high_pct": 0.4139859409050167,
+    "total_cost_low": 2.3564474979177183,
+    "total_cost_high": 6.121621088826157,
+    "total_pct_low": 0.23564474979177186,
+    "total_pct_high": 0.6121621088826157,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "AUD-VND-Instarem",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:14:37.885822Z",
+   "input": {
+    "provider": "Instarem",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 5.0,
+    "receivedAmount": 18032713.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.04561098,
+   "expected": {
+    "effective_rate": 18123.329648241204,
+    "markup_low_pct": -0.4218738266939805,
+    "markup_high_pct": -0.04287494845383037,
+    "total_cost_low": 0.8023554243948938,
+    "total_cost_high": 4.5733942628843876,
+    "total_pct_low": 0.08023554243948938,
+    "total_pct_high": 0.45733942628843877,
+    "classification": "better-than-mid"
+   }
+  },
+  {
+   "id": "AUD-VND-Xoom",
+   "origin": "Wise comparison API (public), collected 2026-10-06T03:36:19.385244Z",
+   "input": {
+    "provider": "Xoom",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 0.0,
+    "receivedAmount": 18364583.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": -1.28495663,
+   "expected": {
+    "effective_rate": 18364.583,
+    "markup_low_pct": -1.7586653611866376,
+    "markup_high_pct": -1.3746213421548708,
+    "total_cost_low": -17.586653611866375,
+    "total_cost_high": -13.746213421548706,
+    "total_pct_low": -1.7586653611866376,
+    "total_pct_high": -1.3746213421548708,
+    "classification": "better-than-mid"
+   }
+  },
+  {
+   "id": "AUD-VND-OFX",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:13:50.344052Z",
+   "input": {
+    "provider": "OFX",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 15.0,
+    "receivedAmount": 17028788.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": 4.65204781,
+   "expected": {
+    "effective_rate": 17288.10964467005,
+    "markup_low_pct": 4.206103451437862,
+    "markup_high_pct": 4.5676360334409996,
+    "total_cost_low": 56.430118996662934,
+    "total_cost_high": 59.99121492939385,
+    "total_pct_low": 5.643011899666294,
+    "total_pct_high": 5.999121492939385,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "AUD-VND-Wise",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:22:25Z",
+   "input": {
+    "provider": "Wise",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 7.68,
+    "receivedAmount": 17988678.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": 0.0,
+   "expected": {
+    "effective_rate": 18127.900274105126,
+    "markup_low_pct": -0.4471997917745901,
+    "markup_high_pct": -0.068105331645852,
+    "total_cost_low": 3.242347026262387,
+    "total_cost_high": 7.004177173011882,
+    "total_pct_low": 0.3242347026262387,
+    "total_pct_high": 0.7004177173011882,
+    "classification": "better-than-mid"
+   }
+  },
+  {
+   "id": "AUD-VND-Western Union",
+   "origin": "Wise comparison API (public), collected 2026-10-06T06:26:45.988905Z",
+   "input": {
+    "provider": "Western Union",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 0.99,
+    "receivedAmount": 17861018.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": 1.39470614,
+   "expected": {
+    "effective_rate": 17878.717930751445,
+    "markup_low_pct": 0.9335265057538527,
+    "markup_high_pct": 1.3074100123524561,
+    "total_cost_low": 10.316023145131563,
+    "total_cost_high": 14.051156764402272,
+    "total_pct_low": 1.0316023145131563,
+    "total_pct_high": 1.4051156764402273,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "AUD-VND-Commonwealth Bank of Australia",
+   "origin": "Wise comparison API (public), collected 2026-10-06T08:10:07.447487Z",
+   "input": {
+    "provider": "Commonwealth Bank of Australia",
+    "sentAmount": 1000,
+    "sentCurrency": "AUD",
+    "fee": 0.0,
+    "receivedAmount": 17013489.0,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 18047.19326341,
+    "max": 18115.56261011,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 18047.19326341,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 18115.56261011,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 18078.038035,
+      "url": "https://open.er-api.com/v6/latest/AUD"
+     }
+    ]
+   },
+   "published_markup_pct": 6.16664181,
+   "expected": {
+    "effective_rate": 17013.489,
+    "markup_low_pct": 5.727784084330699,
+    "markup_high_pct": 6.08357374170069,
+    "total_cost_low": 57.27784084330699,
+    "total_cost_high": 60.8357374170069,
+    "total_pct_low": 5.727784084330699,
+    "total_pct_high": 6.08357374170069,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-VND-Hanpass",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "Hanpass",
+    "sentAmount": 1005000,
+    "sentCurrency": "KRW",
+    "fee": 5000,
+    "receivedAmount": 19294193,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 19.317996,
+    "max": 19.36392153,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 19.31852977,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 19.36392153,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 19.317996,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 19.294193,
+    "markup_low_pct": 0.12321671461159843,
+    "markup_high_pct": 0.36009508658652367,
+    "total_cost_low": 6232.167146115984,
+    "total_cost_high": 8600.950865865238,
+    "total_pct_low": 0.620116133941889,
+    "total_pct_high": 0.8558160065537549,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-VND-GME Remit",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "GME Remit",
+    "sentAmount": 1000000,
+    "sentCurrency": "KRW",
+    "fee": 4999,
+    "receivedAmount": 19047941,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 19.317996,
+    "max": 19.36392153,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 19.31852977,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 19.36392153,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 19.317996,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 19.14364005664316,
+    "markup_low_pct": 0.9025570942081199,
+    "markup_high_pct": 1.1375870998834854,
+    "total_cost_low": 13979.452112941735,
+    "total_cost_high": 16318.00301971168,
+    "total_pct_low": 1.3979452112941735,
+    "total_pct_high": 1.631800301971168,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-VND-E9pay",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "E9pay",
+    "sentAmount": 1005000,
+    "sentCurrency": "KRW",
+    "fee": 5000,
+    "receivedAmount": 19101734,
+    "receivedCurrency": "VND",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 19.317996,
+    "max": 19.36392153,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 19.31852977,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 19.36392153,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 19.317996,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 19.101734,
+    "markup_low_pct": 1.119484650478238,
+    "markup_high_pct": 1.354000167754243,
+    "total_cost_low": 16194.84650478238,
+    "total_cost_high": 18540.00167754243,
+    "total_pct_low": 1.6114275129136697,
+    "total_pct_high": 1.84477628632263,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-NPR-Hanpass",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "Hanpass",
+    "sentAmount": 1002500,
+    "sentCurrency": "KRW",
+    "fee": 2500,
+    "receivedAmount": 114440,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 0.11464755,
+    "max": 0.1149686,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 0.11464755,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 0.1149686,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 0.114863,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 0.11444,
+    "markup_low_pct": 0.18103308792904863,
+    "markup_high_pct": 0.45977771321908767,
+    "total_cost_low": 4310.330879290486,
+    "total_cost_high": 7097.777132190877,
+    "total_pct_low": 0.4299581924479288,
+    "total_pct_high": 0.7080076939841273,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-NPR-GME Remit",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "GME Remit",
+    "sentAmount": 1000000,
+    "sentCurrency": "KRW",
+    "fee": 0,
+    "receivedAmount": 112854,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 0.11464755,
+    "max": 0.1149686,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 0.11464755,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 0.1149686,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 0.114863,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 0.112854,
+    "markup_low_pct": 1.5644032515304513,
+    "markup_high_pct": 1.8392848134186204,
+    "total_cost_low": 15644.032515304514,
+    "total_cost_high": 18392.848134186203,
+    "total_pct_low": 1.5644032515304513,
+    "total_pct_high": 1.8392848134186204,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-NPR-E9pay",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "E9pay",
+    "sentAmount": 1005000,
+    "sentCurrency": "KRW",
+    "fee": 5000,
+    "receivedAmount": 113336,
+    "receivedCurrency": "NPR",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 0.11464755,
+    "max": 0.1149686,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 0.11464755,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 0.1149686,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 0.114863,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 0.113336,
+    "markup_low_pct": 1.1439843241307817,
+    "markup_high_pct": 1.4200399065483966,
+    "total_cost_low": 16439.843241307815,
+    "total_cost_high": 19200.399065483965,
+    "total_pct_low": 1.6358052976425688,
+    "total_pct_high": 1.9104874692023848,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-UZS-Hanpass",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "Hanpass",
+    "sentAmount": 1002500,
+    "sentCurrency": "KRW",
+    "fee": 2500,
+    "receivedAmount": 8698125,
+    "receivedCurrency": "UZS",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 8.74592371,
+    "max": 8.779998,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 8.74592371,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 8.7623243,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 8.779998,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 8.698125,
+    "markup_low_pct": 0.5465255767706668,
+    "markup_high_pct": 0.9324945176525097,
+    "total_cost_low": 7965.255767706668,
+    "total_cost_high": 11824.945176525098,
+    "total_pct_low": 0.7945392286989195,
+    "total_pct_high": 1.179545653518713,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-UZS-GME Remit",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "GME Remit",
+    "sentAmount": 1000000,
+    "sentCurrency": "KRW",
+    "fee": 3000,
+    "receivedAmount": 8589533,
+    "receivedCurrency": "UZS",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 8.74592371,
+    "max": 8.779998,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 8.74592371,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 8.7623243,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 8.779998,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 8.615379137412237,
+    "markup_low_pct": 1.492633333154964,
+    "markup_high_pct": 1.8749305249017516,
+    "total_cost_low": 17881.55433155499,
+    "total_cost_high": 21693.057333270463,
+    "total_pct_low": 1.7881554331554992,
+    "total_pct_high": 2.1693057333270462,
+    "classification": "markup"
+   }
+  },
+  {
+   "id": "KRW-UZS-E9pay",
+   "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+   "input": {
+    "provider": "E9pay",
+    "sentAmount": 1002000,
+    "sentCurrency": "KRW",
+    "fee": 2000,
+    "receivedAmount": 8542650,
+    "receivedCurrency": "UZS",
+    "date": "2026-10-06"
+   },
+   "band": {
+    "min": 8.74592371,
+    "max": 8.779998,
+    "observations": [
+     {
+      "source": "currency-api",
+      "date": "2026-10-05",
+      "rate": 8.74592371,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "currency-api",
+      "date": "2026-10-06",
+      "rate": 8.7623243,
+      "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+     },
+     {
+      "source": "ExchangeRate-API",
+      "date": "2026-10-06",
+      "rate": 8.779998,
+      "url": "https://open.er-api.com/v6/latest/KRW"
+     }
+    ]
+   },
+   "published_markup_pct": null,
+   "expected": {
+    "effective_rate": 8.54265,
+    "markup_low_pct": 2.3242108751483723,
+    "markup_high_pct": 2.703280798013849,
+    "total_cost_low": 25242.108751483724,
+    "total_cost_high": 29032.807980138492,
+    "total_pct_low": 2.519172530088196,
+    "total_pct_high": 2.897485826361127,
+    "classification": "markup"
+   }
+  }
+ ]
+}

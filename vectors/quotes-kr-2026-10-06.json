@@ -1,0 +1,124 @@
+{
+ "source": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator",
+ "collected_utc": "2026-10-06T08:26:00Z",
+ "note": "sent = total the sender pays (converted + fee). Fee mode inferred from the arithmetic shown.",
+ "corridors": [
+  {
+   "from": "KRW",
+   "to": "VND",
+   "quotes": [
+    {
+     "provider": "Hanpass",
+     "page": "https://www.hanpass.com/en",
+     "sent": 1005000,
+     "fee": 5000,
+     "received": 19294193,
+     "rate_display": "0.05 KRW = 1 VND",
+     "fee_mode": "on top (received = 1,000,000 × rate)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    },
+    {
+     "provider": "GME Remit",
+     "page": "https://www.gmeremit.com/",
+     "sent": 1000000,
+     "fee": 4999,
+     "received": 19047941,
+     "rate_display": "1 VND = ₩0.05 · 19.143639900",
+     "fee_mode": "deducted (received = 995,001 × 19.1436399)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    },
+    {
+     "provider": "E9pay",
+     "page": "https://www.e9pay.co.kr/",
+     "sent": 1005000,
+     "fee": 5000,
+     "received": 19101734,
+     "rate_display": "1,000 KRW = 19,101 VND",
+     "fee_mode": "on top (received = 1,000,000 × rate)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    }
+   ]
+  },
+  {
+   "from": "KRW",
+   "to": "NPR",
+   "quotes": [
+    {
+     "provider": "Hanpass",
+     "page": "https://www.hanpass.com/en",
+     "sent": 1002500,
+     "fee": 2500,
+     "received": 114440,
+     "rate_display": "8.73 KRW = 1 NPR",
+     "fee_mode": "on top (received = 1,000,000 × rate)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    },
+    {
+     "provider": "GME Remit",
+     "page": "https://www.gmeremit.com/",
+     "sent": 1000000,
+     "fee": 0,
+     "received": 112854,
+     "rate_display": "1 NPR = ₩8.86 · 0.112853610",
+     "fee_mode": "no fee",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    },
+    {
+     "provider": "E9pay",
+     "page": "https://www.e9pay.co.kr/",
+     "sent": 1005000,
+     "fee": 5000,
+     "received": 113336,
+     "rate_display": "1,000 KRW = 113.4 NPR",
+     "fee_mode": "on top (received = 1,000,000 × rate)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    }
+   ]
+  },
+  {
+   "from": "KRW",
+   "to": "UZS",
+   "quotes": [
+    {
+     "provider": "Hanpass",
+     "page": "https://www.hanpass.com/en",
+     "sent": 1002500,
+     "fee": 2500,
+     "received": 8698125,
+     "rate_display": "0.11 KRW = 1 UZS",
+     "fee_mode": "on top (received = 1,000,000 × rate)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    },
+    {
+     "provider": "GME Remit",
+     "page": "https://www.gmeremit.com/",
+     "sent": 1000000,
+     "fee": 3000,
+     "received": 8589533,
+     "rate_display": "1 UZS = ₩0.12 · 8.615380103",
+     "fee_mode": "deducted (received = 997,000 × 8.6153801)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    },
+    {
+     "provider": "E9pay",
+     "page": "https://www.e9pay.co.kr/",
+     "sent": 1002000,
+     "fee": 2000,
+     "received": 8542650,
+     "rate_display": "1,000 KRW = 8,542.7 UZS",
+     "fee_mode": "on top (received = 1,000,000 × rate)",
+     "published_markup_pct": null,
+     "date_collected": "2026-10-06T08:26:00Z"
+    }
+   ]
+  }
+ ]
+}

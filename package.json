@@ -1,0 +1,9 @@
+{
+  "name": "remit-xray",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Audit a money transfer you already made: the hidden exchange-rate markup behind 'zero fee'.",
+  "scripts": { "test": "node --test tests/*.test.mjs" },
+  "license": "MIT"
+}

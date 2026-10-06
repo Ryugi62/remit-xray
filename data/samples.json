@@ -1,0 +1,54 @@
+[
+ {
+  "id": "KRW-NPR-GME Remit",
+  "input": {
+   "provider": "GME Remit",
+   "sentAmount": 1000000,
+   "sentCurrency": "KRW",
+   "fee": 0,
+   "receivedAmount": 112854,
+   "receivedCurrency": "NPR",
+   "date": "2026-10-06"
+  },
+  "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z"
+ },
+ {
+  "id": "KRW-VND-E9pay",
+  "input": {
+   "provider": "E9pay",
+   "sentAmount": 1005000,
+   "sentCurrency": "KRW",
+   "fee": 5000,
+   "receivedAmount": 19101734,
+   "receivedCurrency": "VND",
+   "date": "2026-10-06"
+  },
+  "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z"
+ },
+ {
+  "id": "AUD-VND-Commonwealth Bank of Australia",
+  "input": {
+   "provider": "Commonwealth Bank of Australia",
+   "sentAmount": 1000,
+   "sentCurrency": "AUD",
+   "fee": 0.0,
+   "receivedAmount": 17013489.0,
+   "receivedCurrency": "VND",
+   "date": "2026-10-06"
+  },
+  "origin": "Wise comparison API (public), collected 2026-10-06T08:10:07.447487Z"
+ },
+ {
+  "id": "USD-PHP-Western Union",
+  "input": {
+   "provider": "Western Union",
+   "sentAmount": 500,
+   "sentCurrency": "USD",
+   "fee": 1.99,
+   "receivedAmount": 30336.03,
+   "receivedCurrency": "PHP",
+   "date": "2026-10-06"
+  },
+  "origin": "Wise comparison API (public), collected 2026-10-06T07:09:27.086067Z"
+ }
+]
