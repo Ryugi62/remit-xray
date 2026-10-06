@@ -49,7 +49,7 @@ From the 61 real quotes in [`vectors/`](vectors/) (`python3 scripts/findings.py`
 Receipts and photos are never uploaded (OCR is tesseract.js in the browser, Korean always loaded). Rate services receive only the currency pair and date. Wise's comparison receives the pair and amount only when you tap "Compare with today's published quotes". A share link contains the receipt's amounts — only if you choose to share. Saved transfers stay in this browser.
 
 ## Limits (said plainly)
-- No user study: built solo in a week; no migrant worker has tested it yet, and it has not been distributed. The Korean calculator quotes were read by hand with no screenshots kept (transcription log in `vectors/evidence/`). The parser fixtures are SMS-*style* texts written for the tests, not collected messages.
+- No user study: built solo during the hackathon; no migrant worker has tested it yet, and it has not been distributed. The Korean calculator quotes were read by hand with no screenshots kept (transcription log in `vectors/evidence/`). The parser fixtures are SMS-*style* texts written for the tests, not collected messages.
 - For past KRW→VND receipts the band rests on currency-api alone (ExchangeRate-API only answers for today; the ECB has no VND) — the app shows "1 rate source — lower confidence".
 - Rates are daily, not intraday (hence ranges and the tolerance). Korean app fees are as shown for ₩1,000,000 and may differ at other amounts.
 - Information, not financial advice; it names the cheapest *listed* option for one transfer, not a "best" provider. A better-than-mid-market quote (usually a first-transfer offer) is shown on its own line, not counted as "cheapest".
