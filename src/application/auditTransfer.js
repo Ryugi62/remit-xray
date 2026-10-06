@@ -8,7 +8,7 @@
 
 import { createTransferReceipt, corridorOf, shiftDate } from '../domain/receipt.js';
 import { createReferenceBand } from '../domain/band.js';
-import { auditReceipt, hiddenShare } from '../domain/audit.js';
+import { auditReceipt, hiddenShare, plausibility } from '../domain/audit.js';
 
 const MAX_STALE_DAYS = 4; // a source may answer with the last business day's fixing
 
@@ -60,6 +60,7 @@ export async function auditTransfer(input, { rateSources, today }) {
     if (!answered.has(f.source) && !missing.some((m) => m.source === f.source)) missing.push({ source: f.source, reason: f.reason });
   }
   const audit = auditReceipt(receipt, band);
+  if (plausibility(audit) !== 'ok') return { ok: false, error: 'IMPLAUSIBLE', receipt, band, audit, missing };
   return {
     ok: true,
     receipt,

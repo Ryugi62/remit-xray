@@ -17,6 +17,8 @@ export function wiseQuotes(fetchFn = globalThis.fetch.bind(globalThis)) {
           rate: q.rate,
           received: q.receivedAmount,
           markupPct: q.markup,
+          // Wise reports each quote's markup over its own mid-market rate: rate = mid × (1 − markup%)
+          mid: Number.isFinite(q.markup) && q.markup < 100 ? q.rate / (1 - q.markup / 100) : null,
           collectedAt: q.dateCollected,
         })));
       quotes.sort((a, b) => b.received - a.received);

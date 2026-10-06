@@ -1,4 +1,4 @@
-# Remit X-ray — SPEC v1.0
+# Remit X-ray — SPEC v1.1
 
 United Hackathons V1 · Track: **Economic** ("Design tools that promote financial inclusion, support small businesses, or help people build economic stability and opportunity.")
 Code written from 2026-10-06 17:20 KST (inside the hackathon window, Oct 5–11 PT). Plan draft v0.1 was written before the window; this file supersedes it.
@@ -18,9 +18,9 @@ Not a quote-comparison site (those help *before* you send). Remit X-ray **audits
 
 ## 2. Constraints
 - Rule: "Projects must address a real-world economic or financial problem using technology."; "All work must be original and created during the hackathon period."
-- Rate sources (no key, CORS open): fawazahmed0 currency-api on jsDelivr (daily, ~all currencies; fallback mirror currency-api.pages.dev) · Frankfurter (ECB reference rates, ~30 majors). Market quotes for "next time": Wise comparison API (public; Wise is itself a provider — labelled).
+- Rate sources (no key, CORS open): fawazahmed0 currency-api on jsDelivr (daily, ~all currencies; fallback mirror currency-api.pages.dev) · Frankfurter (ECB reference rates, ~30 majors) · Nepal Rastra Bank forex API (X↔NPR, mid of buy/sell) · Central Bank of Uzbekistan JSON archive (X↔UZS) · ExchangeRate-API open access (today only). Market quotes for "next time": Wise comparison API (public; Wise is itself a provider — labelled; fetched only when the user asks) · Korean provider calculator quotes recorded 2026-10-06 (static).
 - Context numbers: World Bank API `SI.RMT.COST.OB.ZS` / `SI.RMT.COST.IB.ZS` (average cost of sending $200, incl. FX margin) and `BX.TRF.PWKR.DT.GD.ZS` (remittances % of GDP). SDG 10.c target: 3%.
-- Privacy: receipts never leave the device. OCR runs in the browser (tesseract.js, loaded only when the user taps "photo").
+- Privacy: receipts never leave the device; rate services receive only the currency pair and date; Wise receives pair + amount only after the user taps "compare". OCR runs in the browser (tesseract.js, loaded only when the user taps "photo"; Korean always loaded).
 
 ## 3. Ubiquitous language
 | Term | Meaning | Code |
@@ -44,7 +44,13 @@ Not a quote-comparison site (those help *before* you send). Remit X-ray **audits
 - AC-6: Pasted/OCR fields start `confirmed: false`; audit is blocked until every one is confirmed.
 - AC-7: Layer rule: `src/domain` and `src/application` import nothing from `src/adapters` or `src/ui`.
 - AC-8: Receipt validation: amounts > 0, fee ≥ 0 and < sent, ISO currency codes, different currencies, date not in the future.
-- AC-9: Text parser reads amounts in `1,000,000` / `1.000.000` / `500.00` / `1.234,56` forms, currency codes and symbols (₩ $ € £ ₫ ₱), labels in en/ko/vi, and dates `YYYY-MM-DD`, `YYYY.MM.DD`, `MM/DD/YYYY`, `Oct 5, 2026`, `2026년 10월 5일`.
+- AC-9: Text parser reads amounts in `1,000,000` / `1.000.000` / `500.00` / `1.234,56` forms, currency codes and symbols (₩ $ € £ ₫ ₱), labels in en/ko/vi, and dates `YYYY-MM-DD`, `YYYY.MM.DD`, `DD.MM.YYYY`, `MM/DD/YYYY`, `Oct 5, 2026`, `2026년 10월 5일`. A separator must be followed by exactly three digits (no merging of "14:32 1,000"); one dot + three digits is a thousands separator except for 3-decimal currencies; each amount belongs to the nearest label before it on its line; an ISO code beats a symbol ("$8,450.10 MXN" → MXN).
+- AC-10 (review r1): measured tolerance 0.30 pp — every one of the 52 markups Wise publishes for its own comparison lies within our range ± 0.30 pp, and zero-markup quotes are "within band", never "markup" or "promotion".
+- AC-11: a margin below −5 % or above 20 % is refused as a probable typo (`IMPLAUSIBLE`).
+- AC-12: published quotes and the user's transfer are ranked on one scale — total cost (fee + margin) as % of what is paid.
+- AC-13: a parsed fee without a total asks "was the fee added on top?"; yes → paid = amount + fee.
+- AC-6b: defaults the user did not type (today's date on a pasted receipt) stay unconfirmed.
+- AC-14: a copyable, factual English message to the provider (numbers, sources, one question; no accusation) and a plain-text export of saved transfers.
 
 ## 5. Architecture
 `src/domain` (receipt, band, audit math, parser, impact) ← `src/application` (audit use case with `RateSource` port, draft confirmation, ledger) ← `src/adapters` (currency-api, Frankfurter, Wise comparison, tesseract OCR, localStorage) ← `src/ui` (static page, GitHub Pages). No build step, no backend.
@@ -53,7 +59,7 @@ Not a quote-comparison site (those help *before* you send). Remit X-ray **audits
 1. 390 px: no horizontal scroll; 1280 px holds. 2. One question per step (send → arrive → result). 3. Title ≥ 22 px bold, body 15–16 px, caption 13 px. 4. Section gap ≥ 24 px, card radius ≥ 16 px, ≤ 1 shadow level. 5. One primary CTA, bottom-fixed, ≥ 52 px. 6. Result card starts with the big number (≥ 28 px), verdict line under it. 7. Sources & formula inside `<details>` (closed). 8. Short friendly copy, jargon explained in one line. 9. White + one blue (#3182F6) + ok/warn/no, contrast ≥ 4.5:1, dark mode. 10. System fonts; the only external requests are the rate APIs and (on demand) OCR.
 
 ## 7. Physical verification
-Live rates for 3 corridors on 3 dates; real published quotes (Wise comparison, Korean provider calculators) recomputed; screenshots 390/1280 in en and vi; OCR on a rendered receipt image.
+Samples replay the rates recorded with their quote (same answer any day, offline). Live rates for 3 corridors on 3 dates; real published quotes (Wise comparison, Korean provider calculators) recomputed; screenshots 390/1280 in en and vi; OCR on a rendered receipt image.
 
 ## 8. Non-goals
 Sending money, recommending a provider as "best", storing anything server-side, intraday rate reconstruction.

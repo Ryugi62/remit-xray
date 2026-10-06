@@ -1,0 +1,122 @@
+{
+ "source": "Public website calculators (no login), 2026-10-06 17:26 KST, 1,000,000 KRW converted",
+ "quotes": [
+  {
+   "from": "KRW",
+   "to": "VND",
+   "provider": "Hanpass",
+   "sent": 1005000,
+   "fee": 5000,
+   "received": 19294193,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.00620116133941889,
+    "high": 0.00855816006553755
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "VND",
+   "provider": "GME Remit",
+   "sent": 1000000,
+   "fee": 4999,
+   "received": 19047941,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.013979452112941736,
+    "high": 0.01631800301971168
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "VND",
+   "provider": "E9pay",
+   "sent": 1005000,
+   "fee": 5000,
+   "received": 19101734,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.0161142751291367,
+    "high": 0.0184477628632263
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "NPR",
+   "provider": "Hanpass",
+   "sent": 1002500,
+   "fee": 2500,
+   "received": 114440,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.003886444447345859,
+    "high": 0.007080076939841274
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "NPR",
+   "provider": "GME Remit",
+   "sent": 1000000,
+   "fee": 0,
+   "received": 112854,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.015235602094240838,
+    "high": 0.018392848134186204
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "NPR",
+   "provider": "E9pay",
+   "sent": 1005000,
+   "fee": 5000,
+   "received": 113336,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.015949918817778474,
+    "high": 0.01910487469202385
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "UZS",
+   "provider": "Hanpass",
+   "sent": 1002500,
+   "fee": 2500,
+   "received": 8698125,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.0072730074128180685,
+    "high": 0.01179545653518713
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "UZS",
+   "provider": "GME Remit",
+   "sent": 1000000,
+   "fee": 3000,
+   "received": 8589533,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.017215903890160183,
+    "high": 0.02169305733327046
+   }
+  },
+  {
+   "from": "KRW",
+   "to": "UZS",
+   "provider": "E9pay",
+   "sent": 1002000,
+   "fee": 2000,
+   "received": 8542650,
+   "date": "2026-10-06",
+   "totalPct": {
+    "low": 0.024531029474232312,
+    "high": 0.02897485826361127
+   }
+  }
+ ]
+}

@@ -33,3 +33,23 @@ for (const v of vectors) {
     assert.equal(a.classification, e.classification);
   });
 }
+
+// Calibration against an outside measurement: Wise publishes, for every quote it collects, the markup
+// over its own mid-market rate. Our band (daily rates, several sources) must contain that published
+// markup within the measured tolerance — and the zero-markup quotes must never be called a markup or a promotion.
+import { MEASUREMENT_TOLERANCE } from '../src/domain/audit.js';
+
+const published = vectors.filter((v) => typeof v.published_markup_pct === 'number');
+
+test('calibration: every published markup lies inside our range ± tolerance', () => {
+  assert.ok(published.length >= 40, `only ${published.length} published markups`);
+  const tol = MEASUREMENT_TOLERANCE * 100;
+  const misses = published.filter((v) => v.published_markup_pct < v.expected.markup_low_pct - tol || v.published_markup_pct > v.expected.markup_high_pct + tol);
+  assert.deepEqual(misses.map((v) => v.id), []);
+});
+
+test('calibration: zero-markup quotes (Wise) are "within-band" in every corridor', () => {
+  const zero = published.filter((v) => v.published_markup_pct === 0);
+  assert.ok(zero.length >= 5);
+  for (const v of zero) assert.equal(v.expected.classification, 'within-band', v.id);
+});

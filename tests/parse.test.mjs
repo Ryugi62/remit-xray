@@ -9,7 +9,10 @@ test('AC-9 amounts in four number styles', () => {
   assert.equal(parseAmount('1.234,56'), 1234.56);
   assert.equal(parseAmount('1,234.56'), 1234.56);
   assert.equal(parseAmount('18.600', 'VND'), 18_600);
-  assert.equal(parseAmount('18.600', 'USD'), 18.6);
+  // review round 1: one dot + exactly three digits is a thousands separator ("1.000 EUR"), except 3-decimal currencies
+  assert.equal(parseAmount('18.600', 'USD'), 18_600);
+  assert.equal(parseAmount('18.60', 'USD'), 18.6);
+  assert.equal(parseAmount('1.250', 'KWD'), 1.25);
   assert.equal(parseAmount('1 000 000'), 1_000_000);
   assert.equal(parseAmount('abc'), null);
 });
@@ -79,4 +82,42 @@ test('Unlabelled text: first amount is sent, first other-currency amount is rece
   assert.equal(fields.sentAmount.value, 500);
   assert.equal(fields.receivedAmount.value, 30336.03);
   assert.equal(fields.sentAmount.confidence, 'low');
+});
+
+test('review: numbers separated by spaces are not merged (time + amount, date + amount)', () => {
+  let { fields } = parseReceiptText('10/05 14:32 1,000,000원');
+  assert.equal(fields.sentAmount.value, 1_000_000);
+  assert.equal(fields.sentCurrency.value, 'KRW');
+  ({ fields } = parseReceiptText('Sent on Oct 5, 2026 1,000 USD'));
+  assert.equal(fields.sentAmount.value, 1000);
+  assert.equal(fields.date.value, '2026-10-05');
+});
+
+test('review: one-line SMS with three labels assigns each amount to the label before it', () => {
+  const { fields } = parseReceiptText('[GME] 2026.10.05 송금액 1,000,000원 수수료 4,999원 수취금액 19,047,941VND');
+  assert.equal(fields.sentAmount.value, 1_000_000);
+  assert.equal(fields.fee.value, 4999);
+  assert.equal(fields.receivedAmount.value, 19_047_941);
+  assert.equal(fields.receivedCurrency.value, 'VND');
+  assert.equal(fields.date.value, '2026-10-05');
+});
+
+test('review: "Total received" is the received amount; an explicit code beats a symbol; 1.000 EUR is a thousand', () => {
+  let { fields } = parseReceiptText('You sent 1,000,000 KRW\nTotal received 26,000,000 VND');
+  assert.equal(fields.receivedAmount.value, 26_000_000);
+  assert.equal(fields.sentAmount.value, 1_000_000);
+  ({ fields } = parseReceiptText('Amount sent: 500 USD\nRecipient gets: $8,450.10 MXN'));
+  assert.equal(fields.receivedCurrency.value, 'MXN');
+  assert.equal(fields.receivedAmount.value, 8450.1);
+  ({ fields } = parseReceiptText('Amount sent: 1.000 EUR\nRecipient gets: 1,080 USD'));
+  assert.equal(fields.sentAmount.value, 1000);
+});
+
+test('review: day.month.year dates', () => {
+  assert.equal(parseReceiptText('05.10.2026\n500 USD\n30,000 PHP').fields.date.value, '2026-10-05');
+});
+
+test('review: a labelled fee without a total raises CHECK_FEE_INCLUDED (fee may be on top)', () => {
+  const { hints } = parseReceiptText('Hanpass\n2026-10-05\nSend amount 1,000,000 KRW\nFee 5,000 KRW\nRecipient gets 19,294,193 VND');
+  assert.ok(hints.includes('CHECK_FEE_INCLUDED'));
 });

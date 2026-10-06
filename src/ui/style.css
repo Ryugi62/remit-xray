@@ -41,9 +41,13 @@ p { margin: 0 0 8px; }
 .field.unconfirmed input, .field.unconfirmed select { background: var(--warn-soft); border-color: var(--warn); }
 .machine { margin-top: 6px; font-size: 13px; color: var(--warn); font-weight: 600; }
 .nw { white-space: nowrap; }
-.banner { background: var(--warn-soft); color: var(--text); border-radius: 12px; padding: 12px 14px; margin-top: 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; font-size: 14px; }
+.banner { flex-wrap: wrap; background: var(--warn-soft); color: var(--text); border-radius: 12px; padding: 12px 14px; margin-top: 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; font-size: 14px; }
 .banner p { margin: 0; }
 .banner .btn { flex-shrink: 0; }
+.banner-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.warn-ink { color: var(--no); }
+.quotes tr.you td { font-weight: 700; color: var(--blue-ink); }
+#ask-text { min-height: 220px; font-size: 14px; margin-top: 8px; width: 100%; padding: 12px; }
 .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
 textarea { min-height: 180px; resize: vertical; }
 .btn { appearance: none; border: 0; border-radius: 14px; font: inherit; font-weight: 700; cursor: pointer; min-height: 52px; padding: 0 18px; font-size: 17px; }

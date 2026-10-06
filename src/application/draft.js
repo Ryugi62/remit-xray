@@ -37,6 +37,21 @@ export function confirmFields(draft, names) {
   return names.filter((n) => n in draft.fields).reduce((d, name) => confirmField(d, name), draft);
 }
 
+/** A default the user did not type (e.g. today's date for a pasted receipt without one): shown, but unconfirmed. */
+export function suggestField(draft, name, value) {
+  if (!FIELDS.includes(name)) throw new Error(`unknown field ${name}`);
+  if (draft.fields[name] || value === undefined || value === null || value === '') return draft;
+  return Object.freeze({ fields: Object.freeze({ ...draft.fields, [name]: Object.freeze({ value, origin: 'default', confirmed: false }) }) });
+}
+
+/** The receipt shows the amount converted and a fee charged on top: what left the account is amount + fee. */
+export function addFeeOnTop(draft) {
+  const sent = Number(draft.fields.sentAmount && draft.fields.sentAmount.value);
+  const fee = Number(draft.fields.fee && draft.fields.fee.value);
+  if (!(sent > 0) || !(fee > 0)) return draft;
+  return confirmField(draft, 'sentAmount', Math.round((sent + fee) * 100) / 100);
+}
+
 export function confirmAll(draft) {
   return Object.keys(draft.fields).reduce((d, name) => confirmField(d, name), draft);
 }

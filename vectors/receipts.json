@@ -40,7 +40,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -88,13 +88,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 62.799,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=PHP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 62.597,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=PHP"
@@ -148,7 +148,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -202,7 +202,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -256,7 +256,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -310,7 +310,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -364,7 +364,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -418,7 +418,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 62.673,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=PHP"
@@ -472,7 +472,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 18.1498,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
@@ -526,7 +526,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 18.1498,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
@@ -574,13 +574,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 18.1669,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 18.335,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
@@ -634,7 +634,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 18.1498,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
@@ -682,13 +682,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 18.1669,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 18.335,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
@@ -742,7 +742,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 18.1498,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
@@ -758,7 +758,7 @@
     "total_cost_high": 14.665639859420034,
     "total_pct_low": 2.110834622303424,
     "total_pct_high": 2.933127971884007,
-    "classification": "markup"
+    "classification": "within-band"
    }
   },
   {
@@ -796,7 +796,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 18.1498,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
@@ -844,13 +844,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 18.1669,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 18.335,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
@@ -904,7 +904,7 @@
       "url": "https://open.er-api.com/v6/latest/USD"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 18.1498,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=USD&symbols=MXN"
@@ -958,7 +958,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1012,7 +1012,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1066,7 +1066,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1120,7 +1120,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1174,7 +1174,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1222,13 +1222,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 127.48,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 127.15,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
@@ -1282,7 +1282,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1336,7 +1336,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1384,13 +1384,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 127.48,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 127.15,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
@@ -1444,7 +1444,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1498,7 +1498,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1552,7 +1552,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1568,7 +1568,7 @@
     "total_cost_high": 10.51114655210041,
     "total_pct_low": 2.0158009943814013,
     "total_pct_high": 2.102229310420082,
-    "classification": "markup"
+    "classification": "within-band"
    }
   },
   {
@@ -1606,7 +1606,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1622,7 +1622,7 @@
     "total_cost_high": 2.217685273597174,
     "total_pct_low": 0.35564437460507764,
     "total_pct_high": 0.4435370547194349,
-    "classification": "better-than-mid"
+    "classification": "within-band"
    }
   },
   {
@@ -1660,7 +1660,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1676,7 +1676,7 @@
     "total_cost_high": 1.024574044658958,
     "total_pct_low": 0.11681146294907473,
     "total_pct_high": 0.2049148089317916,
-    "classification": "markup"
+    "classification": "within-band"
    }
   },
   {
@@ -1714,7 +1714,7 @@
       "url": "https://open.er-api.com/v6/latest/GBP"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-05",
       "rate": 127.35,
       "url": "https://api.frankfurter.dev/v1/2026-10-05?base=GBP&symbols=INR"
@@ -1762,13 +1762,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 127.48,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 127.15,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
@@ -1816,13 +1816,13 @@
       "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/gbp.min.json"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-01",
       "rate": 127.48,
       "url": "https://api.frankfurter.dev/v1/2026-10-01?base=GBP&symbols=INR"
      },
      {
-      "source": "Frankfurter (ECB)",
+      "source": "ECB (Frankfurter)",
       "date": "2026-10-02",
       "rate": 127.15,
       "url": "https://api.frankfurter.dev/v1/2026-10-02?base=GBP&symbols=INR"
@@ -2142,7 +2142,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 154.19468,
+    "min": 154.08,
     "max": 154.38190664,
     "observations": [
      {
@@ -2162,17 +2162,29 @@
       "date": "2026-10-06",
       "rate": 154.19468,
       "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 154.11,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 154.08,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": 0.97605237,
    "expected": {
     "effective_rate": 152.77414,
-    "markup_low_pct": 0.9212639502218883,
+    "markup_low_pct": 0.8475207684319834,
     "markup_high_pct": 1.0414216762778543,
-    "total_cost_low": 4.606319751109441,
+    "total_cost_low": 4.237603842159917,
     "total_cost_high": 5.207108381389271,
-    "total_pct_low": 0.9212639502218883,
+    "total_pct_low": 0.8475207684319834,
     "total_pct_high": 1.0414216762778543,
     "classification": "markup"
    }
@@ -2190,7 +2202,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 154.19468,
+    "min": 154.08,
     "max": 154.38190664,
     "observations": [
      {
@@ -2210,17 +2222,29 @@
       "date": "2026-10-06",
       "rate": 154.19468,
       "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 154.11,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 154.08,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": 0.45043585,
    "expected": {
     "effective_rate": 153.58506,
-    "markup_low_pct": 0.39535734955317525,
+    "markup_low_pct": 0.3212227414330218,
     "markup_high_pct": 0.5161528687802452,
-    "total_cost_low": 1.9767867477658763,
+    "total_cost_low": 1.606113707165109,
     "total_cost_high": 2.5807643439012264,
-    "total_pct_low": 0.39535734955317525,
+    "total_pct_low": 0.3212227414330218,
     "total_pct_high": 0.5161528687802452,
     "classification": "markup"
    }
@@ -2238,7 +2262,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 154.19468,
+    "min": 154.08,
     "max": 154.38190664,
     "observations": [
      {
@@ -2258,17 +2282,29 @@
       "date": "2026-10-06",
       "rate": 154.19468,
       "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 154.11,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 154.08,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": 2.94126418,
    "expected": {
     "effective_rate": 149.74222742974888,
-    "markup_low_pct": 2.8875526511362817,
+    "markup_low_pct": 2.815272955770448,
     "markup_high_pct": 3.0053257607902713,
-    "total_cost_low": 19.28367437838971,
+    "total_cost_low": 18.925882658359296,
     "total_cost_high": 19.866663048487922,
-    "total_pct_low": 3.8567348756779416,
+    "total_pct_low": 3.785176531671859,
     "total_pct_high": 3.973332609697584,
     "classification": "markup"
    }
@@ -2286,7 +2322,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 154.19468,
+    "min": 154.08,
     "max": 154.38190664,
     "observations": [
      {
@@ -2306,17 +2342,29 @@
       "date": "2026-10-06",
       "rate": 154.19468,
       "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 154.11,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 154.08,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": 0.0,
    "expected": {
     "effective_rate": 154.29586430654237,
-    "markup_low_pct": -0.0656211398099877,
+    "markup_low_pct": -0.1400988490020529,
     "markup_high_pct": 0.0557334310284671,
-    "total_cost_low": 12.700438173353321,
+    "total_cost_low": 12.337746625129803,
     "total_cost_high": 13.291410662422429,
-    "total_pct_low": 2.5400876346706642,
+    "total_pct_low": 2.4675493250259604,
     "total_pct_high": 2.658282132484486,
     "classification": "within-band"
    }
@@ -2334,7 +2382,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 154.19468,
+    "min": 154.08,
     "max": 154.38190664,
     "observations": [
      {
@@ -2354,17 +2402,29 @@
       "date": "2026-10-06",
       "rate": 154.19468,
       "url": "https://open.er-api.com/v6/latest/USD"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 154.11,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 154.08,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": 0.82549661,
    "expected": {
     "effective_rate": 153.00642557378367,
-    "markup_low_pct": 0.7706195999864205,
+    "markup_low_pct": 0.6967642953117478,
     "markup_high_pct": 0.890960019961275,
-    "total_cost_low": 5.827762669892373,
+    "total_cost_low": 5.459955867082035,
     "total_cost_high": 6.427069995409146,
-    "total_pct_low": 1.1655525339784745,
+    "total_pct_low": 1.0919911734164072,
     "total_pct_high": 1.2854139990818292,
     "classification": "markup"
    }
@@ -2414,7 +2474,7 @@
     "total_cost_high": 6.121621088826157,
     "total_pct_low": 0.23564474979177186,
     "total_pct_high": 0.6121621088826157,
-    "classification": "markup"
+    "classification": "within-band"
    }
   },
   {
@@ -2462,7 +2522,7 @@
     "total_cost_high": 4.5733942628843876,
     "total_pct_low": 0.08023554243948938,
     "total_pct_high": 0.45733942628843877,
-    "classification": "better-than-mid"
+    "classification": "within-band"
    }
   },
   {
@@ -2606,7 +2666,7 @@
     "total_cost_high": 7.004177173011882,
     "total_pct_low": 0.3242347026262387,
     "total_pct_high": 0.7004177173011882,
-    "classification": "better-than-mid"
+    "classification": "within-band"
    }
   },
   {
@@ -2750,7 +2810,7 @@
     "total_cost_high": 8600.950865865238,
     "total_pct_low": 0.620116133941889,
     "total_pct_high": 0.8558160065537549,
-    "classification": "markup"
+    "classification": "within-band"
    }
   },
   {
@@ -2862,7 +2922,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 0.11464755,
+    "min": 0.1146,
     "max": 0.1149686,
     "observations": [
      {
@@ -2882,19 +2942,31 @@
       "date": "2026-10-06",
       "rate": 0.114863,
       "url": "https://open.er-api.com/v6/latest/KRW"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 0.11475,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 0.1146,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": null,
    "expected": {
     "effective_rate": 0.11444,
-    "markup_low_pct": 0.18103308792904863,
+    "markup_low_pct": 0.13961605584642234,
     "markup_high_pct": 0.45977771321908767,
-    "total_cost_low": 4310.330879290486,
+    "total_cost_low": 3896.1605584642234,
     "total_cost_high": 7097.777132190877,
-    "total_pct_low": 0.4299581924479288,
+    "total_pct_low": 0.38864444473458587,
     "total_pct_high": 0.7080076939841273,
-    "classification": "markup"
+    "classification": "within-band"
    }
   },
   {
@@ -2910,7 +2982,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 0.11464755,
+    "min": 0.1146,
     "max": 0.1149686,
     "observations": [
      {
@@ -2930,17 +3002,29 @@
       "date": "2026-10-06",
       "rate": 0.114863,
       "url": "https://open.er-api.com/v6/latest/KRW"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 0.11475,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 0.1146,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": null,
    "expected": {
     "effective_rate": 0.112854,
-    "markup_low_pct": 1.5644032515304513,
+    "markup_low_pct": 1.5235602094240839,
     "markup_high_pct": 1.8392848134186204,
-    "total_cost_low": 15644.032515304514,
+    "total_cost_low": 15235.602094240838,
     "total_cost_high": 18392.848134186203,
-    "total_pct_low": 1.5644032515304513,
+    "total_pct_low": 1.5235602094240839,
     "total_pct_high": 1.8392848134186204,
     "classification": "markup"
    }
@@ -2958,7 +3042,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 0.11464755,
+    "min": 0.1146,
     "max": 0.1149686,
     "observations": [
      {
@@ -2978,17 +3062,29 @@
       "date": "2026-10-06",
       "rate": 0.114863,
       "url": "https://open.er-api.com/v6/latest/KRW"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-05",
+      "rate": 0.11475,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+     },
+     {
+      "source": "Nepal Rastra Bank",
+      "date": "2026-10-06",
+      "rate": 0.1146,
+      "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
      }
     ]
    },
    "published_markup_pct": null,
    "expected": {
     "effective_rate": 0.113336,
-    "markup_low_pct": 1.1439843241307817,
+    "markup_low_pct": 1.1029668411867364,
     "markup_high_pct": 1.4200399065483966,
-    "total_cost_low": 16439.843241307815,
+    "total_cost_low": 16029.668411867366,
     "total_cost_high": 19200.399065483965,
-    "total_pct_low": 1.6358052976425688,
+    "total_pct_low": 1.5949918817778472,
     "total_pct_high": 1.9104874692023848,
     "classification": "markup"
    }
@@ -3006,7 +3102,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 8.74592371,
+    "min": 8.74,
     "max": 8.779998,
     "observations": [
      {
@@ -3026,17 +3122,29 @@
       "date": "2026-10-06",
       "rate": 8.779998,
       "url": "https://open.er-api.com/v6/latest/KRW"
+     },
+     {
+      "source": "Central Bank of Uzbekistan",
+      "date": "2026-10-03",
+      "rate": 8.74,
+      "url": "https://cbu.uz/en/arkhiv-kursov-valyut/json/KRW/2026-10-05/"
+     },
+     {
+      "source": "Central Bank of Uzbekistan",
+      "date": "2026-10-06",
+      "rate": 8.76,
+      "url": "https://cbu.uz/en/arkhiv-kursov-valyut/json/KRW/2026-10-06/"
      }
     ]
    },
    "published_markup_pct": null,
    "expected": {
     "effective_rate": 8.698125,
-    "markup_low_pct": 0.5465255767706668,
+    "markup_low_pct": 0.47911899313501144,
     "markup_high_pct": 0.9324945176525097,
-    "total_cost_low": 7965.255767706668,
+    "total_cost_low": 7291.189931350114,
     "total_cost_high": 11824.945176525098,
-    "total_pct_low": 0.7945392286989195,
+    "total_pct_low": 0.7273007412818069,
     "total_pct_high": 1.179545653518713,
     "classification": "markup"
    }
@@ -3054,7 +3162,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 8.74592371,
+    "min": 8.74,
     "max": 8.779998,
     "observations": [
      {
@@ -3074,17 +3182,29 @@
       "date": "2026-10-06",
       "rate": 8.779998,
       "url": "https://open.er-api.com/v6/latest/KRW"
+     },
+     {
+      "source": "Central Bank of Uzbekistan",
+      "date": "2026-10-03",
+      "rate": 8.74,
+      "url": "https://cbu.uz/en/arkhiv-kursov-valyut/json/KRW/2026-10-05/"
+     },
+     {
+      "source": "Central Bank of Uzbekistan",
+      "date": "2026-10-06",
+      "rate": 8.76,
+      "url": "https://cbu.uz/en/arkhiv-kursov-valyut/json/KRW/2026-10-06/"
      }
     ]
    },
    "published_markup_pct": null,
    "expected": {
     "effective_rate": 8.615379137412237,
-    "markup_low_pct": 1.492633333154964,
+    "markup_low_pct": 1.4258679929950033,
     "markup_high_pct": 1.8749305249017516,
-    "total_cost_low": 17881.55433155499,
+    "total_cost_low": 17215.90389016018,
     "total_cost_high": 21693.057333270463,
-    "total_pct_low": 1.7881554331554992,
+    "total_pct_low": 1.7215903890160182,
     "total_pct_high": 2.1693057333270462,
     "classification": "markup"
    }
@@ -3102,7 +3222,7 @@
     "date": "2026-10-06"
    },
    "band": {
-    "min": 8.74592371,
+    "min": 8.74,
     "max": 8.779998,
     "observations": [
      {
@@ -3122,17 +3242,29 @@
       "date": "2026-10-06",
       "rate": 8.779998,
       "url": "https://open.er-api.com/v6/latest/KRW"
+     },
+     {
+      "source": "Central Bank of Uzbekistan",
+      "date": "2026-10-03",
+      "rate": 8.74,
+      "url": "https://cbu.uz/en/arkhiv-kursov-valyut/json/KRW/2026-10-05/"
+     },
+     {
+      "source": "Central Bank of Uzbekistan",
+      "date": "2026-10-06",
+      "rate": 8.76,
+      "url": "https://cbu.uz/en/arkhiv-kursov-valyut/json/KRW/2026-10-06/"
      }
     ]
    },
    "published_markup_pct": null,
    "expected": {
     "effective_rate": 8.54265,
-    "markup_low_pct": 2.3242108751483723,
+    "markup_low_pct": 2.2580091533180777,
     "markup_high_pct": 2.703280798013849,
-    "total_cost_low": 25242.108751483724,
+    "total_cost_low": 24580.091533180777,
     "total_cost_high": 29032.807980138492,
-    "total_pct_low": 2.519172530088196,
+    "total_pct_low": 2.4531029474232313,
     "total_pct_high": 2.897485826361127,
     "classification": "markup"
    }

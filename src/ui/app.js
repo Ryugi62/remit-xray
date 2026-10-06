@@ -1,25 +1,29 @@
 // UI controller: screens, events, rendering. All decisions live in domain/application.
 import { auditTransfer } from '../application/auditTransfer.js';
-import { createDraft, confirmField, confirmFields, readiness, toReceiptInput } from '../application/draft.js';
+import { createDraft, confirmField, confirmFields, suggestField, addFeeOnTop, readiness, toReceiptInput } from '../application/draft.js';
+import { providerMessage, ledgerText } from '../application/report.js';
 import { entryFromResult, addEntry, removeEntry, yearlySummary } from '../application/ledger.js';
 import { parseReceiptText } from '../domain/parse.js';
-import { yearlyImpact, compareToBenchmarks } from '../domain/impact.js';
-import { currencyApiSource, frankfurterSource, openErApiSource } from '../adapters/rateSources.js';
+import { yearlyImpact, compareToBenchmarks, SDG_TARGET } from '../domain/impact.js';
+import { quoteCost, compareWithQuotes } from '../domain/quotes.js';
+import { currencyApiSource, frankfurterSource, nrbSource, cbuSource, openErApiSource, frozenSources } from '../adapters/rateSources.js';
 import { wiseQuotes } from '../adapters/marketQuotes.js';
 import { localLedgerStore, recognizeImage } from '../adapters/browser.js';
 import { LANGS, LOCALES, translator, detectLang } from './i18n.js';
 import { money, moneyRange, rangeParts, pct, pctRange, rate, latestMid } from './format.js';
 
 const SEND = ['KRW', 'USD', 'GBP', 'EUR', 'AUD', 'JPY', 'CAD', 'SGD', 'AED', 'SAR', 'MYR', 'HKD', 'NZD', 'CHF', 'TWD', 'QAR', 'KWD', 'ILS'];
-const RECV = ['VND', 'NPR', 'UZS', 'PHP', 'IDR', 'KHR', 'MMK', 'LKR', 'BDT', 'THB', 'INR', 'PKR', 'MXN', 'NGN', 'KGS', 'TJS', 'MNT', 'CNY', 'KES', 'GHS', 'EGP', 'MAD', 'COP', 'GTQ', 'USD', 'EUR'];
+const RECV = ['VND', 'NPR', 'UZS', 'PHP', 'IDR', 'KHR', 'LKR', 'BDT', 'THB', 'INR', 'PKR', 'MXN', 'NGN', 'KGS', 'TJS', 'MNT', 'CNY', 'KES', 'GHS', 'EGP', 'MAD', 'COP', 'GTQ', 'USD', 'EUR'];
 const ALL = [...new Set([...SEND, ...RECV])].sort();
 const ISO2 = { KRW: 'KR', USD: 'US', GBP: 'GB', JPY: 'JP', AUD: 'AU', SGD: 'SG', CAD: 'CA', SAR: 'SA', AED: 'AE', VND: 'VN', NPR: 'NP',
   UZS: 'UZ', PHP: 'PH', IDR: 'ID', KHR: 'KH', MMK: 'MM', LKR: 'LK', BDT: 'BD', THB: 'TH', INR: 'IN', MXN: 'MX', NGN: 'NG', PKR: 'PK',
   KGS: 'KG', TJS: 'TJ', MNT: 'MN', CNY: 'CN' };
 const STEP_FIELDS = { step1: ['sentAmount', 'sentCurrency', 'fee'], step2: ['receivedAmount', 'receivedCurrency', 'date', 'provider'] };
-const OCR_LANGS = { en: 'eng', ko: 'eng+kor', vi: 'eng+vie', ne: 'eng', uz: 'eng' };
+// Receipts from Korean apps are in Korean whatever language the sender reads, so Korean is always loaded.
+const OCR_LANGS = { en: 'eng+kor', ko: 'eng+kor', vi: 'eng+vie+kor', ne: 'eng+kor', uz: 'eng+kor' };
+const KR_ROUTES = new Set(['VND', 'NPR', 'UZS']);
 
-const rateSources = [currencyApiSource(), frankfurterSource(), openErApiSource()];
+const rateSources = [currencyApiSource(), frankfurterSource(), nrbSource(), cbuSource(), openErApiSource()];
 const quotesSource = wiseQuotes();
 const ledgerStore = localLedgerStore();
 const $app = document.getElementById('app');
@@ -33,8 +37,10 @@ if (!LANGS[lang]) lang = 'en';
 let t = translator(lang);
 let locale = LOCALES[lang];
 
-const state = { screen: 'home', draft: createDraft({}, 'typed'), result: null, error: null, quotes: null, monthly: '', sample: null, ocr: 0, saved: false };
+const state = { screen: 'home', draft: createDraft({}, 'typed'), result: null, error: null, quotes: null, quotesAsked: false, askOpen: false,
+  monthly: '', sample: null, saved: false, machine: false, hints: [], feeAnswered: false };
 let samples = [];
+let krQuotes = [];
 let context = null;
 
 function safeGet(k) { try { return localStorage.getItem(k); } catch { return null; } }
@@ -106,8 +112,20 @@ function machineBanner(step) {
     <button class="btn small primary" type="button" data-confirm-step="${step}">${esc(t('btn_all_right'))}</button></div>`;
 }
 
+function feeTopQuestion() {
+  const f = state.draft.fields;
+  if (!state.hints.includes('CHECK_FEE_INCLUDED') || state.feeAnswered || !f.fee || !(Number(f.fee.value) > 0) || !f.sentAmount) return '';
+  const cur = f.sentCurrency ? f.sentCurrency.value : '';
+  const q = t('fee_top_q', { fee: money(Number(f.fee.value), cur, locale, { nice: false }), amt: money(Number(f.sentAmount.value), cur, locale, { nice: false }) });
+  return `<div class="banner" role="group"><p>${esc(q)}</p><span class="banner-btns">
+    <button class="btn small primary" type="button" data-fee-top="yes">${esc(t('fee_top_yes'))}</button>
+    <button class="btn small secondary" type="button" data-fee-top="no">${esc(t('fee_top_no'))}</button></span></div>`;
+}
+
+// Defaults the user did not type: confirmed for a typed draft, yellow (unconfirmed) for a machine-read one.
 function ensureDefault(name, value) {
-  if (!state.draft.fields[name]) state.draft = confirmField(state.draft, name, value);
+  if (state.draft.fields[name]) return;
+  state.draft = state.machine ? suggestField(state.draft, name, value) : confirmField(state.draft, name, value);
 }
 
 function step1() {
@@ -119,6 +137,7 @@ function step1() {
     ${machineBanner('step1')}
     <div class="row">${field('sentAmount', t('l_amount'), { inputmode: 'decimal' })}${field('sentCurrency', t('l_currency'), { options: ALL })}</div>
     ${field('fee', t('l_fee'), { inputmode: 'decimal', hint: t('fee_hint') })}
+    ${feeTopQuestion()}
     <div id="msg"></div>`;
   cta([`<button class="btn secondary back" data-go="home" type="button">${esc(t('btn_back'))}</button>`,
     `<button class="btn primary" id="next1" type="button">${esc(t('btn_next'))}</button>`]);
@@ -193,12 +212,15 @@ function benchHtml(r) {
   const max = Math.max(...rows.map((x) => x.v), 1);
   const years = [send, recv].filter(Boolean).map((x) => x.year);
   const verdict = compareToBenchmarks(a.cost.totalPct, recv ? recv.value / 100 : null);
+  const line = verdict.sdg === 'above-target' ? t('bench_x_goal', { x: (youMid / 100 / SDG_TARGET).toLocaleString(locale, { maximumFractionDigits: 1 }) })
+    : verdict.sdg === 'straddles-target' ? t('bench_around_goal') : t('bench_below_goal');
   return `<div class="card section"><h3>${esc(t('bench_title'))}</h3>
+    <p class="verdict ${verdict.sdg === 'above-target' ? 'warn-ink' : ''}" id="bench-verdict">${esc(line)}</p>
     <div class="bench">${rows.map((x) => `<div class="bench-row ${x.you ? 'you' : ''}"><span class="lab">${esc(x.lab)}</span>
       <span class="track"><i style="width:${Math.max(2, (x.v / max) * 100)}%"></i></span><span class="val">${esc(x.txt)}</span></div>`).join('')}</div>
-    ${years.length ? `<p class="caption section" style="margin-top:12px">${esc(t('bench_note', { year: [...new Set(years)].join('/') }))}</p>` : ''}
+    ${years.length ? `<p class="caption section" style="margin-top:12px">${esc(t('bench_note', { year: [...new Set(years)].join('/') }))} ${esc(t('bench_size_note'))}</p>` : ''}
     ${gdp ? `<p class="note" style="margin-top:12px">${esc(t('bench_gdp', { pct: pct(gdp.value / 100, locale, 1), country: country(to), year: gdp.year }))}</p>` : ''}
-    <span hidden data-verdict="${verdict.sdg}"></span></div>`;
+    </div>`;
 }
 
 function yearHtml(r) {
@@ -212,21 +234,46 @@ function yearHtml(r) {
     <p class="caption">${esc(t('year_note'))}</p></div>`;
 }
 
-function nextHtml(r) {
+function quoteRows(r) {
   const from = r.receipt.sent.currency;
   const to = r.receipt.received.currency;
-  const mid = latestMid(r.band);
-  const q = state.quotes;
-  let quotes = '';
-  if (q && q.quotes && q.quotes.length) {
-    quotes = `<p class="caption" style="margin-top:16px">${esc(t('next_quotes', { amount: money(r.receipt.sent.amount, from, locale, { nice: false }) }))}</p>
-      <table class="quotes"><tbody>${q.quotes.slice(0, 5).map((x) => `<tr><td>${esc(x.provider)}<br><span class="caption">${esc(t('q_fee'))} ${esc(money(x.fee, from, locale, { nice: false }))}</span></td>
-        <td>${esc(t('q_received'))} ${esc(money(x.received, to, locale, { nice: false }))}</td></tr>`).join('')}</tbody></table>`;
-  } else if (q) {
-    quotes = `<p class="note" style="margin-top:16px">${esc(t('next_noquotes'))}</p>`;
-  } else {
-    quotes = '<div class="skeleton" style="height:80px;margin-top:16px"></div>';
+  if (from === 'KRW' && KR_ROUTES.has(to)) {
+    // the sample receipt itself is one of these quotes: don't list it twice
+    const rows = krQuotes.filter((q) => q.from === from && q.to === to && !(q.provider === r.receipt.provider && q.received === r.receipt.received.amount));
+    return rows.length ? { kind: 'kr', date: rows[0].date, rows: rows.map((q) => ({ provider: q.provider, fee: q.fee, totalPct: q.totalPct })) } : null;
   }
+  const q = state.quotes;
+  if (!q) return null;
+  return { kind: 'wise', rows: q.quotes.filter((x) => x.mid > 0).slice(0, 6).map((x) => {
+    const c = quoteCost({ sent: r.receipt.sent.amount, fee: x.fee, received: x.received, mid: x.mid });
+    return { provider: x.provider, fee: x.fee, totalPct: { low: c.totalPct, high: c.totalPct } };
+  }) };
+}
+
+function quotesTable(r, data) {
+  const from = r.receipt.sent.currency;
+  const cmp = compareWithQuotes(r.audit.cost.totalPct, data.rows);
+  const head = data.kind === 'kr' ? t('quotes_kr_note', { date: data.date })
+    : `${t('next_quotes', { amount: money(r.receipt.sent.amount, from, locale, { nice: false }) })} ${t('quotes_cost_note')}`;
+  // a promotional quote (better than mid-market) counts as zero cost, not as a negative one
+  const diff = cmp.cheapestMid === null ? null : cmp.youMid - Math.max(0, cmp.cheapestMid);
+  return `<p class="caption" style="margin-top:16px">${esc(head)}</p>
+    <table class="quotes"><tbody>${cmp.rows.map((x) => `<tr class="${x.you ? 'you' : ''}"><td>${esc(x.you ? t('you_row', { date: r.receipt.date }) : x.provider)}${x.you ? '' : `<br><span class="caption">${esc(t('q_fee'))} ${esc(money(x.fee, from, locale, { nice: false }))}</span>`}</td>
+      <td>${esc(x.totalPct.high < 0 ? t('quote_promo') : pctRange(x.totalPct, locale))}</td></tr>`).join('')}</tbody></table>
+    ${diff === null ? '' : `<p class="verdict" style="margin-top:12px">${esc(diff > 0.0005 ? t('quotes_cheaper', { pct: pct(diff, locale) }) : t('quotes_you_cheapest'))}</p>`}`;
+}
+
+function nextHtml(r) {
+  const to = r.receipt.received.currency;
+  const from = r.receipt.sent.currency;
+  const mid = latestMid(r.band);
+  const data = quoteRows(r);
+  let quotes;
+  if (data && data.rows.length) quotes = quotesTable(r, data);
+  else if (state.quotesAsked && !state.quotes) quotes = '<div class="skeleton" style="height:80px;margin-top:16px"></div>';
+  else if (state.quotesAsked) quotes = `<p class="note" style="margin-top:16px">${esc(t('next_noquotes'))}</p>`;
+  else quotes = `<div class="section"><button class="btn secondary block" id="quotes" type="button">${esc(t('quotes_btn'))}</button>
+    <p class="caption" style="margin-top:8px">${esc(t('quotes_privacy'))}</p></div>`;
   return `<div class="card section" id="next-card"><h3>${esc(t('next_title'))}</h3>
     <p>${esc(t('next_mid', { date: mid.date, from, rate: rate(mid.rate, locale), to }))}</p>
     <p class="verdict">${esc(t('next_line', { rate: rate(mid.rate * 0.99, locale), to }))}</p>${quotes}</div>`;
@@ -241,8 +288,16 @@ function detailsHtml(r) {
     <p class="src"><b>${esc(t('details_sources'))}</b></p>
     <ul class="src">${r.band.observations.map((o) => `<li>${esc(o.source)} · ${esc(o.date)} · 1 ${esc(r.receipt.sent.currency)} = ${esc(rate(o.rate, locale))} ${esc(r.receipt.received.currency)} · <a href="${esc(o.url)}" target="_blank" rel="noopener">source</a></li>`).join('')}</ul>
     <p class="src">effective = ${esc(rate(r.audit.effectiveRate, locale))} · band ${esc(rate(r.band.min, locale))} – ${esc(rate(r.band.max, locale))}</p>
+    <p class="src">${esc(t('details_tolerance'))}</p>
     ${missing.length ? `<p class="src">${esc(t('details_missing', { list: missing.join(', ') }))}</p>` : ''}
   </details>`;
+}
+
+function askHtml(r) {
+  if (!state.askOpen) return `<div class="section"><button class="btn secondary block" id="ask" type="button">${esc(t('ask_btn'))}</button></div>`;
+  return `<div class="card section" id="ask-card"><h3>${esc(t('ask_btn'))}</h3><p class="caption">${esc(t('ask_hint'))}</p>
+    <label class="sr" for="ask-text">${esc(t('ask_btn'))}</label><textarea id="ask-text" readonly>${esc(providerMessage(r))}</textarea>
+    <button class="btn secondary block" id="copy-ask" type="button" style="margin-top:12px">${esc(t('btn_copy'))}</button></div>`;
 }
 
 function result() {
@@ -259,6 +314,8 @@ function result() {
     ? t('res_family_better', { amt: moneyRange({ low: -a.shortfall.high, high: -a.shortfall.low }, a.shortfall.currency, locale) })
     : t('res_family', { amt: moneyRange(a.shortfall, a.shortfall.currency, locale) });
   const share = pct(r.hiddenShare, locale, 0);
+  const yearly = yearlyImpact(a.cost.totalPct, r.receipt.sent.amount);
+  const nSources = r.band.sources.length;
   $app.innerHTML = `
     <div class="card" style="margin-top:8px" id="result-card">
       <p class="caption">${esc(t('res_label'))}${r.receipt.provider ? ` · ${esc(r.receipt.provider)}` : ''} · ${esc(r.receipt.date)}</p>
@@ -267,9 +324,12 @@ function result() {
       ${a.classification === 'markup' ? `<p class="sub">${esc(t('hidden_share', { share }))}</p>` : ''}
       ${barHtml(a)}
       <p class="sub" style="margin-top:12px">${esc(family)}</p>
+      ${a.classification === 'markup' && yearly ? `<p class="verdict" id="year-line">${esc(t('res_year_line', { amt: moneyRange(yearly, cur, locale) }))}</p>` : ''}
+      <p style="margin-top:8px"><span class="pill ${nSources === 1 ? 'warn' : ''}">${esc(nSources === 1 ? t('sources_one') : t('sources_n', { n: nSources }))}</span></p>
       ${state.sample ? `<p style="margin-top:8px"><span class="pill">${esc(t('sample_note', { provider: state.sample.input.provider, date: state.sample.input.date }))}</span></p>` : ''}
       ${detailsHtml(r)}
     </div>
+    ${a.classification === 'markup' ? askHtml(r) : ''}
     ${benchHtml(r)}
     ${yearHtml(r)}
     ${nextHtml(r)}
@@ -289,14 +349,15 @@ function ledger() {
     ${entries.length ? entries.map((e) => `<div class="ledger-item"><div><b>${esc(e.date)} · ${esc(e.sent.currency)} → ${esc(e.received.currency)}</b>
       <span class="caption">${esc(e.provider || '')} ${esc(money(e.sent.amount, e.sent.currency, locale, { nice: false }))}</span></div>
       <div style="text-align:right"><b>${esc(moneyRange(e.total, e.sent.currency, locale))}</b><button class="link" data-remove="${esc(e.id)}" type="button">${esc(t('btn_remove'))}</button></div></div>`).join('')
-    : `<p class="note section">${esc(t('ledger_empty'))}</p>`}`;
+    : `<p class="note section">${esc(t('ledger_empty'))}</p>`}
+    ${entries.length ? `<div class="section"><button class="btn secondary block" id="ledger-copy" type="button">${esc(t('ledger_copy'))}</button></div>` : ''}`;
   cta([`<button class="btn primary" data-go="home" type="button">${esc(t('btn_enter'))}</button>`]);
 }
 
 // ---------- actions ----------
 function msg(text) { const m = document.getElementById('msg'); if (m) m.innerHTML = text ? `<div class="err">${esc(text)}</div>` : ''; }
 
-async function runAudit() {
+async function runAudit(sources = rateSources) {
   state.error = null;
   const ready = readiness(state.draft);
   if (ready.unconfirmed.length) { msg(t('confirm_all_first')); return; }
@@ -308,9 +369,11 @@ async function runAudit() {
   const input = toReceiptInput(state.draft);
   const back = state.screen;
   go('loading');
-  const r = await auditTransfer(input, { rateSources, today: today() });
+  const r = await auditTransfer(input, { rateSources: sources, today: today() });
   if (!r.ok) {
-    state.error = r.error === 'NO_REFERENCE' ? t('err_NO_REFERENCE') : t('err_INVALID', { list: r.details.map((c) => t(`e_${c}`)).join(', ') });
+    if (r.error === 'NO_REFERENCE') state.error = t('err_NO_REFERENCE');
+    else if (r.error === 'IMPLAUSIBLE') state.error = t('err_IMPLAUSIBLE', { pct: pct((r.audit.markup.low + r.audit.markup.high) / 2, locale, 0) });
+    else state.error = t('err_INVALID', { list: r.details.map((c) => t(`e_${c}`)).join(', ') });
     if (back === 'home') { state.screen = 'step2'; } else { state.screen = back; }
     render();
     msg(state.error);
@@ -318,18 +381,31 @@ async function runAudit() {
   }
   state.result = r;
   state.quotes = null;
+  state.quotesAsked = false;
+  state.askOpen = false;
   state.saved = false;
   state.monthly = String(r.receipt.sent.amount);
   go('result');
+}
+
+// Today's quotes are fetched only when asked: the request tells Wise the route and amount.
+function askQuotes() {
+  const r = state.result;
+  state.quotesAsked = true;
+  replaceCard('next-card', nextHtml(r));
   quotesSource.getQuotes(r.receipt.sent.currency, r.receipt.received.currency, r.receipt.sent.amount)
     .catch(() => ({ quotes: [] }))
-    .then((q) => {
-      if (state.result !== r) return;
-      state.quotes = q;
-      // replace only the quotes card: an opened <details> or a half-typed monthly amount must survive
-      const card = document.getElementById('next-card');
-      if (state.screen === 'result' && card) card.outerHTML = nextHtml(r);
-    });
+    .then((q) => { if (state.result === r) { state.quotes = q; replaceCard('next-card', nextHtml(r)); } });
+}
+
+// Replace one card only: an opened <details> or a half-typed monthly amount must survive.
+function replaceCard(id, html) {
+  const card = document.getElementById(id);
+  if (state.screen === 'result' && card) card.outerHTML = html;
+}
+
+async function copyText(text, button) {
+  try { await navigator.clipboard.writeText(text); button.textContent = t('copied'); } catch { /* clipboard blocked: the text stays selectable */ }
 }
 
 function rerenderKeepScroll() { const y = window.scrollY; render(); window.scrollTo(0, y); }
@@ -345,10 +421,13 @@ function readDraftInputs() {
 }
 
 function startFromText(text, origin) {
-  const { fields } = parseReceiptText(text);
+  const { fields, hints } = parseReceiptText(text);
   if (!Object.keys(fields).length) { msg(t('read_none')); return; }
   state.draft = createDraft(fields, origin);
   state.sample = null;
+  state.machine = true;
+  state.hints = hints;
+  state.feeAnswered = false;
   go('step1');
 }
 
@@ -356,7 +435,9 @@ function startSample(i) {
   const s = samples[i];
   state.sample = s;
   state.draft = createDraft(s.input, 'sample');
-  runAudit();
+  state.machine = false;
+  // samples replay the rates recorded when the quote was collected: same answer on any day, even offline
+  runAudit(s.observations ? frozenSources(s.observations) : rateSources);
 }
 
 async function shareResult() {
@@ -376,7 +457,7 @@ document.addEventListener('click', (ev) => {
   if (!el) return;
   if (el.dataset.go) {
     if (state.screen === 'step1' || state.screen === 'step2') readDraftInputs();
-    if (el.dataset.go === 'step1' && state.screen === 'home') { state.draft = createDraft({}, 'typed'); state.sample = null; }
+    if (el.dataset.go === 'step1' && state.screen === 'home') { state.draft = createDraft({}, 'typed'); state.sample = null; state.machine = false; state.hints = []; }
     state.error = null;
     go(el.dataset.go);
     return;
@@ -385,6 +466,13 @@ document.addEventListener('click', (ev) => {
   if (el.dataset.confirmStep) {
     readDraftInputs();
     state.draft = confirmFields(state.draft, STEP_FIELDS[el.dataset.confirmStep]);
+    rerenderKeepScroll();
+    return;
+  }
+  if (el.dataset.feeTop) {
+    readDraftInputs();
+    if (el.dataset.feeTop === 'yes') state.draft = addFeeOnTop(state.draft);
+    state.feeAnswered = true;
     rerenderKeepScroll();
     return;
   }
@@ -404,6 +492,10 @@ document.addEventListener('click', (ev) => {
     case 'new': state.result = null; state.sample = null; state.draft = createDraft({}, 'typed'); go('home'); break;
     case 'save': ledgerStore && addEntry(ledgerStore, entryFromResult(state.result, new Date().toISOString())); state.saved = true; el.textContent = t('saved'); break;
     case 'share': shareResult(); break;
+    case 'quotes': askQuotes(); break;
+    case 'ask': state.askOpen = true; rerenderKeepScroll(); break;
+    case 'copy-ask': copyText(document.getElementById('ask-text').value, el); break;
+    case 'ledger-copy': copyText(ledgerText(ledgerStore.load(), today()), el); break;
     default: break;
   }
 });
@@ -443,11 +535,12 @@ $lang.addEventListener('change', () => {
 });
 
 async function boot() {
-  const [s, c] = await Promise.all([
+  const [s, c, kr] = await Promise.all([
     fetch('data/samples.json').then((x) => x.json()).catch(() => []),
     fetch('data/context.json').then((x) => x.json()).catch(() => null),
+    fetch('data/quotes-kr.json').then((x) => x.json()).catch(() => ({ quotes: [] })),
   ]);
-  samples = s; context = c;
+  samples = s; context = c; krQuotes = kr.quotes || [];
   render();
   const want = params.get('sample');
   if (want !== null) {

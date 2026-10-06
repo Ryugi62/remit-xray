@@ -6,6 +6,7 @@ const CURRENCIES = new Set(('USD EUR GBP JPY KRW CNY HKD SGD AUD NZD CAD CHF SEK
   'MXN BRL COP PEN CLP ARS GTQ HNL DOP NGN GHS KES UGX TZS ZAR EGP MAD AED SAR QAR KWD ILS').split(' '));
 
 const ZERO_DECIMAL = new Set('KRW VND JPY UZS IDR KHR MMK LAK CLP UGX TZS MNT PYG'.split(' '));
+const THREE_DECIMAL = new Set('KWD BHD OMR JOD TND IQD LYD'.split(' '));
 
 const SYMBOLS = [
   ['₩', 'KRW'], ['원', 'KRW'], ['₫', 'VND'], ['đồng', 'VND'], ['đ', 'VND'], ['₱', 'PHP'],
@@ -14,11 +15,11 @@ const SYMBOLS = [
 ];
 
 const LABELS = {
-  total: /(\btotal\b(?!\s*(fee|charge))|amount paid|you paid|you pay\b|총 ?(결제|출금|송금)?금액|결제 ?금액|합계|tổng)/i,
-  fee: /(fee|charge|commission|수수료|phí)/i,
-  rate: /(exchange rate|\brate\b|환율|tỷ giá|kurs)/i,
-  received: /(receiv|recipient gets|they get|payout|deliver|받는 ?(분|금액)|수취 ?금액|입금 ?금액|받을 ?금액|nhận|qabul)/i,
-  sent: /(you send|you sent|send amount|amount sent|sending amount|transfer amount|amount to send|\bsend\b|\bsent\b|송금 ?금액|송금액|보내는 ?금액|보낸 ?금액|số tiền gửi|tiền gửi|jo'nat)/i,
+  total: /(\btotal\b(?!\s*(fee|charge|receiv|to\s+receiv|recipient|payout))|amount paid|you paid|you pay\b|총 ?(결제|출금|송금)?금액|결제 ?금액|합계|tổng)/gi,
+  fee: /(fee|charge|commission|수수료|phí)/gi,
+  rate: /(exchange rate|\brate\b|환율|tỷ giá|kurs)/gi,
+  received: /(receiv|recipient gets|they get|payout|deliver|받는 ?(분|금액)|수취 ?금액|입금 ?금액|받을 ?금액|nhận|qabul)/gi,
+  sent: /(you send|you sent|send amount|amount sent|sending amount|transfer amount|amount to send|\bsend\b|\bsent\b|송금 ?금액|송금액|보내는 ?금액|보낸 ?금액|số tiền gửi|tiền gửi|jo'nat)/gi,
 };
 
 const PROVIDERS = ['Western Union', 'MoneyGram', 'Wise', 'Remitly', 'Xoom', 'WorldRemit', 'Instarem', 'PayPal',
@@ -26,11 +27,27 @@ const PROVIDERS = ['Western Union', 'MoneyGram', 'Wise', 'Remitly', 'Xoom', 'Wor
 
 const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
 
-const NUM = "[0-9](?:[0-9.,' \\u00a0]*[0-9])?";
-const SYM = SYMBOLS.map(([s]) => s.replace(/[$]/g, '\\$')).join('|');
-const CODE = '[A-Z]{3}';
-const PREFIX_RE = new RegExp(`(${CODE}|${SYM})\\s?(${NUM})`, 'g');
-const SUFFIX_RE = new RegExp(`(${NUM})\\s?(${CODE}|${SYM})(?![A-Za-z])`, 'g');
+// A number is either grouped in threes ("1,000,000" · "1.000.000" · "1 000" · "1,234.56") or plain ("500" · "500.00").
+// A separator must be followed by exactly three digits, so "14:32 1,000" or "2026 1,000" are never merged.
+const NUM_RE = /(?<![0-9.,])(?:[0-9]{1,3}(?:[,.' \u00a0][0-9]{3})+(?:[.,][0-9]+)?|[0-9]+(?:[.,][0-9]+)?)(?![0-9])/g;
+const CODE_RE = /^[A-Z]{3}$/;
+const SYM_SORTED = [...SYMBOLS].sort((a, b) => b[0].length - a[0].length);
+
+/** Currency token immediately before (dir −1) or after (dir +1) a number, allowing one space. */
+function tokenAround(line, start, end, dir) {
+  if (dir > 0) {
+    const rest = line.slice(end).replace(/^[ \u00a0]?/, '');
+    const code = rest.match(/^([A-Z]{3})(?![\p{L}])/u);
+    if (code && CURRENCIES.has(code[1])) return { cur: code[1], explicit: true };
+    for (const [sym, cur] of SYM_SORTED) if (rest.startsWith(sym) && !/^[\p{L}]/u.test(rest.slice(sym.length))) return { cur, explicit: false };
+    return null;
+  }
+  const head = line.slice(0, start).replace(/[ \u00a0]?$/, '');
+  const code = head.match(/(?<![\p{L}])([A-Z]{3})$/u);
+  if (code && CURRENCIES.has(code[1])) return { cur: code[1], explicit: true };
+  for (const [sym, cur] of SYM_SORTED) if (head.endsWith(sym) && !/[\p{L}]$/u.test(head.slice(0, head.length - sym.length))) return { cur, explicit: false };
+  return null;
+}
 
 function symbolToCode(tok) {
   if (CURRENCIES.has(tok)) return tok;
@@ -55,7 +72,7 @@ export function parseAmount(raw, currency = null) {
   } else if (lastDot >= 0) {
     const parts = s.split('.');
     const last = parts[parts.length - 1];
-    const thousands = parts.length > 2 || (last.length === 3 && ZERO_DECIMAL.has(currency));
+    const thousands = parts.length > 2 || (last.length === 3 && !THREE_DECIMAL.has(currency));
     s = thousands ? parts.join('') : s;
   }
   const n = Number(s);
@@ -64,28 +81,33 @@ export function parseAmount(raw, currency = null) {
 
 /** All (amount, currency) pairs in a line, in order of appearance. */
 export function findAmounts(line) {
-  // A line is written either "USD 500" (prefix) or "500 USD" (suffix) style.
-  // Matching both would pair a number with its neighbour's code, so pick the style that starts first.
-  const byStyle = (re, prefix) => {
-    const hits = [];
-    re.lastIndex = 0;
-    let m;
-    while ((m = re.exec(line))) {
-      const cur = symbolToCode(prefix ? m[1] : m[2]);
-      if (!cur) continue;
-      const amount = parseAmount(prefix ? m[2] : m[1], cur);
-      if (amount === null) continue;
-      hits.push({ index: m.index, amount, currency: cur });
-    }
-    return hits;
-  };
-  const pre = byStyle(PREFIX_RE, true);
-  const suf = byStyle(SUFFIX_RE, false);
-  let hits;
-  if (!pre.length) hits = suf;
-  else if (!suf.length) hits = pre;
-  else hits = pre[0].index < suf[0].index ? pre : suf;
-  return hits.map(({ amount, currency }) => ({ amount, currency }));
+  return scanAmounts(line).map(({ amount, currency }) => ({ amount, currency }));
+}
+
+function scanAmounts(line) {
+  const nums = [];
+  NUM_RE.lastIndex = 0;
+  let m;
+  while ((m = NUM_RE.exec(line))) {
+    nums.push({ raw: m[0], start: m.index, end: m.index + m[0].length, before: tokenAround(line, m.index, 0, -1), after: tokenAround(line, 0, m.index + m[0].length, 1) });
+  }
+  // A line is written "USD 500 … PHP 30,000" (prefix) or "500 USD … 30,000 PHP" (suffix): the first number tells which.
+  const first = nums.find((x) => x.before || x.after);
+  const prefixStyle = first ? Boolean(first.before) : true;
+  const hits = [];
+  for (const x of nums) {
+    let tok = null;
+    if (x.before && x.after) {
+      if (x.after.explicit && !x.before.explicit) tok = x.after; // "$8,450.10 MXN" → MXN
+      else if (x.before.explicit && !x.after.explicit) tok = x.before;
+      else tok = prefixStyle ? x.before : x.after;
+    } else tok = x.before || x.after;
+    if (!tok) continue;
+    const amount = parseAmount(x.raw, tok.cur);
+    if (amount === null) continue;
+    hits.push({ amount, currency: tok.cur, index: x.start });
+  }
+  return hits;
 }
 
 function pad(n) { return String(n).padStart(2, '0'); }
@@ -100,6 +122,8 @@ export function findDate(text) {
   if (m) return { value: iso(+m[1], +m[2], +m[3]), confidence: 'high' };
   m = text.match(/(\d{4})[-./](\d{1,2})[-./](\d{1,2})/);
   if (m) return { value: iso(+m[1], +m[2], +m[3]), confidence: 'high' };
+  m = text.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/);
+  if (m) return { value: iso(+m[3], +m[2], +m[1]), confidence: 'high' };
   m = text.match(/\b([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})/);
   if (m && MONTHS[m[1].toLowerCase()]) return { value: iso(+m[3], MONTHS[m[1].toLowerCase()], +m[2]), confidence: 'high' };
   m = text.match(/\b(\d{1,2})\s+([A-Za-z]{3})[a-z]*\.?,?\s+(\d{4})/);
@@ -120,11 +144,19 @@ function findProvider(text) {
   return hit || null;
 }
 
-function labelOf(line) {
+/** Label occurrences in a line, ordered by position (overlaps keep the earliest, then the longest). */
+function labelsIn(line) {
+  const found = [];
   for (const key of ['total', 'fee', 'rate', 'received', 'sent']) {
-    if (LABELS[key].test(line)) return key;
+    const re = LABELS[key];
+    re.lastIndex = 0;
+    let m;
+    while ((m = re.exec(line))) found.push({ key, index: m.index, end: m.index + m[0].length });
   }
-  return null;
+  found.sort((a, b) => a.index - b.index || b.end - a.end);
+  const out = [];
+  for (const f of found) if (!out.length || f.index >= out[out.length - 1].end) out.push(f);
+  return out;
 }
 
 /**
@@ -138,12 +170,19 @@ export function parseReceiptText(text) {
   const unlabelled = [];
 
   for (const line of lines) {
-    const amounts = findAmounts(line);
+    const amounts = scanAmounts(line);
     if (!amounts.length) continue;
-    const label = labelOf(line);
-    if (label === 'rate') continue; // "1 USD = 1,346 KRW" is not an amount
-    if (label && !labelled[label]) labelled[label] = amounts[0];
-    else unlabelled.push(...amounts);
+    const labels = labelsIn(line);
+    for (const a of amounts) {
+      // the nearest label before the amount; a line with one label after its amount ("1,000원 송금") uses that one
+      let label = null;
+      for (const l of labels) if (l.index < a.index) label = l.key;
+      if (!label && labels.length === 1) label = labels[0].key;
+      if (label === 'rate') continue; // "1 USD = 1,346 KRW" is not an amount
+      const amt = { amount: a.amount, currency: a.currency };
+      if (label && !labelled[label]) labelled[label] = amt;
+      else unlabelled.push(amt);
+    }
   }
 
   let sent = labelled.total || labelled.sent;

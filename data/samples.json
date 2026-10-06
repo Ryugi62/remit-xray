@@ -1,5 +1,77 @@
 [
  {
+  "id": "AUD-VND-Commonwealth Bank of Australia",
+  "input": {
+   "provider": "Commonwealth Bank of Australia",
+   "sentAmount": 1000,
+   "sentCurrency": "AUD",
+   "fee": 0.0,
+   "receivedAmount": 17013489.0,
+   "receivedCurrency": "VND",
+   "date": "2026-10-06"
+  },
+  "origin": "Wise comparison API (public), collected 2026-10-06T08:10:07.447487Z",
+  "observations": [
+   {
+    "source": "currency-api",
+    "date": "2026-10-05",
+    "rate": 18047.19326341,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/aud.min.json"
+   },
+   {
+    "source": "currency-api",
+    "date": "2026-10-06",
+    "rate": 18115.56261011,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/aud.min.json"
+   },
+   {
+    "source": "ExchangeRate-API",
+    "date": "2026-10-06",
+    "rate": 18078.038035,
+    "url": "https://open.er-api.com/v6/latest/AUD"
+   }
+  ]
+ },
+ {
+  "id": "USD-MXN-Wells Fargo",
+  "input": {
+   "provider": "Wells Fargo",
+   "sentAmount": 500,
+   "sentCurrency": "USD",
+   "fee": 0.0,
+   "receivedAmount": 8736.11,
+   "receivedCurrency": "MXN",
+   "date": "2026-10-02"
+  },
+  "origin": "Wise comparison API (public), collected 2026-10-02T16:34:30Z",
+  "observations": [
+   {
+    "source": "currency-api",
+    "date": "2026-10-01",
+    "rate": 18.08412442,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-01/v1/currencies/usd.min.json"
+   },
+   {
+    "source": "currency-api",
+    "date": "2026-10-02",
+    "rate": 18.26774415,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-02/v1/currencies/usd.min.json"
+   },
+   {
+    "source": "ECB (Frankfurter)",
+    "date": "2026-10-01",
+    "rate": 18.1669,
+    "url": "https://api.frankfurter.dev/v1/2026-10-01?base=USD&symbols=MXN"
+   },
+   {
+    "source": "ECB (Frankfurter)",
+    "date": "2026-10-02",
+    "rate": 18.335,
+    "url": "https://api.frankfurter.dev/v1/2026-10-02?base=USD&symbols=MXN"
+   }
+  ]
+ },
+ {
   "id": "KRW-NPR-GME Remit",
   "input": {
    "provider": "GME Remit",
@@ -10,7 +82,39 @@
    "receivedCurrency": "NPR",
    "date": "2026-10-06"
   },
-  "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z"
+  "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+  "observations": [
+   {
+    "source": "currency-api",
+    "date": "2026-10-05",
+    "rate": 0.11464755,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+   },
+   {
+    "source": "currency-api",
+    "date": "2026-10-06",
+    "rate": 0.1149686,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+   },
+   {
+    "source": "ExchangeRate-API",
+    "date": "2026-10-06",
+    "rate": 0.114863,
+    "url": "https://open.er-api.com/v6/latest/KRW"
+   },
+   {
+    "source": "Nepal Rastra Bank",
+    "date": "2026-10-05",
+    "rate": 0.11475,
+    "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-05&to=2026-10-05&per_page=10&page=1"
+   },
+   {
+    "source": "Nepal Rastra Bank",
+    "date": "2026-10-06",
+    "rate": 0.1146,
+    "url": "https://www.nrb.org.np/api/forex/v1/rates?from=2026-10-06&to=2026-10-06&per_page=10&page=1"
+   }
+  ]
  },
  {
   "id": "KRW-VND-E9pay",
@@ -23,32 +127,26 @@
    "receivedCurrency": "VND",
    "date": "2026-10-06"
   },
-  "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z"
- },
- {
-  "id": "AUD-VND-Commonwealth Bank of Australia",
-  "input": {
-   "provider": "Commonwealth Bank of Australia",
-   "sentAmount": 1000,
-   "sentCurrency": "AUD",
-   "fee": 0.0,
-   "receivedAmount": 17013489.0,
-   "receivedCurrency": "VND",
-   "date": "2026-10-06"
-  },
-  "origin": "Wise comparison API (public), collected 2026-10-06T08:10:07.447487Z"
- },
- {
-  "id": "USD-PHP-Western Union",
-  "input": {
-   "provider": "Western Union",
-   "sentAmount": 500,
-   "sentCurrency": "USD",
-   "fee": 1.99,
-   "receivedAmount": 30336.03,
-   "receivedCurrency": "PHP",
-   "date": "2026-10-06"
-  },
-  "origin": "Wise comparison API (public), collected 2026-10-06T07:09:27.086067Z"
+  "origin": "Public website calculators (no login), read in a browser on 2026-10-06 17:26 KST; amount 1,000,000 KRW entered in each calculator, collected 2026-10-06T08:26:00Z",
+  "observations": [
+   {
+    "source": "currency-api",
+    "date": "2026-10-05",
+    "rate": 19.31852977,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-05/v1/currencies/krw.min.json"
+   },
+   {
+    "source": "currency-api",
+    "date": "2026-10-06",
+    "rate": 19.36392153,
+    "url": "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@2026-10-06/v1/currencies/krw.min.json"
+   },
+   {
+    "source": "ExchangeRate-API",
+    "date": "2026-10-06",
+    "rate": 19.317996,
+    "url": "https://open.er-api.com/v6/latest/KRW"
+   }
+  ]
  }
 ]
