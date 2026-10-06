@@ -1,4 +1,4 @@
-// Presentation helpers (pure; tested in tests/ui.test.mjs).
+// Presentation helpers (pure; tested in tests/format.test.mjs).
 
 const ZERO_DECIMAL = new Set('KRW VND JPY UZS IDR KHR MMK LAK CLP UGX TZS MNT PYG'.split(' '));
 
@@ -20,11 +20,16 @@ export function money(x, currency, locale = 'en-US', { nice = true } = {}) {
   }
 }
 
-/** "₩15,600 – ₩18,400"; collapses when both ends print the same. Negative low is shown as 0. */
-export function moneyRange(r, currency, locale) {
+/** ["₩15,600", "₩18,400"], or one element when both ends print the same. Negative ends are shown as 0. */
+export function rangeParts(r, currency, locale) {
   const lo = money(Math.max(0, r.low), currency, locale);
   const hi = money(Math.max(0, r.high), currency, locale);
-  return lo === hi ? lo : `${lo} – ${hi}`;
+  return lo === hi ? [lo] : [lo, hi];
+}
+
+/** "₩15,600 – ₩18,400"; collapses when both ends print the same. */
+export function moneyRange(r, currency, locale) {
+  return rangeParts(r, currency, locale).join(' – ');
 }
 
 export function pct(x, locale = 'en-US', digits = 2) {

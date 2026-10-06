@@ -32,6 +32,11 @@ export function confirmField(draft, name, value) {
   return Object.freeze({ fields: Object.freeze(fields) });
 }
 
+/** The user checked a whole step at once ("All correct"): confirm these fields with their current values. */
+export function confirmFields(draft, names) {
+  return names.filter((n) => n in draft.fields).reduce((d, name) => confirmField(d, name), draft);
+}
+
 export function confirmAll(draft) {
   return Object.keys(draft.fields).reduce((d, name) => confirmField(d, name), draft);
 }

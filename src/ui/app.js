@@ -1,6 +1,6 @@
 // UI controller: screens, events, rendering. All decisions live in domain/application.
 import { auditTransfer } from '../application/auditTransfer.js';
-import { createDraft, confirmField, readiness, toReceiptInput } from '../application/draft.js';
+import { createDraft, confirmField, confirmFields, readiness, toReceiptInput } from '../application/draft.js';
 import { entryFromResult, addEntry, removeEntry, yearlySummary } from '../application/ledger.js';
 import { parseReceiptText } from '../domain/parse.js';
 import { yearlyImpact, compareToBenchmarks } from '../domain/impact.js';
@@ -8,7 +8,7 @@ import { currencyApiSource, frankfurterSource, openErApiSource } from '../adapte
 import { wiseQuotes } from '../adapters/marketQuotes.js';
 import { localLedgerStore, recognizeImage } from '../adapters/browser.js';
 import { LANGS, LOCALES, translator, detectLang } from './i18n.js';
-import { money, moneyRange, pct, pctRange, rate, latestMid } from './format.js';
+import { money, moneyRange, rangeParts, pct, pctRange, rate, latestMid } from './format.js';
 
 const SEND = ['KRW', 'USD', 'GBP', 'EUR', 'AUD', 'JPY', 'CAD', 'SGD', 'AED', 'SAR', 'MYR', 'HKD', 'NZD', 'CHF', 'TWD', 'QAR', 'KWD', 'ILS'];
 const RECV = ['VND', 'NPR', 'UZS', 'PHP', 'IDR', 'KHR', 'MMK', 'LKR', 'BDT', 'THB', 'INR', 'PKR', 'MXN', 'NGN', 'KGS', 'TJS', 'MNT', 'CNY', 'KES', 'GHS', 'EGP', 'MAD', 'COP', 'GTQ', 'USD', 'EUR'];
@@ -16,6 +16,7 @@ const ALL = [...new Set([...SEND, ...RECV])].sort();
 const ISO2 = { KRW: 'KR', USD: 'US', GBP: 'GB', JPY: 'JP', AUD: 'AU', SGD: 'SG', CAD: 'CA', SAR: 'SA', AED: 'AE', VND: 'VN', NPR: 'NP',
   UZS: 'UZ', PHP: 'PH', IDR: 'ID', KHR: 'KH', MMK: 'MM', LKR: 'LK', BDT: 'BD', THB: 'TH', INR: 'IN', MXN: 'MX', NGN: 'NG', PKR: 'PK',
   KGS: 'KG', TJS: 'TJ', MNT: 'MN', CNY: 'CN' };
+const STEP_FIELDS = { step1: ['sentAmount', 'sentCurrency', 'fee'], step2: ['receivedAmount', 'receivedCurrency', 'date', 'provider'] };
 const OCR_LANGS = { en: 'eng', ko: 'eng+kor', vi: 'eng+vie', ne: 'eng', uz: 'eng' };
 
 const rateSources = [currencyApiSource(), frankfurterSource(), openErApiSource()];
@@ -55,7 +56,7 @@ function cta(buttons) {
 
 function render() {
   document.documentElement.lang = lang;
-  $ledgerBtn.textContent = t('ledger_title');
+  $ledgerBtn.textContent = t('ledger_btn');
   const views = { home, paste, photo, step1, step2, loading, result, ledger };
   views[state.screen]();
 }
@@ -94,8 +95,15 @@ function field(name, label, { type = 'text', inputmode, options, hint } = {}) {
     ? `<select name="${name}" id="f-${name}">${options.map((o) => `<option ${o === value ? 'selected' : ''}>${o}</option>`).join('')}</select>`
     : `<input name="${name}" id="f-${name}" type="${type}" ${inputmode ? `inputmode="${inputmode}"` : ''} value="${esc(value)}" autocomplete="off">`;
   return `<label class="field ${machine ? 'unconfirmed' : ''}" for="f-${name}"><span>${esc(label)}</span>${control}
-    ${machine ? `<div class="machine">⚠ ${esc(t('check_this'))}<button class="btn small secondary" type="button" data-confirm="${name}">${esc(t('btn_looks_right'))}</button></div>` : ''}
+    ${machine ? `<div class="machine">⚠ ${esc(t('machine_tag'))}</div>` : ''}
     ${hint ? `<div class="hint">${esc(hint)}</div>` : ''}</label>`;
+}
+
+function machineBanner(step) {
+  const open = STEP_FIELDS[step].filter((n) => state.draft.fields[n] && !state.draft.fields[n].confirmed);
+  if (!open.length) return '';
+  return `<div class="banner" role="note"><p>${esc(t('machine_banner'))}</p>
+    <button class="btn small primary" type="button" data-confirm-step="${step}">${esc(t('btn_all_right'))}</button></div>`;
 }
 
 function ensureDefault(name, value) {
@@ -108,6 +116,7 @@ function step1() {
     <p class="caption">${esc(t('step', { n: 1 }))}</p>
     <h2>${esc(t('q_paid'))}</h2>
     <p class="sub">${esc(t('q_paid_hint'))}</p>
+    ${machineBanner('step1')}
     <div class="row">${field('sentAmount', t('l_amount'), { inputmode: 'decimal' })}${field('sentCurrency', t('l_currency'), { options: ALL })}</div>
     ${field('fee', t('l_fee'), { inputmode: 'decimal', hint: t('fee_hint') })}
     <div id="msg"></div>`;
@@ -121,6 +130,7 @@ function step2() {
   $app.innerHTML = `
     <p class="caption">${esc(t('step', { n: 2 }))}</p>
     <h2>${esc(t('q_arrived'))}</h2>
+    ${machineBanner('step2')}
     <div class="row">${field('receivedAmount', t('l_received'), { inputmode: 'decimal' })}${field('receivedCurrency', t('l_currency'), { options: ALL })}</div>
     ${field('date', t('l_date'), { type: 'date' })}
     ${field('provider', t('l_provider'))}
@@ -217,7 +227,7 @@ function nextHtml(r) {
   } else {
     quotes = '<div class="skeleton" style="height:80px;margin-top:16px"></div>';
   }
-  return `<div class="card section"><h3>${esc(t('next_title'))}</h3>
+  return `<div class="card section" id="next-card"><h3>${esc(t('next_title'))}</h3>
     <p>${esc(t('next_mid', { date: mid.date, from, rate: rate(mid.rate, locale), to }))}</p>
     <p class="verdict">${esc(t('next_line', { rate: rate(mid.rate * 0.99, locale), to }))}</p>${quotes}</div>`;
 }
@@ -252,7 +262,7 @@ function result() {
   $app.innerHTML = `
     <div class="card" style="margin-top:8px" id="result-card">
       <p class="caption">${esc(t('res_label'))}${r.receipt.provider ? ` · ${esc(r.receipt.provider)}` : ''} · ${esc(r.receipt.date)}</p>
-      <div class="big ${better ? 'ok' : ''}" id="big-number">${esc(moneyRange(a.cost.total, cur, locale))}</div>
+      <div class="big ${better ? 'ok' : ''}" id="big-number">${rangeParts(a.cost.total, cur, locale).map((x) => `<span class="nw">${esc(x)}</span>`).join(' – ')}</div>
       <p class="verdict">${esc(line)}</p>
       ${a.classification === 'markup' ? `<p class="sub">${esc(t('hidden_share', { share }))}</p>` : ''}
       ${barHtml(a)}
@@ -313,7 +323,13 @@ async function runAudit() {
   go('result');
   quotesSource.getQuotes(r.receipt.sent.currency, r.receipt.received.currency, r.receipt.sent.amount)
     .catch(() => ({ quotes: [] }))
-    .then((q) => { if (state.result === r) { state.quotes = q; if (state.screen === 'result') rerenderKeepScroll(); } });
+    .then((q) => {
+      if (state.result !== r) return;
+      state.quotes = q;
+      // replace only the quotes card: an opened <details> or a half-typed monthly amount must survive
+      const card = document.getElementById('next-card');
+      if (state.screen === 'result' && card) card.outerHTML = nextHtml(r);
+    });
 }
 
 function rerenderKeepScroll() { const y = window.scrollY; render(); window.scrollTo(0, y); }
@@ -366,10 +382,9 @@ document.addEventListener('click', (ev) => {
     return;
   }
   if (el.dataset.sample !== undefined) { startSample(Number(el.dataset.sample)); return; }
-  if (el.dataset.confirm) {
+  if (el.dataset.confirmStep) {
     readDraftInputs();
-    const input = document.getElementById(`f-${el.dataset.confirm}`);
-    state.draft = confirmField(state.draft, el.dataset.confirm, input ? input.value.trim() : undefined);
+    state.draft = confirmFields(state.draft, STEP_FIELDS[el.dataset.confirmStep]);
     rerenderKeepScroll();
     return;
   }
@@ -378,7 +393,7 @@ document.addEventListener('click', (ev) => {
     case 'ledger-btn': go('ledger'); break;
     case 'next1': {
       readDraftInputs();
-      const un = ['sentAmount', 'sentCurrency', 'fee'].filter((k) => state.draft.fields[k] && !state.draft.fields[k].confirmed);
+      const un = STEP_FIELDS.step1.filter((k) => state.draft.fields[k] && !state.draft.fields[k].confirmed);
       if (un.length) { msg(t('confirm_all_first')); break; }
       if (!state.draft.fields.sentAmount) { msg(t('err_INVALID', { list: t('e_SENT_POSITIVE') })); break; }
       go('step2');

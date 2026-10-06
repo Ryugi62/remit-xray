@@ -101,3 +101,16 @@ test('ledger keeps one entry per receipt and sums the last 12 months per currenc
   assert.ok(Math.abs(krw.high - 27_197) < 1);
   assert.equal(removeEntry(store, 'old').length, 1);
 });
+
+test('confirmFields confirms only the named fields (one tap per step), keeping their values', async () => {
+  const { confirmFields } = await import('../src/application/draft.js');
+  const d = createDraft({ sentAmount: 1000, sentCurrency: 'KRW', fee: 0, receivedAmount: 18000, receivedCurrency: 'VND' }, 'photo');
+  const d2 = confirmFields(d, ['sentAmount', 'sentCurrency', 'fee']);
+  assert.equal(d2.fields.sentAmount.confirmed, true);
+  assert.equal(d2.fields.sentAmount.value, 1000);
+  assert.equal(d2.fields.fee.confirmed, true);
+  assert.equal(d2.fields.receivedAmount.confirmed, false);
+  assert.deepEqual(readiness(d2).unconfirmed, ['receivedAmount', 'receivedCurrency']);
+  const d3 = confirmFields(d, ['sentAmount', 'nope-not-present'].filter((n) => n in d.fields));
+  assert.equal(d3.fields.sentAmount.confirmed, true);
+});
