@@ -25,9 +25,14 @@ export function auditReceipt(receipt, band) {
   // markup = 1 − eff / reference. Lower reference → lower markup.
   const markup = { low: 1 - eff / band.min, high: 1 - eff / band.max };
 
-  let classification = 'markup';
-  if (markup.high < -MEASUREMENT_TOLERANCE) classification = 'better-than-mid';
-  else if (markup.low <= MEASUREMENT_TOLERANCE) classification = 'within-band';
+  // markup: even the most generous reading is above tolerance · better-than-mid: even the least generous is below it
+  // within-band: no evidence of a margin (even the least generous reading is ≤ tolerance)
+  // inconclusive: the band is too wide to tell a margin from none (low ≤ tolerance < high)
+  const T = MEASUREMENT_TOLERANCE;
+  let classification = 'inconclusive';
+  if (markup.low > T) classification = 'markup';
+  else if (markup.high < -T) classification = 'better-than-mid';
+  else if (markup.high <= T) classification = 'within-band';
 
   const hidden = { low: converted * markup.low, high: converted * markup.high };
   const fee = receipt.fee.amount;
@@ -62,7 +67,9 @@ export function hiddenShare(audit) {
   return Math.max(0, Math.min(1, hiddenMid / totalMid));
 }
 
-/** 'ok' or 'IMPLAUSIBLE' (the result would mean a margin below −5 % or above 20 %: check the amounts). */
+/** 'ok' or 'IMPLAUSIBLE': a margin below −5 % or above 20 %, or a fee above 20 % of the amount — check the amounts. */
 export function plausibility(audit) {
-  return audit.markup.high < PLAUSIBLE.low || audit.markup.low > PLAUSIBLE.high ? 'IMPLAUSIBLE' : 'ok';
+  if (audit.markup.high < PLAUSIBLE.low || audit.markup.low > PLAUSIBLE.high) return 'IMPLAUSIBLE';
+  if (audit.cost.feePct > PLAUSIBLE.high) return 'IMPLAUSIBLE';
+  return 'ok';
 }

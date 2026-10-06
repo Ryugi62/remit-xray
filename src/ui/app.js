@@ -1,24 +1,26 @@
 // UI controller: screens, events, rendering. All decisions live in domain/application.
-import { auditTransfer } from '../application/auditTransfer.js';
+import { auditTransfer, collectBand } from '../application/auditTransfer.js';
 import { createDraft, confirmField, confirmFields, suggestField, addFeeOnTop, readiness, toReceiptInput } from '../application/draft.js';
 import { providerMessage, ledgerText } from '../application/report.js';
+import { encodeReceipt, decodeReceipt } from '../application/share.js';
 import { entryFromResult, addEntry, removeEntry, yearlySummary } from '../application/ledger.js';
-import { parseReceiptText } from '../domain/parse.js';
+import { parseReceiptText, parseAmount } from '../domain/parse.js';
 import { yearlyImpact, compareToBenchmarks, SDG_TARGET } from '../domain/impact.js';
-import { quoteCost, compareWithQuotes } from '../domain/quotes.js';
+import { compareWithQuotes, quoteCostRange, scaleQuote, savingVs } from '../domain/quotes.js';
 import { currencyApiSource, frankfurterSource, nrbSource, cbuSource, openErApiSource, frozenSources } from '../adapters/rateSources.js';
 import { wiseQuotes } from '../adapters/marketQuotes.js';
 import { localLedgerStore, recognizeImage } from '../adapters/browser.js';
 import { LANGS, LOCALES, translator, detectLang } from './i18n.js';
-import { money, moneyRange, rangeParts, pct, pctRange, rate, latestMid } from './format.js';
+import { money, moneyRange, rangeParts, approx, pct, pctRange, rate, latestMid } from './format.js';
 
 const SEND = ['KRW', 'USD', 'GBP', 'EUR', 'AUD', 'JPY', 'CAD', 'SGD', 'AED', 'SAR', 'MYR', 'HKD', 'NZD', 'CHF', 'TWD', 'QAR', 'KWD', 'ILS'];
 const RECV = ['VND', 'NPR', 'UZS', 'PHP', 'IDR', 'KHR', 'LKR', 'BDT', 'THB', 'INR', 'PKR', 'MXN', 'NGN', 'KGS', 'TJS', 'MNT', 'CNY', 'KES', 'GHS', 'EGP', 'MAD', 'COP', 'GTQ', 'USD', 'EUR'];
 const ALL = [...new Set([...SEND, ...RECV])].sort();
 const ISO2 = { KRW: 'KR', USD: 'US', GBP: 'GB', JPY: 'JP', AUD: 'AU', SGD: 'SG', CAD: 'CA', SAR: 'SA', AED: 'AE', VND: 'VN', NPR: 'NP',
-  UZS: 'UZ', PHP: 'PH', IDR: 'ID', KHR: 'KH', MMK: 'MM', LKR: 'LK', BDT: 'BD', THB: 'TH', INR: 'IN', MXN: 'MX', NGN: 'NG', PKR: 'PK',
+  UZS: 'UZ', PHP: 'PH', IDR: 'ID', KHR: 'KH', LKR: 'LK', BDT: 'BD', THB: 'TH', INR: 'IN', MXN: 'MX', NGN: 'NG', PKR: 'PK',
   KGS: 'KG', TJS: 'TJ', MNT: 'MN', CNY: 'CN' };
 const STEP_FIELDS = { step1: ['sentAmount', 'sentCurrency', 'fee'], step2: ['receivedAmount', 'receivedCurrency', 'date', 'provider'] };
+const AMOUNT_FIELDS = { sentAmount: 'sentCurrency', fee: 'sentCurrency', receivedAmount: 'receivedCurrency' };
 // Receipts from Korean apps are in Korean whatever language the sender reads, so Korean is always loaded.
 const OCR_LANGS = { en: 'eng+kor', ko: 'eng+kor', vi: 'eng+vie+kor', ne: 'eng+kor', uz: 'eng+kor' };
 const KR_ROUTES = new Set(['VND', 'NPR', 'UZS']);
@@ -37,8 +39,9 @@ if (!LANGS[lang]) lang = 'en';
 let t = translator(lang);
 let locale = LOCALES[lang];
 
-const state = { screen: 'home', draft: createDraft({}, 'typed'), result: null, error: null, quotes: null, quotesAsked: false, askOpen: false,
-  monthly: '', sample: null, saved: false, machine: false, hints: [], feeAnswered: false };
+const fresh = () => ({ draft: createDraft({}, 'typed'), result: null, error: null, quotes: null, quotesAsked: false, askOpen: false,
+  monthly: '', sample: null, saved: false, machine: false, hints: [], feeAnswered: false, dateOptions: null, mode: 'audit' });
+const state = { screen: 'home', ...fresh() };
 let samples = [];
 let krQuotes = [];
 let context = null;
@@ -52,6 +55,10 @@ function country(cur) {
   if (!code) return cur;
   try { return new Intl.DisplayNames([locale], { type: 'region' }).of(code); } catch { return code; }
 }
+function longDate(iso) {
+  try { return new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`)); } catch { return iso; }
+}
+function reset() { Object.assign(state, fresh()); }
 
 // ---------- rendering ----------
 function go(screen) { state.screen = screen; render(); window.scrollTo(0, 0); }
@@ -76,6 +83,7 @@ function home() {
       <button class="btn secondary" data-go="paste" type="button">${esc(t('btn_paste'))}</button>
       <button class="btn secondary" data-go="photo" type="button">${esc(t('btn_photo'))}</button>
     </div>
+    <button class="btn ghost block" id="quote-mode" type="button" style="margin-top:12px">${esc(t('btn_quote_mode'))}</button>
     <div class="section">
       <h3>${esc(t('samples_title'))}</h3>
       <div class="samples">${samples.map((s, i) => sampleCard(s, i)).join('')}</div>
@@ -105,8 +113,13 @@ function field(name, label, { type = 'text', inputmode, options, hint } = {}) {
     ${hint ? `<div class="hint">${esc(hint)}</div>` : ''}</label>`;
 }
 
+// fields the "All correct" button may confirm on this step (an ambiguous date needs its own choice)
+function confirmableOnStep(step) {
+  return STEP_FIELDS[step].filter((n) => !(n === 'date' && state.dateOptions));
+}
+
 function machineBanner(step) {
-  const open = STEP_FIELDS[step].filter((n) => state.draft.fields[n] && !state.draft.fields[n].confirmed);
+  const open = confirmableOnStep(step).filter((n) => state.draft.fields[n] && !state.draft.fields[n].confirmed);
   if (!open.length) return '';
   return `<div class="banner" role="note"><p>${esc(t('machine_banner'))}</p>
     <button class="btn small primary" type="button" data-confirm-step="${step}">${esc(t('btn_all_right'))}</button></div>`;
@@ -117,9 +130,21 @@ function feeTopQuestion() {
   if (!state.hints.includes('CHECK_FEE_INCLUDED') || state.feeAnswered || !f.fee || !(Number(f.fee.value) > 0) || !f.sentAmount) return '';
   const cur = f.sentCurrency ? f.sentCurrency.value : '';
   const q = t('fee_top_q', { fee: money(Number(f.fee.value), cur, locale, { nice: false }), amt: money(Number(f.sentAmount.value), cur, locale, { nice: false }) });
-  return `<div class="banner" role="group"><p>${esc(q)}</p><span class="banner-btns">
+  return `<div class="banner" role="group" id="fee-top"><p>${esc(q)}</p><span class="banner-btns">
     <button class="btn small primary" type="button" data-fee-top="yes">${esc(t('fee_top_yes'))}</button>
     <button class="btn small secondary" type="button" data-fee-top="no">${esc(t('fee_top_no'))}</button></span></div>`;
+}
+
+function feeOtherCurrency() {
+  if (!state.hints.includes('FEE_OTHER_CURRENCY') || state.draft.fields.fee) return '';
+  const cur = state.draft.fields.sentCurrency ? state.draft.fields.sentCurrency.value : '';
+  return `<div class="banner" role="note"><p>${esc(t('fee_other', { cur }))}</p></div>`;
+}
+
+function datePicker() {
+  if (!state.dateOptions) return '';
+  return `<div class="banner" role="group" id="date-pick"><p>${esc(t('date_pick'))}</p><span class="banner-btns">
+    ${state.dateOptions.map((d) => `<button class="btn small secondary" type="button" data-date-pick="${esc(d)}">${esc(longDate(d))}</button>`).join('')}</span></div>`;
 }
 
 // Defaults the user did not type: confirmed for a typed draft, yellow (unconfirmed) for a machine-read one.
@@ -130,13 +155,15 @@ function ensureDefault(name, value) {
 
 function step1() {
   ensureDefault('sentCurrency', 'KRW');
+  const quote = state.mode === 'quote';
   $app.innerHTML = `
     <p class="caption">${esc(t('step', { n: 1 }))}</p>
-    <h2>${esc(t('q_paid'))}</h2>
+    <h2>${esc(t(quote ? 'q_paid_quote' : 'q_paid'))}</h2>
     <p class="sub">${esc(t('q_paid_hint'))}</p>
     ${machineBanner('step1')}
     <div class="row">${field('sentAmount', t('l_amount'), { inputmode: 'decimal' })}${field('sentCurrency', t('l_currency'), { options: ALL })}</div>
     ${field('fee', t('l_fee'), { inputmode: 'decimal', hint: t('fee_hint') })}
+    ${feeOtherCurrency()}
     ${feeTopQuestion()}
     <div id="msg"></div>`;
   cta([`<button class="btn secondary back" data-go="home" type="button">${esc(t('btn_back'))}</button>`,
@@ -145,13 +172,16 @@ function step1() {
 
 function step2() {
   ensureDefault('receivedCurrency', state.draft.fields.sentCurrency && state.draft.fields.sentCurrency.value === 'VND' ? 'KRW' : 'VND');
-  ensureDefault('date', today());
+  const quote = state.mode === 'quote';
+  if (quote) state.draft = confirmField(state.draft, 'date', today());
+  else ensureDefault('date', today());
   $app.innerHTML = `
     <p class="caption">${esc(t('step', { n: 2 }))}</p>
-    <h2>${esc(t('q_arrived'))}</h2>
+    <h2>${esc(t(quote ? 'q_arrived_quote' : 'q_arrived'))}</h2>
     ${machineBanner('step2')}
     <div class="row">${field('receivedAmount', t('l_received'), { inputmode: 'decimal' })}${field('receivedCurrency', t('l_currency'), { options: ALL })}</div>
-    ${field('date', t('l_date'), { type: 'date' })}
+    ${quote ? '' : field('date', t('l_date'), { type: 'date' })}
+    ${quote ? '' : datePicker()}
     ${field('provider', t('l_provider'))}
     <div id="msg">${state.error ? `<div class="err">${esc(state.error)}</div>` : ''}</div>`;
   cta([`<button class="btn secondary back" data-go="step1" type="button">${esc(t('btn_back'))}</button>`,
@@ -234,32 +264,46 @@ function yearHtml(r) {
     <p class="caption">${esc(t('year_note'))}</p></div>`;
 }
 
-function quoteRows(r) {
+// ---------- comparison: other quotes on the same cost scale ----------
+// Three sources, all scored as fee + margin against a mid-market range:
+//  · a sample: the other quotes collected the same day for the same amount, against the sample's recorded band
+//  · KRW → VND/NPR/UZS: the Korean apps' calculators (2026-10-06), rescaled to your amount
+//  · anything else: Wise's public comparison for today, against today's band — fetched only when asked
+function comparison(r) {
   const from = r.receipt.sent.currency;
   const to = r.receipt.received.currency;
+  const amount = r.receipt.sent.amount;
+  if (state.sample && state.sample.quotes && state.sample.quotes.length) {
+    return { kind: 'same-day', when: r.receipt.date, rows: state.sample.quotes.map((q) => ({ provider: q.provider, fee: q.fee, totalPct: quoteCostRange(q, r.band) })) };
+  }
   if (from === 'KRW' && KR_ROUTES.has(to)) {
-    // the sample receipt itself is one of these quotes: don't list it twice
-    const rows = krQuotes.filter((q) => q.from === from && q.to === to && !(q.provider === r.receipt.provider && q.received === r.receipt.received.amount));
-    return rows.length ? { kind: 'kr', date: rows[0].date, rows: rows.map((q) => ({ provider: q.provider, fee: q.fee, totalPct: q.totalPct })) } : null;
+    const rows = krQuotes.filter((q) => q.from === from && q.to === to && !(q.provider === r.receipt.provider && q.received === r.receipt.received.amount))
+      .map((q) => ({ provider: q.provider, fee: q.fee, totalPct: scaleQuote(q, amount), when: q.date })).filter((q) => q.totalPct);
+    return rows.length ? { kind: 'kr', when: rows[0].when, rows } : null;
   }
   const q = state.quotes;
-  if (!q) return null;
-  return { kind: 'wise', rows: q.quotes.filter((x) => x.mid > 0).slice(0, 6).map((x) => {
-    const c = quoteCost({ sent: r.receipt.sent.amount, fee: x.fee, received: x.received, mid: x.mid });
-    return { provider: x.provider, fee: x.fee, totalPct: { low: c.totalPct, high: c.totalPct } };
-  }) };
+  if (!q || !q.band) return null;
+  return { kind: 'today', when: q.date, rows: q.quotes.slice(0, 6).map((x) => ({ provider: x.provider, fee: x.fee, totalPct: quoteCostRange({ sent: amount, received: x.received }, q.band) })) };
+}
+
+function savingHtml(r, data) {
+  if (!data || !data.rows.length || r.audit.classification === 'better-than-mid') return '';
+  const cmp = compareWithQuotes(r.audit.cost.totalPct, data.rows);
+  if (!cmp.cheapest) return '';
+  const s = savingVs(r.audit.cost.totalPct, Math.max(0, cmp.cheapestMid), r.receipt.sent.amount);
+  if (!s) return '';
+  return esc(t('saving_line', { provider: cmp.cheapest.provider, amt: approx(s, r.receipt.sent.currency, locale), when: data.when }));
 }
 
 function quotesTable(r, data) {
   const from = r.receipt.sent.currency;
   const cmp = compareWithQuotes(r.audit.cost.totalPct, data.rows);
-  const head = data.kind === 'kr' ? t('quotes_kr_note', { date: data.date })
-    : `${t('next_quotes', { amount: money(r.receipt.sent.amount, from, locale, { nice: false }) })} ${t('quotes_cost_note')}`;
-  // a promotional quote (better than mid-market) counts as zero cost, not as a negative one
+  const head = data.kind === 'kr' ? t('quotes_kr_scaled', { date: data.when })
+    : data.kind === 'same-day' ? t('quotes_same_day') : t('quotes_today_note', { date: r.receipt.date });
   const diff = cmp.cheapestMid === null ? null : cmp.youMid - Math.max(0, cmp.cheapestMid);
   return `<p class="caption" style="margin-top:16px">${esc(head)}</p>
     <table class="quotes"><tbody>${cmp.rows.map((x) => `<tr class="${x.you ? 'you' : ''}"><td>${esc(x.you ? t('you_row', { date: r.receipt.date }) : x.provider)}${x.you ? '' : `<br><span class="caption">${esc(t('q_fee'))} ${esc(money(x.fee, from, locale, { nice: false }))}</span>`}</td>
-      <td>${esc(x.totalPct.high < 0 ? t('quote_promo') : pctRange(x.totalPct, locale))}</td></tr>`).join('')}</tbody></table>
+      <td>${esc(x.promo ? t('quote_promo') : pctRange(x.totalPct, locale))}</td></tr>`).join('')}</tbody></table>
     ${diff === null ? '' : `<p class="verdict" style="margin-top:12px">${esc(diff > 0.0005 ? t('quotes_cheaper', { pct: pct(diff, locale) }) : t('quotes_you_cheapest'))}</p>`}`;
 }
 
@@ -267,16 +311,16 @@ function nextHtml(r) {
   const to = r.receipt.received.currency;
   const from = r.receipt.sent.currency;
   const mid = latestMid(r.band);
-  const data = quoteRows(r);
+  const data = comparison(r);
   let quotes;
   if (data && data.rows.length) quotes = quotesTable(r, data);
   else if (state.quotesAsked && !state.quotes) quotes = '<div class="skeleton" style="height:80px;margin-top:16px"></div>';
   else if (state.quotesAsked) quotes = `<p class="note" style="margin-top:16px">${esc(t('next_noquotes'))}</p>`;
   else quotes = `<div class="section"><button class="btn secondary block" id="quotes" type="button">${esc(t('quotes_btn'))}</button>
     <p class="caption" style="margin-top:8px">${esc(t('quotes_privacy'))}</p></div>`;
-  return `<div class="card section" id="next-card"><h3>${esc(t('next_title'))}</h3>
-    <p>${esc(t('next_mid', { date: mid.date, from, rate: rate(mid.rate, locale), to }))}</p>
-    <p class="verdict">${esc(t('next_line', { rate: rate(mid.rate * 0.99, locale), to }))}</p>${quotes}</div>`;
+  return `<div class="card section" id="next-card"><h3>${esc(t('next_title'))}</h3>${quotes}
+    <p style="margin-top:16px">${esc(t('next_mid', { date: mid.date, from, rate: rate(mid.rate, locale), to }))}</p>
+    <p class="verdict">${esc(t('next_line', { rate: rate(mid.rate * 0.99, locale), to }))}</p></div>`;
 }
 
 function detailsHtml(r) {
@@ -300,41 +344,49 @@ function askHtml(r) {
     <button class="btn secondary block" id="copy-ask" type="button" style="margin-top:12px">${esc(t('btn_copy'))}</button></div>`;
 }
 
+function verdictLine(a, feeTxt) {
+  switch (a.classification) {
+    case 'better-than-mid': return t('res_line_better');
+    case 'within-band': return t('res_line_within');
+    case 'inconclusive': return t('res_line_inconclusive', { low: pct(Math.max(0, a.markup.low), locale), high: pct(a.markup.high, locale) });
+    default: return t('res_line_markup', { pct: pctRange(a.cost.totalPct, locale), fee: feeTxt });
+  }
+}
+
 function result() {
   const r = state.result;
   const a = r.audit;
   const cur = a.cost.currency;
   const feeTxt = money(a.cost.fee, cur, locale, { nice: false });
-  let line;
-  if (a.classification === 'better-than-mid') line = t('res_line_better');
-  else if (a.classification === 'within-band') line = t('res_line_within');
-  else line = t('res_line_markup', { pct: pctRange(a.cost.totalPct, locale), fee: feeTxt });
   const better = a.classification === 'better-than-mid';
+  const charged = a.classification === 'markup' || a.classification === 'inconclusive';
   const family = better
     ? t('res_family_better', { amt: moneyRange({ low: -a.shortfall.high, high: -a.shortfall.low }, a.shortfall.currency, locale) })
     : t('res_family', { amt: moneyRange(a.shortfall, a.shortfall.currency, locale) });
-  const share = pct(r.hiddenShare, locale, 0);
-  const yearly = yearlyImpact(a.cost.totalPct, r.receipt.sent.amount);
   const nSources = r.band.sources.length;
+  const parts = rangeParts(a.cost.total, cur, locale);
+  const caption = [parts.join(' – '), nSources === 1 ? t('sources_one') : t('sources_n', { n: nSources })];
+  if (state.sample) caption.push(t('sample_note', { provider: state.sample.input.provider, date: state.sample.input.date }));
+  const label = state.mode === 'quote' ? t('res_label_quote') : t('res_label');
   $app.innerHTML = `
     <div class="card" style="margin-top:8px" id="result-card">
-      <p class="caption">${esc(t('res_label'))}${r.receipt.provider ? ` · ${esc(r.receipt.provider)}` : ''} · ${esc(r.receipt.date)}</p>
-      <div class="big ${better ? 'ok' : ''}" id="big-number">${rangeParts(a.cost.total, cur, locale).map((x) => `<span class="nw">${esc(x)}</span>`).join(' – ')}</div>
-      <p class="verdict">${esc(line)}</p>
-      ${a.classification === 'markup' ? `<p class="sub">${esc(t('hidden_share', { share }))}</p>` : ''}
+      <p class="caption">${esc(label)}${r.receipt.provider ? ` · ${esc(r.receipt.provider)}` : ''} · ${esc(r.receipt.date)}</p>
+      <div class="big ${better ? 'ok' : ''}" id="big-number">${parts.length > 1 ? '≈ ' : ''}${esc(parts.length > 1 ? approx(a.cost.total, cur, locale) : parts[0])}</div>
+      <p class="caption ${nSources === 1 ? 'warn-ink' : ''}" id="cost-caption">${esc(caption.join(' · '))}</p>
+      <p class="verdict" style="margin-top:8px">${esc(verdictLine(a, feeTxt))}</p>
+      ${a.classification === 'markup' ? `<p class="sub">${esc(t('hidden_share', { share: pct(r.hiddenShare, locale, 0) }))}</p>` : ''}
       ${barHtml(a)}
       <p class="sub" style="margin-top:12px">${esc(family)}</p>
-      ${a.classification === 'markup' && yearly ? `<p class="verdict" id="year-line">${esc(t('res_year_line', { amt: moneyRange(yearly, cur, locale) }))}</p>` : ''}
-      <p style="margin-top:8px"><span class="pill ${nSources === 1 ? 'warn' : ''}">${esc(nSources === 1 ? t('sources_one') : t('sources_n', { n: nSources }))}</span></p>
-      ${state.sample ? `<p style="margin-top:8px"><span class="pill">${esc(t('sample_note', { provider: state.sample.input.provider, date: state.sample.input.date }))}</span></p>` : ''}
+      <p class="verdict good-ink" id="saving-line">${savingHtml(r, comparison(r))}</p>
+      ${charged ? `<p class="note" style="margin-top:12px" id="eu-line">${esc(t('res_markup_eu', { pct: pctRange({ low: Math.max(0, a.markup.low), high: a.markup.high }, locale) }))}</p>` : ''}
       ${detailsHtml(r)}
     </div>
-    ${a.classification === 'markup' ? askHtml(r) : ''}
+    ${nextHtml(r)}
+    ${charged ? askHtml(r) : ''}
     ${benchHtml(r)}
     ${yearHtml(r)}
-    ${nextHtml(r)}
     <div class="section row">
-      <button class="btn secondary" id="save" type="button">${esc(state.saved ? t('saved') : t('btn_save'))}</button>
+      ${state.mode === 'quote' ? '' : `<button class="btn secondary" id="save" type="button">${esc(state.saved ? t('saved') : t('btn_save'))}</button>`}
       <button class="btn secondary" id="share" type="button">${esc(t('btn_share'))}</button>
     </div>
     <footer class="section caption">${esc(t('footer'))}</footer>`;
@@ -374,7 +426,7 @@ async function runAudit(sources = rateSources) {
     if (r.error === 'NO_REFERENCE') state.error = t('err_NO_REFERENCE');
     else if (r.error === 'IMPLAUSIBLE') state.error = t('err_IMPLAUSIBLE', { pct: pct((r.audit.markup.low + r.audit.markup.high) / 2, locale, 0) });
     else state.error = t('err_INVALID', { list: r.details.map((c) => t(`e_${c}`)).join(', ') });
-    if (back === 'home') { state.screen = 'step2'; } else { state.screen = back; }
+    state.screen = back === 'home' ? 'step2' : back;
     render();
     msg(state.error);
     return;
@@ -389,13 +441,24 @@ async function runAudit(sources = rateSources) {
 }
 
 // Today's quotes are fetched only when asked: the request tells Wise the route and amount.
+// They are scored against today's mid-market range from the same public sources as your transfer.
 function askQuotes() {
   const r = state.result;
+  const { currency: from, amount } = r.receipt.sent;
+  const to = r.receipt.received.currency;
+  const day = today();
   state.quotesAsked = true;
   replaceCard('next-card', nextHtml(r));
-  quotesSource.getQuotes(r.receipt.sent.currency, r.receipt.received.currency, r.receipt.sent.amount)
-    .catch(() => ({ quotes: [] }))
-    .then((q) => { if (state.result === r) { state.quotes = q; replaceCard('next-card', nextHtml(r)); } });
+  Promise.all([
+    quotesSource.getQuotes(from, to, amount).catch(() => ({ quotes: [] })),
+    collectBand(from, to, day, rateSources).catch(() => ({ band: null })),
+  ]).then(([q, b]) => {
+    if (state.result !== r) return;
+    state.quotes = { quotes: q.quotes || [], band: b.band, date: day };
+    replaceCard('next-card', nextHtml(r));
+    const line = document.getElementById('saving-line');
+    if (line) line.innerHTML = savingHtml(r, comparison(r));
+  });
 }
 
 // Replace one card only: an opened <details> or a half-typed monthly amount must survive.
@@ -413,31 +476,43 @@ function rerenderKeepScroll() { const y = window.scrollY; render(); window.scrol
 function readDraftInputs() {
   for (const el of $app.querySelectorAll('input[name], select[name]')) {
     const f = state.draft.fields[el.name];
-    const v = el.value.trim();
+    let v = el.value.trim();
     if (f && !f.confirmed && String(f.value) === v) continue; // untouched machine value stays unconfirmed
     if (!f && v === '') continue;
+    if (AMOUNT_FIELDS[el.name] && v !== '') {
+      // "1,000,000" · "1.000.000" · "2,5": read the way receipts print amounts
+      const curField = state.draft.fields[AMOUNT_FIELDS[el.name]];
+      const n = parseAmount(v, curField ? curField.value : null);
+      if (n !== null) v = n;
+    }
     state.draft = confirmField(state.draft, el.name, v);
   }
 }
 
 function startFromText(text, origin) {
-  const { fields, hints } = parseReceiptText(text);
+  const { fields, hints, dateOptions } = parseReceiptText(text);
   if (!Object.keys(fields).length) { msg(t('read_none')); return; }
+  reset();
   state.draft = createDraft(fields, origin);
-  state.sample = null;
   state.machine = true;
   state.hints = hints;
-  state.feeAnswered = false;
+  state.dateOptions = dateOptions || null;
   go('step1');
 }
 
 function startSample(i) {
   const s = samples[i];
+  reset();
   state.sample = s;
   state.draft = createDraft(s.input, 'sample');
-  state.machine = false;
   // samples replay the rates recorded when the quote was collected: same answer on any day, even offline
   runAudit(s.observations ? frozenSources(s.observations) : rateSources);
+}
+
+function startShared(input) {
+  reset();
+  state.draft = createDraft(input, 'typed');
+  runAudit();
 }
 
 async function shareResult() {
@@ -445,7 +520,9 @@ async function shareResult() {
   const a = r.audit;
   const text = t('share_text', { from: r.receipt.sent.currency, to: r.receipt.received.currency, cost: moneyRange(a.cost.total, a.cost.currency, locale),
     pct: pctRange(a.cost.totalPct, locale), fee: money(a.cost.fee, a.cost.currency, locale, { nice: false }) });
-  const url = location.origin + location.pathname;
+  const input = { provider: r.receipt.provider, sentAmount: r.receipt.sent.amount, sentCurrency: r.receipt.sent.currency, fee: r.receipt.fee.amount,
+    receivedAmount: r.receipt.received.amount, receivedCurrency: r.receipt.received.currency, date: r.receipt.date };
+  const url = `${location.origin}${location.pathname}?r=${encodeReceipt(input)}`;
   try {
     if (navigator.share) await navigator.share({ text, url });
     else { await navigator.clipboard.writeText(`${text} ${url}`); document.getElementById('share').textContent = t('copied'); }
@@ -457,7 +534,7 @@ document.addEventListener('click', (ev) => {
   if (!el) return;
   if (el.dataset.go) {
     if (state.screen === 'step1' || state.screen === 'step2') readDraftInputs();
-    if (el.dataset.go === 'step1' && state.screen === 'home') { state.draft = createDraft({}, 'typed'); state.sample = null; state.machine = false; state.hints = []; }
+    if (el.dataset.go === 'step1' && state.screen === 'home') reset();
     state.error = null;
     go(el.dataset.go);
     return;
@@ -465,7 +542,7 @@ document.addEventListener('click', (ev) => {
   if (el.dataset.sample !== undefined) { startSample(Number(el.dataset.sample)); return; }
   if (el.dataset.confirmStep) {
     readDraftInputs();
-    state.draft = confirmFields(state.draft, STEP_FIELDS[el.dataset.confirmStep]);
+    state.draft = confirmFields(state.draft, confirmableOnStep(el.dataset.confirmStep));
     rerenderKeepScroll();
     return;
   }
@@ -476,20 +553,41 @@ document.addEventListener('click', (ev) => {
     rerenderKeepScroll();
     return;
   }
+  if (el.dataset.datePick) {
+    readDraftInputs();
+    state.draft = confirmField(state.draft, 'date', el.dataset.datePick);
+    state.dateOptions = null;
+    rerenderKeepScroll();
+    return;
+  }
   if (el.dataset.remove) { removeEntry(ledgerStore, el.dataset.remove); render(); return; }
   switch (el.id) {
     case 'ledger-btn': go('ledger'); break;
+    case 'quote-mode': reset(); state.mode = 'quote'; go('step1'); break;
     case 'next1': {
       readDraftInputs();
       const un = STEP_FIELDS.step1.filter((k) => state.draft.fields[k] && !state.draft.fields[k].confirmed);
       if (un.length) { msg(t('confirm_all_first')); break; }
       if (!state.draft.fields.sentAmount) { msg(t('err_INVALID', { list: t('e_SENT_POSITIVE') })); break; }
+      // any fee, typed or read: ask once whether it was charged on top (it changes what was paid)
+      const fee = state.draft.fields.fee;
+      if (fee && Number(fee.value) > 0 && !state.feeAnswered && !state.hints.includes('SENT_IS_TOTAL')) {
+        if (!state.hints.includes('CHECK_FEE_INCLUDED')) state.hints = [...state.hints, 'CHECK_FEE_INCLUDED'];
+        rerenderKeepScroll();
+        const q = document.getElementById('fee-top');
+        if (q) q.scrollIntoView({ block: 'center' });
+        break;
+      }
       go('step2');
       break;
     }
-    case 'check': readDraftInputs(); runAudit(); break;
+    case 'check':
+      readDraftInputs();
+      if (state.dateOptions) { msg(t('date_pick')); break; }
+      runAudit();
+      break;
     case 'read-paste': startFromText(document.getElementById('paste-text').value, 'pasted'); break;
-    case 'new': state.result = null; state.sample = null; state.draft = createDraft({}, 'typed'); go('home'); break;
+    case 'new': reset(); go('home'); break;
     case 'save': ledgerStore && addEntry(ledgerStore, entryFromResult(state.result, new Date().toISOString())); state.saved = true; el.textContent = t('saved'); break;
     case 'share': shareResult(); break;
     case 'quotes': askQuotes(); break;
@@ -504,7 +602,8 @@ document.addEventListener('input', (ev) => {
   if (ev.target.id === 'monthly') {
     state.monthly = ev.target.value;
     const r = state.result;
-    const y = yearlyImpact(r.audit.cost.totalPct, Number(state.monthly));
+    const m = parseAmount(state.monthly.trim(), r.receipt.sent.currency);
+    const y = yearlyImpact(r.audit.cost.totalPct, m);
     document.getElementById('year-out').textContent = y ? t('year_result', { amt: moneyRange(y, r.receipt.sent.currency, locale) }) : '';
   }
 });
@@ -542,6 +641,8 @@ async function boot() {
   ]);
   samples = s; context = c; krQuotes = kr.quotes || [];
   render();
+  const shared = params.get('r') && decodeReceipt(params.get('r'));
+  if (shared) { startShared(shared); return; }
   const want = params.get('sample');
   if (want !== null) {
     const i = samples.findIndex((x) => x.id === want || String(samples.indexOf(x)) === want);

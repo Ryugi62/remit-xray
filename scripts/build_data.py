@@ -56,12 +56,18 @@ def main():
     samples = []
     for vid in pick:
         v = by_id[vid]
-        samples.append({"id": vid, "input": v["input"], "origin": v["origin"], "observations": v["band"]["observations"]})
+        # the other quotes collected for the same route, amount and day: scored against this sample's frozen band
+        peers = [{"provider": w["input"]["provider"], "sent": w["input"]["sentAmount"], "fee": w["input"]["fee"], "received": w["input"]["receivedAmount"]}
+                 for w in receipts if w["id"] != vid and w["input"]["sentCurrency"] == v["input"]["sentCurrency"]
+                 and w["input"]["receivedCurrency"] == v["input"]["receivedCurrency"] and w["input"]["date"] == v["input"]["date"]
+                 and w["input"]["sentAmount"] == v["input"]["sentAmount"]]
+        samples.append({"id": vid, "input": v["input"], "origin": v["origin"], "observations": v["band"]["observations"], "quotes": peers})
     (ROOT / "data/samples.json").write_text(json.dumps(samples, indent=1, ensure_ascii=False))
     kr = [{"from": v["input"]["sentCurrency"], "to": v["input"]["receivedCurrency"], "provider": v["input"]["provider"],
            "sent": v["input"]["sentAmount"], "fee": v["input"]["fee"], "received": v["input"]["receivedAmount"],
            "date": v["input"]["date"],
-           "totalPct": {"low": v["expected"]["total_pct_low"] / 100, "high": v["expected"]["total_pct_high"] / 100}}
+           "totalPct": {"low": v["expected"]["total_pct_low"] / 100, "high": v["expected"]["total_pct_high"] / 100},
+           "markup": {"low": v["expected"]["markup_low_pct"] / 100, "high": v["expected"]["markup_high_pct"] / 100}}
           for v in receipts if v["input"]["sentCurrency"] == "KRW"]
     (ROOT / "data/quotes-kr.json").write_text(json.dumps({"source": "Public website calculators (no login), 2026-10-06 17:26 KST, 1,000,000 KRW converted",
                                                           "quotes": kr}, indent=1, ensure_ascii=False))

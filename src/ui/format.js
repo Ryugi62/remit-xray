@@ -27,6 +27,18 @@ export function rangeParts(r, currency, locale) {
   return lo === hi ? [lo] : [lo, hi];
 }
 
+/** "≈" figure for a range: its midpoint, whole units from 10 up, 3 significant digits from 1000 up. */
+export function approx(r, currency, locale = 'en-US') {
+  const m = Math.max(0, (r.low + r.high) / 2);
+  if (m < 10) return money(m, currency, locale, { nice: false });
+  const v = m >= 1000 ? roundNice(m) : Math.round(m);
+  try {
+    return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0, minimumFractionDigits: 0 }).format(v);
+  } catch {
+    return `${v.toLocaleString(locale)} ${currency}`;
+  }
+}
+
 /** "₩15,600 – ₩18,400"; collapses when both ends print the same. */
 export function moneyRange(r, currency, locale) {
   return rangeParts(r, currency, locale).join(' – ');

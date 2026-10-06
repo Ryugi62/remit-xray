@@ -35,3 +35,11 @@ test('latestMid averages the observations of the latest date only', () => {
   const band = { observations: [{ date: '2026-10-05', rate: 1 }, { date: '2026-10-06', rate: 2 }, { date: '2026-10-06', rate: 4 }] };
   assert.deepEqual(latestMid(band), { date: '2026-10-06', rate: 3 });
 });
+
+test('approx: the midpoint of a range, rounded so it does not look exact', async () => {
+  const { approx } = await import('../src/ui/format.js');
+  assert.equal(approx({ low: 57.28, high: 60.84 }, 'AUD', 'en-US'), 'A$59');
+  assert.equal(approx({ low: 15_200, high: 18_400 }, 'KRW', 'en-US'), '₩16,800');
+  assert.equal(approx({ low: 1.2, high: 1.6 }, 'USD', 'en-US'), '$1.40');
+  assert.equal(approx({ low: -3, high: 1 }, 'USD', 'en-US'), '$0.00');
+});

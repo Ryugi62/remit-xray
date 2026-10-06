@@ -1,4 +1,4 @@
-# Remit X-ray — SPEC v1.1
+# Remit X-ray — SPEC v1.2
 
 United Hackathons V1 · Track: **Economic** ("Design tools that promote financial inclusion, support small businesses, or help people build economic stability and opportunity.")
 Code written from 2026-10-06 17:20 KST (inside the hackathon window, Oct 5–11 PT). Plan draft v0.1 was written before the window; this file supersedes it.
@@ -51,6 +51,13 @@ Not a quote-comparison site (those help *before* you send). Remit X-ray **audits
 - AC-13: a parsed fee without a total asks "was the fee added on top?"; yes → paid = amount + fee.
 - AC-6b: defaults the user did not type (today's date on a pasted receipt) stay unconfirmed.
 - AC-14: a copyable, factual English message to the provider (numbers, sources, one question; no accusation) and a plain-text export of saved transfers.
+- AC-15 (review r2): classification — markup (low > 0.30 pp) · better-than-mid (high < −0.30 pp) · within-band (high ≤ 0.30 pp: no evidence of a margin) · inconclusive (low ≤ 0.30 pp < high: the band is too wide to tell; shown as a range, never as "matched").
+- AC-11b: a fee above 20 % of the amount is refused as a probable mistake.
+- AC-12b–d: promotional quotes are never "the cheapest"; quotes are scored against a mid-market range like the user's transfer; a fixed-fee quote recorded at one amount is rescaled to the user's amount.
+- AC-16: the result names what the cheapest listed option would have cost for the same transfer (money), when quotes for the route are known.
+- AC-17: a share link carries only the receipt (7 validated fields) so anyone can re-run the same audit; no server.
+- AC-18: quote mode — the same audit before paying (today's date, "will pay / will arrive").
+- Parser: "출금/debited/withdrawn" is the total that left the account (no "fee on top?" question then); a fee in another currency is never relabelled; ambiguous dd/mm dates must be picked; more symbols (MX$, A$, C$, S$, HK$, NT$, Rp, ৳, 円); typed amounts accept receipt formats.
 
 ## 5. Architecture
 `src/domain` (receipt, band, audit math, parser, impact) ← `src/application` (audit use case with `RateSource` port, draft confirmation, ledger) ← `src/adapters` (currency-api, Frankfurter, Wise comparison, tesseract OCR, localStorage) ← `src/ui` (static page, GitHub Pages). No build step, no backend.

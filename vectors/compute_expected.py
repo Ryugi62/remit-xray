@@ -130,7 +130,14 @@ def expected(sent, fee, received, lo, hi):
     t_lo, t_hi = fee + conv * m_lo, fee + conv * m_hi
     # measured tolerance 0.30 pp (see src/domain/audit.js MEASUREMENT_TOLERANCE)
     tol = Decimal("0.003")
-    cls = "better-than-mid" if m_hi < -tol else ("within-band" if m_lo <= tol else "markup")
+    if m_lo > tol:
+        cls = "markup"
+    elif m_hi < -tol:
+        cls = "better-than-mid"
+    elif m_hi <= tol:
+        cls = "within-band"
+    else:
+        cls = "inconclusive"  # the band is too wide to tell a margin from none
     return {
         "effective_rate": float(eff),
         "markup_low_pct": float(m_lo * 100), "markup_high_pct": float(m_hi * 100),

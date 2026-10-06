@@ -46,6 +46,9 @@ p { margin: 0 0 8px; }
 .banner .btn { flex-shrink: 0; }
 .banner-btns { display: flex; gap: 8px; flex-shrink: 0; }
 .warn-ink { color: var(--no); }
+.good-ink { color: var(--ok); }
+.good-ink:empty { display: none; }
+.btn.ghost { background: transparent; color: var(--blue-ink); border: 1.5px solid var(--line); min-height: 48px; font-size: 16px; }
 .quotes tr.you td { font-weight: 700; color: var(--blue-ink); }
 #ask-text { min-height: 220px; font-size: 14px; margin-top: 8px; width: 100%; padding: 12px; }
 .hint { font-size: 13px; color: var(--muted); margin-top: 6px; }

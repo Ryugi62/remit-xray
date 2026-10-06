@@ -46,7 +46,24 @@ def main():
     inside = [x for x in pub if x["expected"]["markup_low_pct"] <= x["published_markup_pct"] <= x["expected"]["markup_high_pct"]]
     miss = [max(x["expected"]["markup_low_pct"] - x["published_markup_pct"], x["published_markup_pct"] - x["expected"]["markup_high_pct"], 0) for x in pub]
     print(f"- calibration vs Wise's own published markups ({len(pub)} quotes): {len(inside)} inside our range, "
-          f"{sum(m <= TOL for m in miss)} within ±{TOL:.2f} pp (largest miss {max(miss):.2f} pp)")
+          f"{sum(m <= TOL for m in miss)} within ±{TOL:.2f} pp (largest miss {max(miss):.2f} pp) — the tolerance was SET from this miss")
+    route = lambda x: x["input"]["sentCurrency"] + "-" + x["input"]["receivedCurrency"]
+    signed = lambda x: (x["published_markup_pct"] - x["expected"]["markup_high_pct"]) if x["published_markup_pct"] > x["expected"]["markup_high_pct"] else \
+        (x["published_markup_pct"] - x["expected"]["markup_low_pct"]) if x["published_markup_pct"] < x["expected"]["markup_low_pct"] else 0.0
+    covered = 0
+    for r in sorted({route(x) for x in pub}):
+        held = [x for x in pub if route(x) == r]
+        tol = max(max(x["expected"]["markup_low_pct"] - x["published_markup_pct"], x["published_markup_pct"] - x["expected"]["markup_high_pct"], 0)
+                  for x in pub if route(x) != r)
+        ok = sum(abs(signed(x)) <= tol + 1e-9 for x in held)
+        covered += ok
+        print(f"    {r}: {len(held)} quotes, offset of misses {min(map(signed, held)):+.2f}…{max(map(signed, held)):+.2f} pp; "
+              f"tolerance fitted on the other routes = {tol:.2f} pp covers {ok}/{len(held)}")
+    print(f"  held out by route: {covered}/{len(pub)} covered by a tolerance that never saw their route")
+    allmid = sorted(mid(x["expected"]) for x in v)
+    kr = [x for x in v if x["input"]["sentCurrency"] == "KRW"]
+    print(f"- median total cost across all {len(v)} quotes: {st.median(allmid):.2f}%; Korean apps (9 quotes) "
+          f"{min(mid(x['expected']) for x in kr):.2f}–{max(mid(x['expected']) for x in kr):.2f}% (mid-points)")
 
 
 if __name__ == "__main__":

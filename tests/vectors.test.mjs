@@ -48,8 +48,21 @@ test('calibration: every published markup lies inside our range ± tolerance', (
   assert.deepEqual(misses.map((v) => v.id), []);
 });
 
-test('calibration: zero-markup quotes (Wise) are "within-band" in every corridor', () => {
-  const zero = published.filter((v) => v.published_markup_pct === 0);
-  assert.ok(zero.length >= 5);
-  for (const v of zero) assert.equal(v.expected.classification, 'within-band', v.id);
+
+test('calibration (held out by route): the tolerance fitted on the other routes still covers each route', () => {
+  const routes = [...new Set(published.map((v) => `${v.input.sentCurrency}-${v.input.receivedCurrency}`))];
+  const miss = (v) => Math.max(v.expected.markup_low_pct - v.published_markup_pct, v.published_markup_pct - v.expected.markup_high_pct, 0);
+  const report = routes.map((r) => {
+    const train = published.filter((v) => `${v.input.sentCurrency}-${v.input.receivedCurrency}` !== r);
+    const tol = Math.max(...train.map(miss));
+    const held = published.filter((v) => `${v.input.sentCurrency}-${v.input.receivedCurrency}` === r);
+    return { r, tol, covered: held.filter((v) => miss(v) <= tol + 1e-9).length, n: held.length };
+  });
+  const covered = report.reduce((s, x) => s + x.covered, 0);
+  // honest bar: at least 80 % of quotes covered by a tolerance that never saw their route
+  assert.ok(covered >= 0.8 * published.length, JSON.stringify(report));
+});
+
+test('calibration: zero-markup quotes are never called a markup or a promotion', () => {
+  for (const v of published.filter((x) => x.published_markup_pct === 0)) assert.ok(['within-band', 'inconclusive'].includes(v.expected.classification), v.id);
 });

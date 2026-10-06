@@ -3,7 +3,7 @@
 
 const CURRENCIES = new Set(('USD EUR GBP JPY KRW CNY HKD SGD AUD NZD CAD CHF SEK NOK DKK PLN CZK HUF RON TRY ' +
   'INR NPR PKR BDT LKR VND PHP IDR THB MYR KHR MMK LAK MNG MNT UZS KZT KGS TJS RUB UAH ' +
-  'MXN BRL COP PEN CLP ARS GTQ HNL DOP NGN GHS KES UGX TZS ZAR EGP MAD AED SAR QAR KWD ILS').split(' '));
+  'MXN BRL COP PEN CLP ARS GTQ HNL DOP NGN GHS KES UGX TZS ZAR EGP MAD AED SAR QAR KWD ILS TWD').split(' '));
 
 const ZERO_DECIMAL = new Set('KRW VND JPY UZS IDR KHR MMK LAK CLP UGX TZS MNT PYG'.split(' '));
 const THREE_DECIMAL = new Set('KWD BHD OMR JOD TND IQD LYD'.split(' '));
@@ -11,11 +11,12 @@ const THREE_DECIMAL = new Set('KWD BHD OMR JOD TND IQD LYD'.split(' '));
 const SYMBOLS = [
   ['₩', 'KRW'], ['원', 'KRW'], ['₫', 'VND'], ['đồng', 'VND'], ['đ', 'VND'], ['₱', 'PHP'],
   ['€', 'EUR'], ['£', 'GBP'], ['¥', 'JPY'], ['₹', 'INR'], ["so'm", 'UZS'], ['сўм', 'UZS'], ['сум', 'UZS'],
-  ['US$', 'USD'], ['$', 'USD'],
+  ['US$', 'USD'], ['MX$', 'MXN'], ['A$', 'AUD'], ['C$', 'CAD'], ['S$', 'SGD'], ['HK$', 'HKD'], ['NT$', 'TWD'],
+  ['Rp', 'IDR'], ['৳', 'BDT'], ['円', 'JPY'], ['$', 'USD'],
 ];
 
 const LABELS = {
-  total: /(\btotal\b(?!\s*(fee|charge|receiv|to\s+receiv|recipient|payout))|amount paid|you paid|you pay\b|총 ?(결제|출금|송금)?금액|결제 ?금액|합계|tổng)/gi,
+  total: /(\btotal\b(?!\s*(fee|charge|receiv|to\s+receiv|recipient|payout))|amount paid|you paid|you pay\b|debited|withdrawn|총 ?(결제|출금|송금)?금액|결제 ?금액|출금 ?금액|출금액|출금|합계|tổng)/gi,
   fee: /(fee|charge|commission|수수료|phí)/gi,
   rate: /(exchange rate|\brate\b|환율|tỷ giá|kurs)/gi,
   received: /(receiv|recipient gets|they get|payout|deliver|받는 ?(분|금액)|수취 ?금액|입금 ?금액|받을 ?금액|nhận|qabul)/gi,
@@ -132,8 +133,10 @@ export function findDate(text) {
   if (m) {
     const a = +m[1]; const b = +m[2]; const y = +m[3];
     const dayFirst = /ngày/i.test(text) || a > 12;
-    if (dayFirst) return { value: iso(y, b, a), confidence: a > 12 ? 'high' : 'low' };
-    return { value: iso(y, a, b), confidence: b > 12 ? 'high' : 'low' };
+    const ambiguous = a <= 12 && b <= 12 && a !== b;
+    const options = ambiguous ? [iso(y, b, a), iso(y, a, b)] : undefined;
+    if (dayFirst) return { value: iso(y, b, a), confidence: a > 12 ? 'high' : 'low', options };
+    return { value: iso(y, a, b), confidence: b > 12 ? 'high' : 'low', options };
   }
   return null;
 }
@@ -199,15 +202,21 @@ export function parseReceiptText(text) {
     fields.receivedAmount = { value: received.amount, confidence: conf(received, received === labelled.received) };
     fields.receivedCurrency = { value: received.currency, confidence: 'high' };
   }
-  if (labelled.fee) fields.fee = { value: labelled.fee.amount, confidence: 'high' };
+  if (labelled.fee && sent && labelled.fee.currency !== sent.currency) hints.push('FEE_OTHER_CURRENCY'); // never relabel 5 USD as 5 KRW
+  else if (labelled.fee) fields.fee = { value: labelled.fee.amount, confidence: 'high' };
   else if (/(no fee|zero fee|fee\s*[:：]?\s*(0|free)|수수료\s*(무료|0)|miễn phí)/i.test(text)) fields.fee = { value: 0, confidence: 'high' };
 
+  if (labelled.total && sent === labelled.total) hints.push('SENT_IS_TOTAL');
   if (labelled.sent && labelled.total) hints.push('USED_TOTAL_AS_SENT');
-  if (labelled.fee && !labelled.total) hints.push('CHECK_FEE_INCLUDED');
+  if (fields.fee && !labelled.total) hints.push('CHECK_FEE_INCLUDED');
 
   const date = findDate(text);
-  if (date && date.value) fields.date = date;
+  let dateOptions;
+  if (date && date.value) {
+    fields.date = { value: date.value, confidence: date.confidence };
+    dateOptions = date.options;
+  }
   const provider = findProvider(text);
   if (provider) fields.provider = { value: provider, confidence: 'high' };
-  return { fields, hints };
+  return dateOptions ? { fields, hints, dateOptions } : { fields, hints };
 }
