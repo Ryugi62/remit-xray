@@ -102,7 +102,7 @@ test('AC-5 yearly impact = total % × monthly × 12, flagged estimate', () => {
 
 test('benchmarks: SDG 3 % target and corridor average', () => {
   assert.equal(SDG_TARGET, 0.03);
-  assert.deepEqual(compareToBenchmarks({ low: 0.04, high: 0.05 }, 0.0419), { sdg: 'above-target', vsAverage: 'around-average' });
-  assert.deepEqual(compareToBenchmarks({ low: 0.01, high: 0.02 }, 0.0419), { sdg: 'below-target', vsAverage: 'below-average' });
-  assert.deepEqual(compareToBenchmarks({ low: 0.025, high: 0.035 }), { sdg: 'straddles-target', vsAverage: null });
+  assert.deepEqual(compareToBenchmarks({ low: 0.04, high: 0.05 }, 0.0419), { sdg: 'above-target', vsAverage: 'around-average', above5: false });
+  assert.deepEqual(compareToBenchmarks({ low: 0.01, high: 0.02 }, 0.0419), { sdg: 'below-target', vsAverage: 'below-average', above5: false });
+  assert.deepEqual(compareToBenchmarks({ low: 0.025, high: 0.035 }), { sdg: 'straddles-target', vsAverage: null, above5: false });
 });

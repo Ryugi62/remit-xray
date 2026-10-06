@@ -48,9 +48,15 @@ def main():
             ctx["receive"][cur] = recv[iso]
         if iso in gdp:
             ctx["gdp_share"][cur] = gdp[iso]
+    receipts = json.loads((ROOT / "vectors/receipts.json").read_text())["vectors"]
+    # calibration shown in the app: Wise's own published markups vs our range (same numbers as scripts/findings.py)
+    pub = [v for v in receipts if isinstance(v.get("published_markup_pct"), (int, float))]
+    route = lambda v: v["input"]["sentCurrency"] + v["input"]["receivedCurrency"]
+    miss = lambda v: max(v["expected"]["markup_low_pct"] - v["published_markup_pct"], v["published_markup_pct"] - v["expected"]["markup_high_pct"], 0)
+    ctx["calibration"] = {"n": len(pub), "inside": sum(miss(v) == 0 for v in pub),
+                          "loro": sum(miss(v) <= max(miss(w) for w in pub if route(w) != route(v)) + 1e-9 for v in pub)}
     (ROOT / "data/context.json").write_text(json.dumps(ctx, indent=1, ensure_ascii=False))
 
-    receipts = json.loads((ROOT / "vectors/receipts.json").read_text())["vectors"]
     pick = ["AUD-VND-Commonwealth Bank of Australia", "USD-MXN-Wells Fargo", "KRW-NPR-GME Remit", "KRW-VND-E9pay"]
     by_id = {v["id"]: v for v in receipts}
     samples = []

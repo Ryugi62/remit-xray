@@ -1,7 +1,8 @@
 # Remit X-ray
 
-**"Zero fee" — so what did the transfer really cost?**
-In the EU, the law makes banks show the currency-conversion charge as a % mark-up over the ECB reference rate before you pay (Regulation (EU) 2019/518). A migrant worker sending money from Korea to Nepal, from Australia to Vietnam or from the US to Mexico never sees that number. US rules (Regulation E, 12 CFR 1005.31) do put the fee, the exchange rate and the amount received on every remittance receipt — which is exactly what Remit X-ray needs.
+**Your bank said "zero fee". Your family got less. Remit X-ray shows how much — from the receipt you already have.**
+
+Why that number is missing: in the EU, Regulation (EC) No 924/2009 (Art. 3a–3b, added by Regulation (EU) 2019/518) makes payment providers show currency-conversion charges as a % mark-up over the ECB reference rate — for card payments and credit transfers with a currency conversion in the Union. A worker sending money from Korea to Nepal, from Australia to Vietnam or from the US to Mexico is not covered and never sees that number. In the US, Regulation E (12 CFR 1005.31) makes most remittance providers print the fee, the exchange rate and the amount received on the receipt — exactly the inputs Remit X-ray needs.
 
 **Remit X-ray turns the receipt you already have into that missing disclosure**: the mark-up over published mid-market rates, in percent and in money, what the cheapest listed option would have cost for the same transfer, and a factual question you can send the company. It works **after** you send (audit a receipt) and **before** (check a quote).
 
@@ -24,7 +25,7 @@ From the 61 real quotes in [`vectors/`](vectors/) (`python3 scripts/findings.py`
 - 61 quotes · 25 provider names · 9 corridors · priced on 2026-10-02 (8) and 2026-10-06 (53). 52 were collected through Wise's public comparison API (Wise is itself a provider); 9 were read by hand from the Hanpass, GME Remit and E9pay public calculators. NatWest and RBS are one banking group and quote the same price.
 - **14 of 19 "zero-fee" quotes still cost money through the rate: median 1.63 %, up to 6.08 %.** The most expensive were big banks: Commonwealth Bank of Australia → Vietnam 5.73–6.08 %, Wells Fargo → Mexico 3.38–4.71 %.
 - Among quotes that *do* show a fee and also take a margin, the margin was the bigger part of the cost in 29 of 31 (median 76 % of the total).
-- Korean apps (mid-points 0.55–2.68 %) sit mostly at or below the dataset median (1.95 %); Hanpass was the cheapest of the three on all three Korean routes. On ₩1,000,000 a month to Nepal, GME Remit → Hanpass is ≈ ₩11,300 a transfer. The point is not "app X is bad": **the fee line alone can't tell you which case you are in.**
+- Korean apps (mid-points 0.55–2.68 %) sit mostly at or below the dataset median (1.95 %); Hanpass was the cheapest of the three on all three Korean routes. Sending ₩1,000,000 (+ ₩5,000 fee) to Vietnam with E9pay instead of Hanpass cost ≈ ₩9,950 more per transfer. The point is not "app X is bad": **the fee line alone can't tell you which case you are in.**
 
 ## How it works
 1. **Enter** what you paid, the fee shown, what arrived, and the date — or paste the SMS/app text, or read a photo on the phone. Values read by the machine (and defaults such as today's date) are yellow and are not used until you confirm them; an ambiguous date (05/10) must be picked; any fee triggers "was it added on top?" unless the receipt shows the total withdrawn. Amounts are accepted as receipts print them (`1,000,000`, `1.000.000`, `2,5`).
@@ -39,6 +40,11 @@ From the 61 real quotes in [`vectors/`](vectors/) (`python3 scripts/findings.py`
 - **Tests:** `npm test` (Node ≥ 20, no dependencies) — domain math and classification, parser (SMS-style formats in Korean, English and Vietnamese, including a Korean bank's outbound SMS layout), draft confirmation, fee on top, plausibility, quote rescaling, share links, adapters with fake fetch, reports, i18n completeness, formatting, layer rules, calibration and every vector. CI runs them on every push.
 - **Clean architecture.** `src/domain` knows nothing about the network or the page; `src/application` imports only the domain; `src/adapters` (rate APIs, central banks, Wise quotes, OCR, storage) and `src/ui` sit outside; a test fails if a layer imports the wrong way. Spec with numbered acceptance criteria: [SPEC.md](SPEC.md).
 
+## Who this reaches
+- Senders on the routes we cover best: Korea → Vietnam, Nepal, Uzbekistan (the three Korean apps' prices, both central banks for NPR/UZS), plus any pair a public source covers (US → Mexico/Philippines, UK → India, Australia → Vietnam…).
+- In their language (vi, ne, uz, ko, en), on the phone they already use, with nothing to install or sign up for.
+- Through the channels they already share links in: a result is one link (Open Graph preview for KakaoTalk, Zalo, WhatsApp), and a sample works offline. Printed QR posters for migrant-worker centres are the next step — not distributed yet.
+
 ## Privacy
 Receipts and photos are never uploaded (OCR is tesseract.js in the browser, Korean always loaded). Rate services receive only the currency pair and date. Wise's comparison receives the pair and amount only when you tap "Compare with today's published quotes". A share link contains the receipt's amounts — only if you choose to share. Saved transfers stay in this browser.
 
@@ -46,13 +52,14 @@ Receipts and photos are never uploaded (OCR is tesseract.js in the browser, Kore
 - No user study: built solo in a week; no migrant worker has tested it yet, and it has not been distributed. The Korean calculator quotes were read by hand with no screenshots kept (transcription log in `vectors/evidence/`). The parser fixtures are SMS-*style* texts written for the tests, not collected messages.
 - For past KRW→VND receipts the band rests on currency-api alone (ExchangeRate-API only answers for today; the ECB has no VND) — the app shows "1 rate source — lower confidence".
 - Rates are daily, not intraday (hence ranges and the tolerance). Korean app fees are as shown for ₩1,000,000 and may differ at other amounts.
-- Information, not financial advice; it names the cheapest *listed* option for one transfer, not a "best" provider.
+- Information, not financial advice; it names the cheapest *listed* option for one transfer, not a "best" provider. A better-than-mid-market quote (usually a first-transfer offer) is shown on its own line, not counted as "cheapest".
+- The UN 3 % goal and World Bank averages are for $200 transfers; larger transfers usually cost a lower %.
 
 ## Screens
 | | | |
 |---|---|---|
 | ![home](docs/screenshots/1-home.png) | ![result](docs/screenshots/2-result.png) | ![ask the company](docs/screenshots/5-ask.png) |
-| ![paste and check](docs/screenshots/6-paste-check.png) | ![Vietnamese](docs/screenshots/7-vietnamese-nepal.png) | ![Korean apps](docs/screenshots/8-korean-apps.png) |
+| ![paste and check](docs/screenshots/6-paste-check.png) | ![Vietnamese](docs/screenshots/7-vietnamese.png) | ![Korean apps](docs/screenshots/8-korean-apps.png) |
 
 Languages: English, 한국어, Tiếng Việt, नेपाली, O'zbekcha. Non-English strings were drafted with AI help and checked for meaning, not by native speakers — corrections welcome.
 

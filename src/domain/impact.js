@@ -1,6 +1,7 @@
 // What one receipt means over a year, and how it compares with public benchmarks.
 
 export const SDG_TARGET = 0.03; // SDG 10.c: remittance cost below 3%
+export const SDG_ELIMINATE = 0.05; // SDG 10.c: "eliminate remittance corridors with costs higher than 5 per cent"
 
 /** totalPct range × monthly amount × 12 — an estimate, labelled as such. */
 export function yearlyImpact(totalPct, monthlyAmount) {
@@ -26,5 +27,5 @@ export function compareToBenchmarks(totalPct, benchmark = null) {
     vsAverage = totalPct.low > benchmark ? 'above-average'
       : totalPct.high < benchmark ? 'below-average' : 'around-average';
   }
-  return { sdg, vsAverage };
+  return { sdg, vsAverage, above5: totalPct.low > SDG_ELIMINATE };
 }

@@ -226,5 +226,10 @@
   "send": "https://api.worldbank.org/v2/country/KOR;USA;GBR;JPN;AUS;SGP;CAN;SAU;ARE/indicator/SI.RMT.COST.OB.ZS?format=json&date=2018:2025&per_page=500",
   "receive": "https://api.worldbank.org/v2/country/VNM;NPL;UZB;PHL;IDN;KHM;MMR;LKA;BGD;THA;IND;MEX;NGA;PAK;KGZ;TJK;MNG;CHN/indicator/SI.RMT.COST.IB.ZS?format=json&date=2018:2025&per_page=500",
   "gdp_share": "https://api.worldbank.org/v2/country/VNM;NPL;UZB;PHL;IDN;KHM;MMR;LKA;BGD;THA;IND;MEX;NGA;PAK;KGZ;TJK;MNG;CHN/indicator/BX.TRF.PWKR.DT.GD.ZS?format=json&date=2018:2025&per_page=500"
+ },
+ "calibration": {
+  "n": 52,
+  "inside": 19,
+  "loro": 43
  }
 }

@@ -18,6 +18,7 @@ export function currencyApiSource(fetchFn = globalThis.fetch.bind(globalThis)) {
   ];
   return {
     name: 'currency-api',
+    official: false, // community aggregator
     home: 'https://github.com/fawazahmed0/exchange-api',
     supports: () => true,
     async getRate(from, to, date) {
@@ -45,6 +46,7 @@ export function currencyApiSource(fetchFn = globalThis.fetch.bind(globalThis)) {
 export function frankfurterSource(fetchFn = globalThis.fetch.bind(globalThis)) {
   return {
     name: 'ECB (Frankfurter)',
+    official: true,
     home: 'https://frankfurter.dev',
     supports: (from, to) => ECB_CURRENCIES.has(from) && ECB_CURRENCIES.has(to),
     async getRate(from, to, date) {
@@ -65,6 +67,7 @@ export function openErApiSource(fetchFn = globalThis.fetch.bind(globalThis)) {
   const cache = new Map();
   return {
     name: 'ExchangeRate-API',
+    official: false,
     home: 'https://www.exchangerate-api.com',
     supports: () => true,
     async getRate(from, to, date) {
@@ -88,6 +91,7 @@ const NRB_CURRENCIES = new Set('INR USD EUR GBP CHF AUD CAD SGD JPY CNY SAR QAR 
 export function nrbSource(fetchFn = globalThis.fetch.bind(globalThis)) {
   return {
     name: 'Nepal Rastra Bank',
+    official: true,
     home: 'https://www.nrb.org.np/forex/',
     supports: (from, to) => (to === 'NPR' && NRB_CURRENCIES.has(from)) || (from === 'NPR' && NRB_CURRENCIES.has(to)),
     async getRate(from, to, date) {
@@ -114,6 +118,7 @@ const CBU_CURRENCIES = new Set('USD EUR GBP JPY KRW CNY RUB KZT KGS TJS TRY AED 
 export function cbuSource(fetchFn = globalThis.fetch.bind(globalThis)) {
   return {
     name: 'Central Bank of Uzbekistan',
+    official: true,
     home: 'https://cbu.uz/en/arkhiv-kursov-valyut/',
     supports: (from, to) => (to === 'UZS' && CBU_CURRENCIES.has(from)) || (from === 'UZS' && CBU_CURRENCIES.has(to)),
     async getRate(from, to, date) {

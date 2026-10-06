@@ -27,6 +27,7 @@ export function decodeReceipt(code) {
     const r = Object.fromEntries(KEYS.map((k, i) => [k, arr[i]]));
     const num = (x) => typeof x === 'number' && Number.isFinite(x) && x >= 0;
     if (typeof r.provider !== 'string' || r.provider.length > 60) return null;
+    r.provider = r.provider.replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, ''); // no bidi tricks in a name shown as a heading
     if (!num(r.sentAmount) || !num(r.fee) || !num(r.receivedAmount)) return null;
     if (!/^[A-Z]{3}$/.test(r.sentCurrency) || !/^[A-Z]{3}$/.test(r.receivedCurrency)) return null;
     if (!/^\d{4}-\d{2}-\d{2}$/.test(r.date)) return null;

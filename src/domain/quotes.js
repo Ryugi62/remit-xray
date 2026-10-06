@@ -37,7 +37,9 @@ export function compareWithQuotes(yourTotalPct, quotes) {
     .sort((a, b) => midOf(a.totalPct) - midOf(b.totalPct));
   const regular = quotes.filter((q) => !isPromo(q)).sort((a, b) => midOf(a.totalPct) - midOf(b.totalPct));
   const cheapest = regular[0] || null;
-  return { rows, youMid: midOf(yourTotalPct), cheapest, cheapestMid: cheapest ? midOf(cheapest.totalPct) : null };
+  // a better-than-mid-market quote is usually a limited offer (e.g. first transfer): shown on its own, not hidden
+  const offer = quotes.filter(isPromo).sort((a, b) => midOf(a.totalPct) - midOf(b.totalPct))[0] || null;
+  return { rows, youMid: midOf(yourTotalPct), cheapest, cheapestMid: cheapest ? midOf(cheapest.totalPct) : null, offer };
 }
 
 /** What the cheapest listed option would have kept for the same amount (sent currency); null if you were already as cheap. */

@@ -82,7 +82,7 @@ textarea { min-height: 180px; resize: vertical; }
 .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--sub); }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 .bench { display: grid; gap: 10px; }
-.bench-row { display: grid; grid-template-columns: minmax(0, 9.5em) 1fr auto; gap: 8px; align-items: center; font-size: 14px; }
+.bench-row { display: grid; grid-template-columns: minmax(0, 9.5em) 1fr 8.2em; gap: 8px; align-items: center; font-size: 14px; }
 .bench-row .lab { color: var(--sub); overflow-wrap: anywhere; }
 .bench-row .track { height: 10px; background: var(--surface); border-radius: 999px; overflow: hidden; }
 .bench-row .track i { display: block; height: 100%; background: var(--muted); border-radius: 999px; }

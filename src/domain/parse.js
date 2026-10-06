@@ -12,18 +12,30 @@ const SYMBOLS = [
   ['₩', 'KRW'], ['원', 'KRW'], ['₫', 'VND'], ['đồng', 'VND'], ['đ', 'VND'], ['₱', 'PHP'],
   ['€', 'EUR'], ['£', 'GBP'], ['¥', 'JPY'], ['₹', 'INR'], ["so'm", 'UZS'], ['сўм', 'UZS'], ['сум', 'UZS'],
   ['US$', 'USD'], ['MX$', 'MXN'], ['A$', 'AUD'], ['C$', 'CAD'], ['S$', 'SGD'], ['HK$', 'HKD'], ['NT$', 'TWD'],
-  ['Rp', 'IDR'], ['৳', 'BDT'], ['円', 'JPY'], ['$', 'USD'],
+  ['Rp', 'IDR'], ['৳', 'BDT'], ['円', 'JPY'], ['VNĐ', 'VND'], ['VNđ', 'VND'], ['vnđ', 'VND'], ['동', 'VND'],
+  ['NRs', 'NPR'], ['रु', 'NPR'], ['Rs.', 'RS?'], ['Rs', 'RS?'], ['$', 'USD'],
+];
+// "Rs" is a rupee: Nepal's or India's, decided by the rest of the text.
+const NEPAL_HINT = /nepal|\bNPR\b|नेपाल|रु|kathmandu/i;
+// A bare "$": the dollar of the provider's country when we know it, else US — always flagged for the user to check.
+const DOLLAR_COUNTRY = [
+  [/commonwealth bank|commbank|westpac|\banz\b|\bnab\b|australia/i, 'AUD'],
+  [/\brbc\b|\btd bank|scotiabank|\bbmo\b|canada/i, 'CAD'],
+  [/\bdbs\b|\bocbc\b|\buob\b|singapore/i, 'SGD'],
+  [/kiwibank|\basb\b|new zealand/i, 'NZD'],
 ];
 
 const LABELS = {
-  total: /(\btotal\b(?!\s*(fee|charge|receiv|to\s+receiv|recipient|payout))|amount paid|you paid|you pay\b|debited|withdrawn|총 ?(결제|출금|송금)?금액|결제 ?금액|출금 ?금액|출금액|출금|합계|tổng)/gi,
+  total: /(\btotal\b(?!\s*(?:to\s+)?(?:fee|charge|receiv|recipient|beneficiary|payout))|amount paid|you paid|you pay\b|debited|withdrawn|총 ?(결제|출금|송금)?금액|결제 ?금액|출금 ?금액|출금액|출금|합계|tổng)/gi,
   fee: /(fee|charge|commission|수수료|phí)/gi,
   rate: /(exchange rate|\brate\b|환율|tỷ giá|kurs)/gi,
-  received: /(receiv|recipient gets|they get|payout|deliver|받는 ?(분|금액)|수취 ?금액|입금 ?금액|받을 ?금액|nhận|qabul)/gi,
+  received: /(receiv|\brecipient\b|beneficiary|they get|payout|deliver|받는 ?(분|금액)|수취 ?금액|입금 ?금액|받을 ?금액|nhận|qabul)/gi,
+  // a bare "Amount" is the amount sent unless another word says otherwise ("Total amount", "Amount received")
+  sentLoose: /(?<!(?:total|transfer|send|sending|sent|receive|received|recipient|paid|fee)\s)\bamount\b(?!\s*(?:received|to\s+receive|paid|due|sent|to\s+send))/gi,
   sent: /(you send|you sent|send amount|amount sent|sending amount|transfer amount|amount to send|\bsend\b|\bsent\b|송금 ?금액|송금액|보내는 ?금액|보낸 ?금액|số tiền gửi|tiền gửi|jo'nat)/gi,
 };
 
-const PROVIDERS = ['Western Union', 'MoneyGram', 'Wise', 'Remitly', 'Xoom', 'WorldRemit', 'Instarem', 'PayPal',
+const PROVIDERS = ['Commonwealth Bank', 'Westpac', 'ANZ', 'NAB', 'Wells Fargo', 'Chase', 'Western Union', 'MoneyGram', 'Wise', 'Remitly', 'Xoom', 'WorldRemit', 'Instarem', 'PayPal',
   'OFX', 'Hanpass', 'GME', 'E9pay', 'Sentbe', 'WireBarley', 'Hana', 'KB', 'Shinhan', 'Woori', 'NongHyup', 'Ria'];
 
 const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
@@ -40,13 +52,13 @@ function tokenAround(line, start, end, dir) {
     const rest = line.slice(end).replace(/^[ \u00a0]?/, '');
     const code = rest.match(/^([A-Z]{3})(?![\p{L}])/u);
     if (code && CURRENCIES.has(code[1])) return { cur: code[1], explicit: true };
-    for (const [sym, cur] of SYM_SORTED) if (rest.startsWith(sym) && !/^[\p{L}]/u.test(rest.slice(sym.length))) return { cur, explicit: false };
+    for (const [sym, cur] of SYM_SORTED) if (rest.startsWith(sym) && !/^[\p{L}]/u.test(rest.slice(sym.length))) return { cur, explicit: false, sym };
     return null;
   }
   const head = line.slice(0, start).replace(/[ \u00a0]?$/, '');
   const code = head.match(/(?<![\p{L}])([A-Z]{3})$/u);
   if (code && CURRENCIES.has(code[1])) return { cur: code[1], explicit: true };
-  for (const [sym, cur] of SYM_SORTED) if (head.endsWith(sym) && !/[\p{L}]$/u.test(head.slice(0, head.length - sym.length))) return { cur, explicit: false };
+  for (const [sym, cur] of SYM_SORTED) if (head.endsWith(sym) && !/[\p{L}]$/u.test(head.slice(0, head.length - sym.length))) return { cur, explicit: false, sym };
   return null;
 }
 
@@ -106,7 +118,7 @@ function scanAmounts(line) {
     if (!tok) continue;
     const amount = parseAmount(x.raw, tok.cur);
     if (amount === null) continue;
-    hits.push({ amount, currency: tok.cur, index: x.start });
+    hits.push({ amount, currency: tok.cur, index: x.start, dollar: tok.sym === '$' });
   }
   return hits;
 }
@@ -150,8 +162,9 @@ function findProvider(text) {
 /** Label occurrences in a line, ordered by position (overlaps keep the earliest, then the longest). */
 function labelsIn(line) {
   const found = [];
-  for (const key of ['total', 'fee', 'rate', 'received', 'sent']) {
-    const re = LABELS[key];
+  for (const name of ['total', 'fee', 'rate', 'received', 'sent', 'sentLoose']) {
+    const re = LABELS[name];
+    const key = name === 'sentLoose' ? 'sent' : name;
     re.lastIndex = 0;
     let m;
     while ((m = re.exec(line))) found.push({ key, index: m.index, end: m.index + m[0].length });
@@ -172,17 +185,19 @@ export function parseReceiptText(text) {
   const labelled = { total: null, fee: null, received: null, sent: null };
   const unlabelled = [];
 
+  const rupee = NEPAL_HINT.test(text) ? 'NPR' : 'INR';
   for (const line of lines) {
+    if (/(^|[^0-9.,])1(?:[.,]0+)?\s*(?:[A-Z]{3}|[^\s\d=]{1,3})\s*=\s*[0-9]/.test(line)) continue; // "1 USD = 18.92 MXN" is a rate, not an amount
     const amounts = scanAmounts(line);
     if (!amounts.length) continue;
     const labels = labelsIn(line);
     for (const a of amounts) {
-      // the nearest label before the amount; a line with one label after its amount ("1,000원 송금") uses that one
+      // the nearest label before the amount; a lone amount with one label after it ("1,000원 송금") uses that one
       let label = null;
       for (const l of labels) if (l.index < a.index) label = l.key;
-      if (!label && labels.length === 1) label = labels[0].key;
-      if (label === 'rate') continue; // "1 USD = 1,346 KRW" is not an amount
-      const amt = { amount: a.amount, currency: a.currency };
+      if (!label && labels.length === 1 && amounts.length === 1) label = labels[0].key;
+      if (label === 'rate') continue;
+      const amt = { amount: a.amount, currency: a.currency === 'RS?' ? rupee : a.currency, dollar: a.dollar };
       if (label && !labelled[label]) labelled[label] = amt;
       else unlabelled.push(amt);
     }
@@ -194,15 +209,22 @@ export function parseReceiptText(text) {
   if (!received && sent) received = unlabelled.find((a) => a.currency !== sent.currency);
 
   const conf = (x, isLabelled) => (isLabelled ? 'high' : 'low');
+  const dollarOf = () => (DOLLAR_COUNTRY.find(([re]) => re.test(text)) || [null, null])[1];
+  const currencyField = (x) => {
+    if (!x.dollar) return { value: x.currency, confidence: 'high' };
+    const known = dollarOf();
+    if (!known) hints.push('DOLLAR_AMBIGUOUS');
+    return { value: known || 'USD', confidence: 'low' };
+  };
   if (sent) {
     fields.sentAmount = { value: sent.amount, confidence: conf(sent, sent === labelled.total || sent === labelled.sent) };
-    fields.sentCurrency = { value: sent.currency, confidence: 'high' };
+    fields.sentCurrency = currencyField(sent);
   }
   if (received) {
     fields.receivedAmount = { value: received.amount, confidence: conf(received, received === labelled.received) };
-    fields.receivedCurrency = { value: received.currency, confidence: 'high' };
+    fields.receivedCurrency = currencyField(received);
   }
-  if (labelled.fee && sent && labelled.fee.currency !== sent.currency) hints.push('FEE_OTHER_CURRENCY'); // never relabel 5 USD as 5 KRW
+  if (labelled.fee && sent && labelled.fee.currency !== sent.currency && !(labelled.fee.dollar && sent.dollar)) hints.push('FEE_OTHER_CURRENCY'); // never relabel 5 USD as 5 KRW
   else if (labelled.fee) fields.fee = { value: labelled.fee.amount, confidence: 'high' };
   else if (/(no fee|zero fee|fee\s*[:：]?\s*(0|free)|수수료\s*(무료|0)|miễn phí)/i.test(text)) fields.fee = { value: 0, confidence: 'high' };
 

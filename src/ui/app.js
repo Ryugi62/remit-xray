@@ -26,6 +26,7 @@ const OCR_LANGS = { en: 'eng+kor', ko: 'eng+kor', vi: 'eng+vie+kor', ne: 'eng+ko
 const KR_ROUTES = new Set(['VND', 'NPR', 'UZS']);
 
 const rateSources = [currencyApiSource(), frankfurterSource(), nrbSource(), cbuSource(), openErApiSource()];
+const OFFICIAL = new Set(rateSources.filter((s) => s.official).map((s) => s.name));
 const quotesSource = wiseQuotes();
 const ledgerStore = localLedgerStore();
 const $app = document.getElementById('app');
@@ -40,7 +41,7 @@ let t = translator(lang);
 let locale = LOCALES[lang];
 
 const fresh = () => ({ draft: createDraft({}, 'typed'), result: null, error: null, quotes: null, quotesAsked: false, askOpen: false,
-  monthly: '', sample: null, saved: false, machine: false, hints: [], feeAnswered: false, dateOptions: null, mode: 'audit' });
+  monthly: '', sample: null, saved: false, machine: false, hints: [], feeAnswered: false, dateOptions: null, mode: 'audit', shared: false });
 const state = { screen: 'home', ...fresh() };
 let samples = [];
 let krQuotes = [];
@@ -154,13 +155,14 @@ function ensureDefault(name, value) {
 }
 
 function step1() {
-  ensureDefault('sentCurrency', 'KRW');
+  ensureDefault('sentCurrency', lang === 'en' ? 'USD' : 'KRW');
   const quote = state.mode === 'quote';
   $app.innerHTML = `
     <p class="caption">${esc(t('step', { n: 1 }))}</p>
     <h2>${esc(t(quote ? 'q_paid_quote' : 'q_paid'))}</h2>
-    <p class="sub">${esc(t('q_paid_hint'))}</p>
+    <p class="sub">${esc(t(quote ? 'q_paid_hint_quote' : 'q_paid_hint'))}</p>
     ${machineBanner('step1')}
+    ${state.hints.includes('DOLLAR_AMBIGUOUS') ? `<div class="banner" role="note"><p>${esc(t('dollar_check'))}</p></div>` : ''}
     <div class="row">${field('sentAmount', t('l_amount'), { inputmode: 'decimal' })}${field('sentCurrency', t('l_currency'), { options: ALL })}</div>
     ${field('fee', t('l_fee'), { inputmode: 'decimal', hint: t('fee_hint') })}
     ${feeOtherCurrency()}
@@ -246,6 +248,7 @@ function benchHtml(r) {
     : verdict.sdg === 'straddles-target' ? t('bench_around_goal') : t('bench_below_goal');
   return `<div class="card section"><h3>${esc(t('bench_title'))}</h3>
     <p class="verdict ${verdict.sdg === 'above-target' ? 'warn-ink' : ''}" id="bench-verdict">${esc(line)}</p>
+    ${verdict.above5 ? `<p class="sub" id="bench-over5">${esc(t('bench_over5'))}</p>` : ''}
     <div class="bench">${rows.map((x) => `<div class="bench-row ${x.you ? 'you' : ''}"><span class="lab">${esc(x.lab)}</span>
       <span class="track"><i style="width:${Math.max(2, (x.v / max) * 100)}%"></i></span><span class="val">${esc(x.txt)}</span></div>`).join('')}</div>
     ${years.length ? `<p class="caption section" style="margin-top:12px">${esc(t('bench_note', { year: [...new Set(years)].join('/') }))} ${esc(t('bench_size_note'))}</p>` : ''}
@@ -300,11 +303,17 @@ function quotesTable(r, data) {
   const cmp = compareWithQuotes(r.audit.cost.totalPct, data.rows);
   const head = data.kind === 'kr' ? t('quotes_kr_scaled', { date: data.when })
     : data.kind === 'same-day' ? t('quotes_same_day') : t('quotes_today_note', { date: r.receipt.date });
-  const diff = cmp.cheapestMid === null ? null : cmp.youMid - Math.max(0, cmp.cheapestMid);
+  const amount = r.receipt.sent.amount;
+  const save = cmp.cheapest ? savingVs(r.audit.cost.totalPct, Math.max(0, cmp.cheapestMid), amount) : null;
+  const offerSave = cmp.offer ? savingVs(r.audit.cost.totalPct, (cmp.offer.totalPct.low + cmp.offer.totalPct.high) / 2, amount) : null;
+  const diffLine = !cmp.cheapest ? '' : save
+    ? t('quotes_cheaper', { provider: cmp.cheapest.provider, pp: ((cmp.youMid - Math.max(0, cmp.cheapestMid)) * 100).toLocaleString(locale, { maximumFractionDigits: 1 }), amt: approx(save, from, locale) })
+    : t('quotes_you_cheapest');
   return `<p class="caption" style="margin-top:16px">${esc(head)}</p>
     <table class="quotes"><tbody>${cmp.rows.map((x) => `<tr class="${x.you ? 'you' : ''}"><td>${esc(x.you ? t('you_row', { date: r.receipt.date }) : x.provider)}${x.you ? '' : `<br><span class="caption">${esc(t('q_fee'))} ${esc(money(x.fee, from, locale, { nice: false }))}</span>`}</td>
       <td>${esc(x.promo ? t('quote_promo') : pctRange(x.totalPct, locale))}</td></tr>`).join('')}</tbody></table>
-    ${diff === null ? '' : `<p class="verdict" style="margin-top:12px">${esc(diff > 0.0005 ? t('quotes_cheaper', { pct: pct(diff, locale) }) : t('quotes_you_cheapest'))}</p>`}`;
+    ${diffLine ? `<p class="verdict" style="margin-top:12px">${esc(diffLine)}</p>` : ''}
+    ${cmp.offer && offerSave ? `<p class="caption" style="margin-top:8px">${esc(t('offer_line', { provider: cmp.offer.provider, amt: approx(offerSave, from, locale) }))}</p>` : ''}`;
 }
 
 function nextHtml(r) {
@@ -332,7 +341,7 @@ function detailsHtml(r) {
     <p class="src"><b>${esc(t('details_sources'))}</b></p>
     <ul class="src">${r.band.observations.map((o) => `<li>${esc(o.source)} · ${esc(o.date)} · 1 ${esc(r.receipt.sent.currency)} = ${esc(rate(o.rate, locale))} ${esc(r.receipt.received.currency)} · <a href="${esc(o.url)}" target="_blank" rel="noopener">source</a></li>`).join('')}</ul>
     <p class="src">effective = ${esc(rate(r.audit.effectiveRate, locale))} · band ${esc(rate(r.band.min, locale))} – ${esc(rate(r.band.max, locale))}</p>
-    <p class="src">${esc(t('details_tolerance'))}</p>
+    ${context && context.calibration ? `<p class="src">${esc(t('details_tolerance', { n: context.calibration.n, loro: context.calibration.loro }))}</p>` : ''}
     ${missing.length ? `<p class="src">${esc(t('details_missing', { list: missing.join(', ') }))}</p>` : ''}
   </details>`;
 }
@@ -366,7 +375,13 @@ function result() {
   const nSources = r.band.sources.length;
   const parts = rangeParts(a.cost.total, cur, locale);
   const caption = [parts.join(' – '), nSources === 1 ? t('sources_one') : t('sources_n', { n: nSources })];
-  if (state.sample) caption.push(t('sample_note', { provider: state.sample.input.provider, date: state.sample.input.date }));
+  if (!r.band.sources.some((n) => OFFICIAL.has(n))) caption.push(t('sources_no_official'));
+  if (state.sample) {
+    const key = state.sample.origin.startsWith('Wise') ? 'sample_note_wise' : 'sample_note_calc';
+    caption.push(t(key, { provider: state.sample.input.provider, date: state.sample.input.date }));
+  }
+  if (state.shared) caption.push(t('shared_note'));
+  const yearly = yearlyImpact(a.cost.totalPct, r.receipt.sent.amount);
   const label = state.mode === 'quote' ? t('res_label_quote') : t('res_label');
   $app.innerHTML = `
     <div class="card" style="margin-top:8px" id="result-card">
@@ -374,6 +389,7 @@ function result() {
       <div class="big ${better ? 'ok' : ''}" id="big-number">${parts.length > 1 ? '≈ ' : ''}${esc(parts.length > 1 ? approx(a.cost.total, cur, locale) : parts[0])}</div>
       <p class="caption ${nSources === 1 ? 'warn-ink' : ''}" id="cost-caption">${esc(caption.join(' · '))}</p>
       <p class="verdict" style="margin-top:8px">${esc(verdictLine(a, feeTxt))}</p>
+      ${charged && yearly ? `<p class="sub" id="year-line">${esc(t('res_year_line', { amt: moneyRange(yearly, cur, locale) }))}</p>` : ''}
       ${a.classification === 'markup' ? `<p class="sub">${esc(t('hidden_share', { share: pct(r.hiddenShare, locale, 0) }))}</p>` : ''}
       ${barHtml(a)}
       <p class="sub" style="margin-top:12px">${esc(family)}</p>
@@ -389,8 +405,9 @@ function result() {
       ${state.mode === 'quote' ? '' : `<button class="btn secondary" id="save" type="button">${esc(state.saved ? t('saved') : t('btn_save'))}</button>`}
       <button class="btn secondary" id="share" type="button">${esc(t('btn_share'))}</button>
     </div>
+    <button class="btn primary block section" id="new" type="button">${esc(t('btn_new'))}</button>
     <footer class="section caption">${esc(t('footer'))}</footer>`;
-  cta([`<button class="btn primary" id="new" type="button">${esc(t('btn_new'))}</button>`]);
+  cta([]); // no floating button over the result: actions stay readable
 }
 
 function ledger() {
@@ -511,6 +528,7 @@ function startSample(i) {
 
 function startShared(input) {
   reset();
+  state.shared = true;
   state.draft = createDraft(input, 'typed');
   runAudit();
 }
@@ -522,7 +540,9 @@ async function shareResult() {
     pct: pctRange(a.cost.totalPct, locale), fee: money(a.cost.fee, a.cost.currency, locale, { nice: false }) });
   const input = { provider: r.receipt.provider, sentAmount: r.receipt.sent.amount, sentCurrency: r.receipt.sent.currency, fee: r.receipt.fee.amount,
     receivedAmount: r.receipt.received.amount, receivedCurrency: r.receipt.received.currency, date: r.receipt.date };
-  const url = `${location.origin}${location.pathname}?r=${encodeReceipt(input)}`;
+  // a sample shares its id (it replays the recorded rates); anything else shares the receipt itself
+  const url = state.sample ? `${location.origin}${location.pathname}?sample=${encodeURIComponent(state.sample.id)}`
+    : `${location.origin}${location.pathname}?r=${encodeReceipt(input)}`;
   try {
     if (navigator.share) await navigator.share({ text, url });
     else { await navigator.clipboard.writeText(`${text} ${url}`); document.getElementById('share').textContent = t('copied'); }

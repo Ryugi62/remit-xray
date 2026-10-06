@@ -49,7 +49,7 @@ export function addFeeOnTop(draft) {
   const sent = Number(draft.fields.sentAmount && draft.fields.sentAmount.value);
   const fee = Number(draft.fields.fee && draft.fields.fee.value);
   if (!(sent > 0) || !(fee > 0)) return draft;
-  return confirmField(draft, 'sentAmount', Math.round((sent + fee) * 100) / 100);
+  return confirmField(draft, 'sentAmount', Number((sent + fee).toPrecision(12))); // keep the currency's precision (KWD has 3 decimals)
 }
 
 export function confirmAll(draft) {
